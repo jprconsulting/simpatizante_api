@@ -1,0 +1,108 @@
+INSERT INTO beneficiarios.municipios (nombre)
+VALUES 
+('Amaxac de Guerrero'),
+('Apetatitlán de Antonio Carvajal'),
+('Atlangatepec'),
+('Atltzayanca'),
+('Apizaco'),
+('Calpulalpan'),
+('El Carmen Tequexquitla'),
+('Cuapiaxtla'),
+('Cuaxomulco'),
+('Chiautempan'),
+('Muñoz de Domingo Arenas'),
+('Españita'),
+('Huamantla'),
+('Hueyotlipan'),
+('Ixtacuixtla de Mariano Matamoros'),
+('Ixtenco'),
+('Mazatecochco de José María Morelos'),
+('Contla de Juan Cuamatzi'),
+('Tepetitla de Lardizábal'),
+('Sanctórum de Lázaro Cárdenas'),
+('Nanacamilpa de Mariano Arista'),
+('Acuamanala de Miguel Hidalgo'),
+('Natívitas'),
+('Panotla'),
+('San Pablo del Monte'),
+('Santa Cruz Tlaxcala'),
+('Tenancingo'),
+('Teolocholco'),
+('Tepeyanco'),
+('Terrenate'),
+('Tetla de la Solidaridad'),
+('Tetlatlahuca'),
+('Tlaxcala'),
+('Tlaxco'),
+('Tocatlán'),
+('Totolac'),
+('Ziltlaltépec de Trinidad Sánchez Santos'),
+('Tzompantepec'),
+('Xaloztoc'),
+('Xaltocan'),
+('Papalotla de Xicohténcatl'),
+('Xicohtzinco'),
+('Yauhquemehcan'),
+('Zacatelco'),
+('Benito Juárez'),
+('Emiliano Zapata'),
+('Lázaro Cárdenas'),
+('La Magdalena Tlaltelulco'),
+('San Damián Texóloc'),
+('San Francisco Tetlanohcan'),
+('San Jerónimo Zacualpan'),
+('San José Teacalco'),
+('San Juan Huactzinco'),
+('San Lorenzo Axocomanitla'),
+('San Lucas Tecopilco'),
+('Santa Ana Nopalucan'),
+('Santa Apolonia Teacalco'),
+('Santa Catarina Ayometla'),
+('Santa Cruz Quilehtla'),
+('Santa Isabel Xiloxoxtla');
+
+INSERT INTO beneficiarios.rols (nombreRol)
+VALUES 
+('Director'),
+('Administrador'),
+('Operador'),
+('Brigadista');
+
+
+INSERT INTO claims (Id, ClaimType, ClaimValue, RolId) VALUES
+(NULL, 'CanAccessInicio', 1, 2),
+(NULL, 'CanAccessTablero', 1, 2),
+(NULL, 'CanAccessUsuarios', 1, 2), 
+(NULL, 'CanAccessAreasAdscripcion', 1, 2), 
+(NULL, 'CanAccessProgramasSociales', 1, 2),
+(NULL, 'CanAccessBeneficiarios', 1, 2),
+(NULL, 'CanAccessVisitas', 1, 2), 
+(NULL, 'CanAccessMapaBeneficiarios', 1, 2), 
+(NULL, 'CanAccessMapaProgramasSociales', 1, 2), 
+(NULL, 'CanAccessNubePalabras', 1, 2);
+
+
+INSERT INTO beneficiarios.areasadscripcion (Nombre, Descripcion, Estatus) VALUES
+('Asistencia social', 'Apoyo brindado a individuos y comunidades para cubrir necesidades sociales y de bienestar general.', true),
+('Asistencia jurídica', 'Asesoramiento y apoyo legal a individuos y grupos en asuntos jurídicos y legales.', true),
+('Asistencia alimentaria y nutrición', 'Apoyo nutricional y de alimentación para comunidades y personas en situación de vulnerabilidad.', true),
+('Salud y bienestar comunitario', 'Promoción de la salud y el bienestar en comunidades para mejorar la calidad de vida.', true),
+('Desarrollo familiar', 'Apoyo y fortalecimiento de las relaciones familiares y el desarrollo integral de la familia.', true),
+('Discapacidad', 'Apoyo integral a personas con discapacidad para promover su inclusión y bienestar.', true);
+
+
+INSERT INTO beneficiarios.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
+VALUES 
+('Administrador', 'Administrador' , 'Administrador', 'admin@gmail.com', '123',   true, 1);
+
+
+INSERT INTO beneficiarios.indicadores (RangoInicial, RangoFinal, Descripcion, Color) 
+VALUES 
+(0, 1 , 'Bajo', '#D84315'),
+(2, 3 , 'Medio', '#FFC107'),
+(4, 5 , 'Alto', '#00C853');
+
+
+INSERT INTO beneficiarios.ProgramasSociales (Nombre, Descripcion, Color, Estatus, Acronimo, AreaAdscripcionId) 
+VALUES 
+('Desarrollo Social', 'Otorgar servicios asesoría y asistencia jurídica', '#fff000', true, 'DDFF', 2);
