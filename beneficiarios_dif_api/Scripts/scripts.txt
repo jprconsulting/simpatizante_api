@@ -1,4 +1,4 @@
-INSERT INTO beneficiarios.municipios (nombre)
+INSERT INTO simpatizantes.municipios (nombre)
 VALUES 
 ('Amaxac de Guerrero'),
 ('Apetatitlán de Antonio Carvajal'),
@@ -61,12 +61,11 @@ VALUES
 ('Santa Cruz Quilehtla'),
 ('Santa Isabel Xiloxoxtla');
 
-INSERT INTO beneficiarios.rols (nombreRol)
+INSERT INTO simpatizantes.rols (nombreRol)
 VALUES 
-('Director'),
 ('Administrador'),
 ('Operador'),
-('Brigadista');
+('Candidato');
 
 
 INSERT INTO claims (Id, ClaimType, ClaimValue, RolId) VALUES
@@ -82,27 +81,14 @@ INSERT INTO claims (Id, ClaimType, ClaimValue, RolId) VALUES
 (NULL, 'CanAccessNubePalabras', 1, 2);
 
 
-INSERT INTO beneficiarios.areasadscripcion (Nombre, Descripcion, Estatus) VALUES
-('Asistencia social', 'Apoyo brindado a individuos y comunidades para cubrir necesidades sociales y de bienestar general.', true),
-('Asistencia jurídica', 'Asesoramiento y apoyo legal a individuos y grupos en asuntos jurídicos y legales.', true),
-('Asistencia alimentaria y nutrición', 'Apoyo nutricional y de alimentación para comunidades y personas en situación de vulnerabilidad.', true),
-('Salud y bienestar comunitario', 'Promoción de la salud y el bienestar en comunidades para mejorar la calidad de vida.', true),
-('Desarrollo familiar', 'Apoyo y fortalecimiento de las relaciones familiares y el desarrollo integral de la familia.', true),
-('Discapacidad', 'Apoyo integral a personas con discapacidad para promover su inclusión y bienestar.', true);
-
-
-INSERT INTO beneficiarios.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
+INSERT INTO simpatizantes.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
 VALUES 
 ('Administrador', 'Administrador' , 'Administrador', 'admin@gmail.com', '123',   true, 1);
 
 
-INSERT INTO beneficiarios.indicadores (RangoInicial, RangoFinal, Descripcion, Color) 
+INSERT INTO simpatizantes.indicadores (RangoInicial, RangoFinal, Descripcion, Color) 
 VALUES 
 (0, 1 , 'Bajo', '#D84315'),
 (2, 3 , 'Medio', '#FFC107'),
 (4, 5 , 'Alto', '#00C853');
 
-
-INSERT INTO beneficiarios.ProgramasSociales (Nombre, Descripcion, Color, Estatus, Acronimo, AreaAdscripcionId) 
-VALUES 
-('Desarrollo Social', 'Otorgar servicios asesoría y asistencia jurídica', '#fff000', true, 'DDFF', 2);
