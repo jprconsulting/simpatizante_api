@@ -27,7 +27,7 @@ namespace beneficiarios_dif_api.Controllers
         public async Task<ActionResult<VisitaDTO>> GetById(int id)
         {
             var visita = await context.Visitas
-                .Include(b => b.Beneficiario)                
+                .Include(b => b.Votante)
                 .FirstOrDefaultAsync(v => v.Id == id);
 
             if (visita == null)
@@ -58,9 +58,7 @@ namespace beneficiarios_dif_api.Controllers
             try
             {
                 var visitas = await context.Visitas
-                .Include(v => v.Beneficiario)
-                    .ThenInclude(b => b.ProgramaSocial)
-                .Include(v => v.Beneficiario)
+                .Include(v => v.Votante)
                     .ThenInclude(b => b.Municipio)
                 .ToListAsync();
 
@@ -81,7 +79,7 @@ namespace beneficiarios_dif_api.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500);
-            }            
+            }
         }
 
 
@@ -100,7 +98,7 @@ namespace beneficiarios_dif_api.Controllers
 
             var visita = mapper.Map<Visita>(dto);
             visita.FechaHoraVisita = DateTime.Now;
-            visita.Beneficiario = await context.Beneficiarios.SingleOrDefaultAsync(b => b.Id == dto.Beneficiario.Id);
+            visita.Votante = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
 
             context.Visitas.Add(visita);
             await context.SaveChangesAsync();
@@ -133,7 +131,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, visita);
-            visita.Beneficiario = await context.Beneficiarios.SingleOrDefaultAsync(b => b.Id == dto.Beneficiario.Id);
+            visita.Votante = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
 
             context.Update(visita);
 
@@ -169,7 +167,7 @@ namespace beneficiarios_dif_api.Controllers
             context.Visitas.Remove(visita);
             await context.SaveChangesAsync();
             return NoContent();
-        }       
+        }
 
     }
 }

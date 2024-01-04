@@ -21,12 +21,11 @@ namespace beneficiarios_dif_api.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("obtener-por-id/{id:int}")]      
+        [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<UsuarioDTO>> GetById(int id)
         {
             var usuario = await context.Usuarios
                 .Include(u => u.Rol)
-                .Include(u => u.AreaAdscripcion)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (usuario == null)
@@ -43,7 +42,6 @@ namespace beneficiarios_dif_api.Controllers
         {
             var usuarios = await context.Usuarios
                 .Include(i => i.Rol)
-                .Include(u => u.AreaAdscripcion)
                 .OrderBy(u => u.Id)
                 .ToListAsync();
 
@@ -78,13 +76,6 @@ namespace beneficiarios_dif_api.Controllers
 
             // Asociar el rol
             usuario.Rol = await context.Rols.SingleOrDefaultAsync(r => r.Id == dto.Rol.Id);
-            usuario.AreaAdscripcion = null;
-
-            // Solo si tiene rol de 'director' se agrega área de adscripción
-            if (dto.Rol.Id == 1)
-            {
-                usuario.AreaAdscripcion = await context.AreasAdscripcion.SingleOrDefaultAsync(a => a.Id == dto.AreaAdscripcion.Id);
-            }
 
             // Incluir la entidad en el contexto
             context.Add(usuario);
@@ -138,13 +129,6 @@ namespace beneficiarios_dif_api.Controllers
             // Mapea los datos del DTO al usuario existente
             mapper.Map(dto, usuario);
             usuario.Rol = await context.Rols.SingleOrDefaultAsync(r => r.Id == dto.Rol.Id);
-            usuario.AreaAdscripcion = null;
-
-            // Solo si tiene rol de 'director' se agrega área de adscripción
-            if (dto.Rol.Id == 1)
-            {
-                usuario.AreaAdscripcion = await context.AreasAdscripcion.SingleOrDefaultAsync(a => a.Id == dto.AreaAdscripcion.Id);
-            }
 
             context.Update(usuario);
 

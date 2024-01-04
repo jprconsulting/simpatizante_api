@@ -9,72 +9,68 @@ using Microsoft.EntityFrameworkCore;
 namespace beneficiarios_dif_api.Controllers
 {
     [Authorize]
-    [Route("api/beneficiarios")]
+    [Route("api/votantes")]
     [ApiController]
-    public class BeneficiariosController : ControllerBase
+    public class VotantesController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
 
-        public BeneficiariosController(ApplicationDbContext context, IMapper mapper)
+        public VotantesController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
-        public async Task<ActionResult<BeneficiarioDTO>> GetById(int id)
+        public async Task<ActionResult<VotanteDTO>> GetById(int id)
         {
-            var beneficiario = await context.Beneficiarios
-                .Include(p => p.ProgramaSocial)
-                .ThenInclude(a => a.AreaAdscripcion)
+            var votante = await context.Votantes
+
                 .Include(m => m.Municipio)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (beneficiario == null)
+            if (votante == null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<BeneficiarioDTO>(beneficiario));
+            return Ok(mapper.Map<VotanteDTO>(votante));
         }
 
         [HttpGet("obtener-todos")]
-        public async Task<ActionResult<List<BeneficiarioDTO>>> GetAll()
+        public async Task<ActionResult<List<VotanteDTO>>> GetAll()
         {
-            var beneficiarios = await context.Beneficiarios
-                 .Include(p => p.ProgramaSocial)
-                 .ThenInclude(a => a.AreaAdscripcion)
+            var votante = await context.Votantes
                  .Include(m => m.Municipio)
                  .ToListAsync();
 
-            if (!beneficiarios.Any())
+            if (!votante.Any())
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<BeneficiarioDTO>>(beneficiarios));
+            return Ok(mapper.Map<List<VotanteDTO>>(votante));
         }
 
         [HttpPost("crear")]
-        public async Task<ActionResult> Post(BeneficiarioDTO dto)
+        public async Task<ActionResult> Post(VotanteDTO dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var existeBeneficiario = await context.Beneficiarios.AnyAsync(b => b.Nombres == dto.Nombres && b.ApellidoPaterno == dto.ApellidoPaterno);
+            var existeVotante = await context.Votantes.AnyAsync(b => b.Nombres == dto.Nombres && b.ApellidoPaterno == dto.ApellidoPaterno);
 
-            if (existeBeneficiario)
+            if (existeVotante)
             {
                 return Conflict();
             }
 
-            var beneficiario = mapper.Map<Beneficiario>(dto);          
-            beneficiario.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
-            beneficiario.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
-            context.Add(beneficiario);
+            var votante = mapper.Map<Votante>(dto);
+            votante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
+            context.Add(votante);
 
             try
             {
@@ -90,38 +86,37 @@ namespace beneficiarios_dif_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var beneficiario = await context.Beneficiarios.FindAsync(id);
+            var votante = await context.Votantes.FindAsync(id);
 
-            if (beneficiario == null)
+            if (votante == null)
             {
                 return NotFound();
             }
 
-            context.Beneficiarios.Remove(beneficiario);
+            context.Votantes.Remove(votante);
             await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         [HttpPut("actualizar/{id:int}")]
-        public async Task<ActionResult> Put(int id, BeneficiarioDTO dto)
+        public async Task<ActionResult> Put(int id, VotanteDTO dto)
         {
             if (id != dto.Id)
             {
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var beneficiario = await context.Beneficiarios.FindAsync(id);
+            var votante = await context.Votantes.FindAsync(id);
 
-            if (beneficiario == null)
+            if (votante == null)
             {
                 return NotFound();
             }
 
-            mapper.Map(dto, beneficiario);
-            beneficiario.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
-            beneficiario.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
-            context.Update(beneficiario);
+            mapper.Map(dto, votante);
+            votante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
+            context.Update(votante);
 
             try
             {
@@ -144,7 +139,7 @@ namespace beneficiarios_dif_api.Controllers
 
         private bool BeneficiarioExists(int id)
         {
-            return context.Beneficiarios.Any(e => e.Id == id);
+            return context.Votantes.Any(e => e.Id == id);
         }
 
         [HttpGet("total-beneficiarios-por-municipio")]

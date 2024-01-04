@@ -13,7 +13,6 @@ namespace beneficiarios_dif_api.Entities
         public bool Estatus { get; set; }
         [Required]
         public Rol Rol { get; set; }
-        public int? AreaAdscripcionId { get; set; }
-        public AreaAdscripcion AreaAdscripcion { get; set; }
+
     }
 }

@@ -6,6 +6,6 @@
         public string Descripcion { get; set; }
         public string Foto { get; set; }
         public DateTime FechaHoraVisita { get; set; }
-        public Beneficiario Beneficiario { get; set; }
+        public Votante Votante { get; set; }
     }
 }

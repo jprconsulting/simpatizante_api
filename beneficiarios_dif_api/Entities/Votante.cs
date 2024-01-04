@@ -1,6 +1,6 @@
 ﻿namespace beneficiarios_dif_api.Entities
 {
-    public class Beneficiario
+    public class Votante
     {
         public int Id { get; set; }
         public string Nombres { get; set; }
@@ -13,8 +13,10 @@
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
-        public ProgramaSocial ProgramaSocial { get; set; }
+        public string Folio { get; set; }
+        public Localidad Localidad { get; set; }
+        public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }
-        public List<Visita> Visitas { get; set; }
+
     }
 }

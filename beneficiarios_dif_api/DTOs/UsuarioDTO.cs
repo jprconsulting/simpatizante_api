@@ -14,6 +14,6 @@ namespace beneficiarios_dif_api.DTOs
         public bool Estatus { get; set; }
         [Required]
         public RolDTO Rol { get; set; }
-        public AreaAdscripcionDTO AreaAdscripcion { get; set; }
+
     }
 }

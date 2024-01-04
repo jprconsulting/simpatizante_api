@@ -9,10 +9,11 @@ namespace beneficiarios_dif_api
         {
 
         }
-        public DbSet<AreaAdscripcion> AreasAdscripcion { get; set; }
-        public DbSet<Beneficiario> Beneficiarios { get; set; }
+        public DbSet<Votante> Votantes { get; set; }
+        public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<Municipio> Municipios { get; set; }
-        public DbSet<ProgramaSocial> ProgramasSociales { get; set; }
+        public DbSet<Seccion> Secciones { get; set; }
+        public DbSet<Localidad> Localidades { get; set; }
         public DbSet<Rol> Rols { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Indicador> Indicadores { get; set; }
