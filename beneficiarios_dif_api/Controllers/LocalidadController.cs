@@ -12,31 +12,31 @@ using System.Threading.Tasks;
 
 namespace beneficiarios_dif_api.Controllers
 {
-    [Route("api/municipios")]
+    [Route("api/localidades")]
     [ApiController]
-    public class MunicipiosController : ControllerBase
+    public class LocalidadController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
 
-        public MunicipiosController(ApplicationDbContext context, IMapper mapper)
+        public LocalidadController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
-        }       
+        }
 
         [HttpGet("obtener-todos")]
-        public async Task<ActionResult<List<MunicipioDTO>>> GetAll()
+        public async Task<ActionResult<List<LocalidadDTO>>> GetAll()
         {
-            var municipios = await context.Municipios.ToListAsync();
+            var localidades = await context.Localidades.ToListAsync();
 
-            if (!municipios.Any())
+            if (!localidades.Any())
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<MunicipioDTO>>(municipios));
-        }      
+            return Ok(mapper.Map<List<LocalidadDTO>>(localidades));
+        }
 
     }
 }

@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace beneficiarios_dif_api.Controllers
 {
-    [Authorize]
     [Route("api/rols")]
     [ApiController]
     public class RolsController : ControllerBase

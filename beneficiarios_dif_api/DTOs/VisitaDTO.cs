@@ -3,6 +3,7 @@
     public class VisitaDTO
     {
         public int? Id { get; set; }
+        public string Servicio { get; set; }
         public string Descripcion { get; set; }
         public string Foto { get; set; }
         public string StrFechaHoraVisita { get; set; }

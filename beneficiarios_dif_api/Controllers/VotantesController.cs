@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace beneficiarios_dif_api.Controllers
 {
-    [Authorize]
     [Route("api/votantes")]
     [ApiController]
     public class VotantesController : ControllerBase
@@ -142,38 +141,38 @@ namespace beneficiarios_dif_api.Controllers
             return context.Votantes.Any(e => e.Id == id);
         }
 
-        [HttpGet("total-beneficiarios-por-municipio")]
-        public async Task<ActionResult<List<TotalBeneficiariosMunicipioDTO>>> GetTotalBeneficiariosPorMunicipio()
-        {
-            try
-            {
-                var municipios = await context.Municipios.Include(m => m.Beneficiarios).ToListAsync();
-                var indicadores = await context.Indicadores.ToListAsync();
+        //[HttpGet("total-beneficiarios-por-municipio")]
+        //public async Task<ActionResult<List<TotalBeneficiariosMunicipioDTO>>> GetTotalBeneficiariosPorMunicipio()
+        //{
+        //    try
+        //    {
+        //        var municipios = await context.Municipios.ToListAsync();
+        //        var indicadores = await context.Indicadores.ToListAsync();
 
-                var municipiosDTO = municipios.Select(m =>
-                {
-                    var totalBeneficiarios = m.Beneficiarios.Count;
-                    var indicador = indicadores.FirstOrDefault(i => totalBeneficiarios >= i.RangoInicial && totalBeneficiarios <= i.RangoFinal);
-                    var color = indicador != null ? indicador.Color : "#FFFFFF";
-                    var descripcionIndicador = indicador != null ? indicador.Descripcion : "Sin descripción";
+        //        var municipiosDTO = municipios.Select(m =>
+        //        {
+        //            var totalBeneficiarios = m.Beneficiarios.Count;
+        //            var indicador = indicadores.FirstOrDefault(i => totalBeneficiarios >= i.RangoInicial && totalBeneficiarios <= i.RangoFinal);
+        //            var color = indicador != null ? indicador.Color : "#FFFFFF";
+        //            var descripcionIndicador = indicador != null ? indicador.Descripcion : "Sin descripción";
 
-                    return new TotalBeneficiariosMunicipioDTO
-                    {
-                        Id = m.Id,
-                        Nombre = m.Nombre,
-                        TotalBeneficiarios = totalBeneficiarios,
-                        Color = color,
-                        DescripcionIndicador = descripcionIndicador
-                    };
-                }).ToList();
+        //            return new TotalBeneficiariosMunicipioDTO
+        //            {
+        //                Id = m.Id,
+        //                Nombre = m.Nombre,
+        //                TotalBeneficiarios = totalBeneficiarios,
+        //                Color = color,
+        //                DescripcionIndicador = descripcionIndicador
+        //            };
+        //        }).ToList();
 
-                return Ok(municipiosDTO);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500);
-            }
-        }
+        //        return Ok(municipiosDTO);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500);
+        //    }
+        //}
 
     }
 }

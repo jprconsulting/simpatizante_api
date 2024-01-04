@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace beneficiarios_dif_api.Controllers
 {
-    [Authorize]
     [Route("api/indicadores")]
     [ApiController]
     public class IndicadoresController : ControllerBase
