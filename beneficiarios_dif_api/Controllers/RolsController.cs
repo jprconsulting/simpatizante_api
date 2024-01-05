@@ -34,21 +34,5 @@ namespace beneficiarios_dif_api.Controllers
             return Ok(mapper.Map<List<RolDTO>>(rols));
         }
 
-        [HttpPost("crear")]
-        public async Task<ActionResult> Post(RolDTO dto)
-        {
-            var existeRol = await context.Rols.AnyAsync(r => r.NombreRol == dto.NombreRol);
-
-            if (existeRol)
-            {
-                return BadRequest();
-            }
-
-            var rol = mapper.Map<Rol>(dto);
-            context.Add(rol);
-            await context.SaveChangesAsync();
-            return Ok();
-
-        }
     }
 }

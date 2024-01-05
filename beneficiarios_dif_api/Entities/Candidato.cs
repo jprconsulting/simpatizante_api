@@ -12,7 +12,6 @@
         public string Foto { get; set; }
         public string Emblema { get; set; }
         public bool Estatus { get; set; }
-        public Localidad Localidad { get; set; }
         public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }
         public Cargo Cargo { get; set; }

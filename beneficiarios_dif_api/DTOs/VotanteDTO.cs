@@ -16,7 +16,6 @@ namespace beneficiarios_dif_api.DTOs
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
         public string Folio { get; set; }
-        public LocalidadDTO Localidad { get; set; }
         public SeccionDTO Seccion { get; set; }
         public MunicipioDTO Municipio { get; set; }
 

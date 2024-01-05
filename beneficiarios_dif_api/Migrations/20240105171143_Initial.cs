@@ -36,8 +36,6 @@ namespace beneficiariosdifapi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    RangoInicial = table.Column<int>(type: "int", nullable: false),
-                    RangoFinal = table.Column<int>(type: "int", nullable: false),
                     Descripcion = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Color = table.Column<string>(type: "longtext", nullable: true)
@@ -80,23 +78,17 @@ namespace beneficiariosdifapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Localidades",
+                name: "Secciones",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    MunicipioId = table.Column<int>(type: "int", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Localidades", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Localidades_Municipios_MunicipioId",
-                        column: x => x.MunicipioId,
-                        principalTable: "Municipios",
-                        principalColumn: "Id");
+                    table.PrimaryKey("PK_Secciones", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -155,27 +147,6 @@ namespace beneficiariosdifapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Secciones",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nombre = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    LocalidadId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Secciones", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Secciones_Localidades_LocalidadId",
-                        column: x => x.LocalidadId,
-                        principalTable: "Localidades",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Candidatos",
                 columns: table => new
                 {
@@ -196,7 +167,6 @@ namespace beneficiariosdifapi.Migrations
                     Emblema = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LocalidadId = table.Column<int>(type: "int", nullable: true),
                     SeccionId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     CargoId = table.Column<int>(type: "int", nullable: true)
@@ -208,11 +178,6 @@ namespace beneficiariosdifapi.Migrations
                         name: "FK_Candidatos_Cargo_CargoId",
                         column: x => x.CargoId,
                         principalTable: "Cargo",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Candidatos_Localidades_LocalidadId",
-                        column: x => x.LocalidadId,
-                        principalTable: "Localidades",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Candidatos_Municipios_MunicipioId",
@@ -250,18 +215,12 @@ namespace beneficiariosdifapi.Migrations
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Folio = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LocalidadId = table.Column<int>(type: "int", nullable: true),
                     SeccionId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Votantes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Votantes_Localidades_LocalidadId",
-                        column: x => x.LocalidadId,
-                        principalTable: "Localidades",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Votantes_Municipios_MunicipioId",
                         column: x => x.MunicipioId,
@@ -307,11 +266,6 @@ namespace beneficiariosdifapi.Migrations
                 column: "CargoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidatos_LocalidadId",
-                table: "Candidatos",
-                column: "LocalidadId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Candidatos_MunicipioId",
                 table: "Candidatos",
                 column: "MunicipioId");
@@ -327,16 +281,6 @@ namespace beneficiariosdifapi.Migrations
                 column: "RolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Localidades_MunicipioId",
-                table: "Localidades",
-                column: "MunicipioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Secciones_LocalidadId",
-                table: "Secciones",
-                column: "LocalidadId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_RolId",
                 table: "Usuarios",
                 column: "RolId");
@@ -345,11 +289,6 @@ namespace beneficiariosdifapi.Migrations
                 name: "IX_Visitas_VotanteId",
                 table: "Visitas",
                 column: "VotanteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Votantes_LocalidadId",
-                table: "Votantes",
-                column: "LocalidadId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Votantes_MunicipioId",
@@ -390,13 +329,10 @@ namespace beneficiariosdifapi.Migrations
                 name: "Votantes");
 
             migrationBuilder.DropTable(
-                name: "Secciones");
-
-            migrationBuilder.DropTable(
-                name: "Localidades");
-
-            migrationBuilder.DropTable(
                 name: "Municipios");
+
+            migrationBuilder.DropTable(
+                name: "Secciones");
         }
     }
 }

@@ -26,7 +26,7 @@ namespace beneficiarios_dif_api.Controllers
         }
 
         [HttpGet("obtener-todos")]
-        public async Task<ActionResult<List<LocalidadDTO>>> GetAll()
+        public async Task<ActionResult<List<SeccionDTO>>> GetAll()
         {
             var secciones = await context.Secciones.ToListAsync();
 
@@ -35,7 +35,7 @@ namespace beneficiarios_dif_api.Controllers
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<MunicipioDTO>>(secciones));
+            return Ok(mapper.Map<List<SeccionDTO>>(secciones));
         }
 
     }

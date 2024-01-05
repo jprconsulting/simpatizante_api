@@ -24,6 +24,12 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Indicador, IndicadorDTO>();
             CreateMap<IndicadorDTO, Indicador>();
 
+            CreateMap<Seccion, SeccionDTO>();
+            CreateMap<SeccionDTO, Seccion>();
+
+            CreateMap<VotanteDTO, Votante>();
+            CreateMap<Votante, VotanteDTO>();
+
             CreateMap<VisitaDTO, Visita>();
             CreateMap<Visita, VisitaDTO>()
                   .ForMember(dest => dest.StrFechaHoraVisita, opt => opt.MapFrom(src => $"{src.FechaHoraVisita:dd/MM/yyyy H:mm}"));

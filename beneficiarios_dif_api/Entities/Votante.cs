@@ -14,7 +14,6 @@
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
         public string Folio { get; set; }
-        public Localidad Localidad { get; set; }
         public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }
 

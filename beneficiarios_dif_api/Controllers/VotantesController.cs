@@ -40,16 +40,17 @@ namespace beneficiarios_dif_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<VotanteDTO>>> GetAll()
         {
-            var votante = await context.Votantes
-                 .Include(m => m.Municipio)
-                 .ToListAsync();
+            var votantes = await context.Votantes
+                .Include(m => m.Municipio)
+                .Include(s => s.Seccion) 
+                .ToListAsync();
 
-            if (!votante.Any())
+            if (!votantes.Any())
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<VotanteDTO>>(votante));
+            return Ok(mapper.Map<List<VotanteDTO>>(votantes));
         }
 
         [HttpPost("crear")]
@@ -69,6 +70,8 @@ namespace beneficiarios_dif_api.Controllers
 
             var votante = mapper.Map<Votante>(dto);
             votante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
+            votante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id); 
+
             context.Add(votante);
 
             try
@@ -78,7 +81,7 @@ namespace beneficiarios_dif_api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Error interno del servidor.", details = ex.Message });
+                return StatusCode(500, new { error = "Error interno del servidor al guardar el votante.", details = ex.Message });
             }
         }
 
@@ -140,39 +143,6 @@ namespace beneficiarios_dif_api.Controllers
         {
             return context.Votantes.Any(e => e.Id == id);
         }
-
-        //[HttpGet("total-beneficiarios-por-municipio")]
-        //public async Task<ActionResult<List<TotalBeneficiariosMunicipioDTO>>> GetTotalBeneficiariosPorMunicipio()
-        //{
-        //    try
-        //    {
-        //        var municipios = await context.Municipios.ToListAsync();
-        //        var indicadores = await context.Indicadores.ToListAsync();
-
-        //        var municipiosDTO = municipios.Select(m =>
-        //        {
-        //            var totalBeneficiarios = m.Beneficiarios.Count;
-        //            var indicador = indicadores.FirstOrDefault(i => totalBeneficiarios >= i.RangoInicial && totalBeneficiarios <= i.RangoFinal);
-        //            var color = indicador != null ? indicador.Color : "#FFFFFF";
-        //            var descripcionIndicador = indicador != null ? indicador.Descripcion : "Sin descripción";
-
-        //            return new TotalBeneficiariosMunicipioDTO
-        //            {
-        //                Id = m.Id,
-        //                Nombre = m.Nombre,
-        //                TotalBeneficiarios = totalBeneficiarios,
-        //                Color = color,
-        //                DescripcionIndicador = descripcionIndicador
-        //            };
-        //        }).ToList();
-
-        //        return Ok(municipiosDTO);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500);
-        //    }
-        //}
 
     }
 }
