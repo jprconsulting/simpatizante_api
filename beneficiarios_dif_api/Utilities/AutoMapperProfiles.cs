@@ -21,6 +21,9 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Municipio, MunicipioDTO>();
             CreateMap<MunicipioDTO, Municipio>();
 
+            CreateMap<Estado, EstadoDTO>();
+            CreateMap<EstadoDTO, Estado>();
+
             CreateMap<Indicador, IndicadorDTO>();
             CreateMap<IndicadorDTO, Indicador>();
 

@@ -12,6 +12,7 @@ namespace beneficiarios_dif_api
         public DbSet<Votante> Votantes { get; set; }
         public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<Municipio> Municipios { get; set; }
+        public DbSet<Estado> Estados { get; set; }
         public DbSet<Seccion> Secciones { get; set; }
         public DbSet<Rol> Rols { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
