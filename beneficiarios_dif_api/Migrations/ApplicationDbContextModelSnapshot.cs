@@ -153,6 +153,20 @@ namespace beneficiariosdifapi.Migrations
                     b.ToTable("Municipios");
                 });
 
+            modelBuilder.Entity("beneficiarios_dif_api.Entities.ProgramaSocial", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProgramasSociales");
+                });
+
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Rol", b =>
                 {
                     b.Property<int>("Id")

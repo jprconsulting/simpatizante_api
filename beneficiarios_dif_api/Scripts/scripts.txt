@@ -131,3 +131,15 @@ insert into simpatizantes.estados(Id, nombre) values(null,'Aguascalientes'), (nu
 (null,'Guanajuato'),(null,'Guerrero'), (null,'Hidalgo'), (null,'Jalisco'), (null,'Michoacán'), (null,'Morelos'), (null,'Nayarit'), (null,'Nuevo León'),
 (null,'Oaxaca'), (null,'Puebla'), (null,'Querétaro'), (null,'Quintana Roo'), (null,'San Luis Potosí'), (null,'Sinaloa'), (null,'Sonora'), (null,'Tabasco'), 
 (null,'Tamaulipas'), (null,'Tlaxcala'), (null,'Veracruz'), (null,'Yucatán'), (null,'Zacatecas');
+
+INSERT INTO simpatizantes.programassociales (nombre) VALUES
+('Programa de Asistencia Alimentaria'),
+('Becas Educativas'),
+('Subsidios de Vivienda'),
+('Programa de Salud Pública'),
+('Ayuda a Personas Mayores'),
+('Apoyo a Familias Monoparentales'),
+('Programa de Capacitación Laboral'),
+('Subsidios para Discapacitados'),
+('Asistencia Psicológica Comunitaria'),
+('Programa de Desarrollo Rural');

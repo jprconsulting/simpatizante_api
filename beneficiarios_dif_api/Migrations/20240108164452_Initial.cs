@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace beneficiariosdifapi.Migrations
 {
     /// <inheritdoc />
-    public partial class Estados : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,6 +74,21 @@ namespace beneficiariosdifapi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Municipios", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ProgramasSociales",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProgramasSociales", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -338,6 +353,9 @@ namespace beneficiariosdifapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Indicadores");
+
+            migrationBuilder.DropTable(
+                name: "ProgramasSociales");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

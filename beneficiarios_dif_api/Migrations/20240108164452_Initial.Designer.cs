@@ -11,8 +11,8 @@ using beneficiarios_dif_api;
 namespace beneficiariosdifapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240108153352_Estados")]
-    partial class Estados
+    [Migration("20240108164452_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,6 +154,20 @@ namespace beneficiariosdifapi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Municipios");
+                });
+
+            modelBuilder.Entity("beneficiarios_dif_api.Entities.ProgramaSocial", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProgramasSociales");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Rol", b =>

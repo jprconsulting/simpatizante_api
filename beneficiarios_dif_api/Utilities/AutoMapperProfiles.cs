@@ -16,7 +16,10 @@ namespace beneficiarios_dif_api.Utilities
                 .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombre} {src.ApellidoPaterno} {src.ApellidoMaterno}"));      
 
             CreateMap<Rol, RolDTO>();
-            CreateMap<RolDTO, Rol>();          
+            CreateMap<RolDTO, Rol>();
+
+            CreateMap<ProgramaSocial, ProgramaSocialDTO>();
+            CreateMap<ProgramaSocialDTO, ProgramaSocial>();
 
             CreateMap<Municipio, MunicipioDTO>();
             CreateMap<MunicipioDTO, Municipio>();
