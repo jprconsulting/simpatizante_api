@@ -1,7 +1,3 @@
-INSERT INTO simpatizantes.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
-VALUES 
-('Administrador', 'Administrador' , 'Administrador', 'admin@gmail.com', '123',   true, 1);
-
 INSERT INTO simpatizantes.municipios (nombre)
 VALUES 
 ('Amaxac de Guerrero'),
@@ -124,5 +120,14 @@ VALUES
 (389, '0322'), (390, '0323'), (391, '0324'), (392, '0325'), (393, '0326'), (394, '0327'), (395, '0328'), (396, '0329'), (397, '0330'), 
 (398, '0331'), (399, '0588'), (400, '0589'), (401, '0590'), (402, '0591'), (403, '0592'), (404, '0593'), (405, '0594'), (406, '0595'), 
 (407, '0596'), (408, '0597'), (409, '0598'), (410, '0599'), (411, '0600'), (412, '0601'), (413, '0316'), (414, '0317'), (415, '0254'), 
-(416, '0255'), (417, '0586'), (418, '0587'), (419, '0263'), (420, '0264'), (421, '0265'), (422, '0266'), (423, '0372'), (424, '0373')
+(416, '0255'), (417, '0586'), (418, '0587'), (419, '0263'), (420, '0264'), (421, '0265'), (422, '0266'), (423, '0372'), (424, '0373');
 
+INSERT INTO simpatizantes.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
+VALUES 
+('Administrador', 'Administrador' , 'Administrador', 'admin@gmail.com', '123',   true, 1);
+
+insert into simpatizantes.estados(Id, nombre) values(null,'Aguascalientes'), (null,'Baja California'), (null,'Baja California Sur'), (null,'Campeche'), 
+(null,'Chiapas'), (null,'Chihuahua'), (null,'Ciudad de México'), (null,'Coahuila'), (null,'Colima'), (null,'Durango'), (null,'Estado de México'),
+(null,'Guanajuato'),(null,'Guerrero'), (null,'Hidalgo'), (null,'Jalisco'), (null,'Michoacán'), (null,'Morelos'), (null,'Nayarit'), (null,'Nuevo León'),
+(null,'Oaxaca'), (null,'Puebla'), (null,'Querétaro'), (null,'Quintana Roo'), (null,'San Luis Potosí'), (null,'Sinaloa'), (null,'Sonora'), (null,'Tabasco'), 
+(null,'Tamaulipas'), (null,'Tlaxcala'), (null,'Veracruz'), (null,'Yucatán'), (null,'Zacatecas');

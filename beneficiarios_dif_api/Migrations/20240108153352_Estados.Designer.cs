@@ -11,8 +11,8 @@ using beneficiarios_dif_api;
 namespace beneficiariosdifapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240105171143_Initial")]
-    partial class Initial
+    [Migration("20240108153352_Estados")]
+    partial class Estados
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,6 +109,20 @@ namespace beneficiariosdifapi.Migrations
                     b.HasIndex("RolId");
 
                     b.ToTable("Claims");
+                });
+
+            modelBuilder.Entity("beneficiarios_dif_api.Entities.Estado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Estados");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Indicador", b =>
@@ -250,6 +264,9 @@ namespace beneficiariosdifapi.Migrations
                     b.Property<string>("Domicilio")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("EstadoId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
 
@@ -278,6 +295,8 @@ namespace beneficiariosdifapi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EstadoId");
 
                     b.HasIndex("MunicipioId");
 
@@ -340,6 +359,10 @@ namespace beneficiariosdifapi.Migrations
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Votante", b =>
                 {
+                    b.HasOne("beneficiarios_dif_api.Entities.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId");
+
                     b.HasOne("beneficiarios_dif_api.Entities.Municipio", "Municipio")
                         .WithMany()
                         .HasForeignKey("MunicipioId");
@@ -347,6 +370,8 @@ namespace beneficiariosdifapi.Migrations
                     b.HasOne("beneficiarios_dif_api.Entities.Seccion", "Seccion")
                         .WithMany()
                         .HasForeignKey("SeccionId");
+
+                    b.Navigation("Estado");
 
                     b.Navigation("Municipio");
 

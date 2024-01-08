@@ -16,6 +16,7 @@
         public string Folio { get; set; }
         public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }
+        public Estado Estado { get; set; }
 
     }
 }

@@ -42,7 +42,8 @@ namespace beneficiarios_dif_api.Controllers
         {
             var votantes = await context.Votantes
                 .Include(m => m.Municipio)
-                .Include(s => s.Seccion) 
+                .Include(s => s.Seccion)
+                .Include(e => e.Estado)
                 .ToListAsync();
 
             if (!votantes.Any())
@@ -70,7 +71,8 @@ namespace beneficiarios_dif_api.Controllers
 
             var votante = mapper.Map<Votante>(dto);
             votante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
-            votante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id); 
+            votante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
+            votante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
 
             context.Add(votante);
 

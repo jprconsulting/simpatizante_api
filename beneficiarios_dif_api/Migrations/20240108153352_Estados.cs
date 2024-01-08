@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace beneficiariosdifapi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Estados : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,6 +27,21 @@ namespace beneficiariosdifapi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cargo", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Estados",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Estados", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -216,11 +231,17 @@ namespace beneficiariosdifapi.Migrations
                     Folio = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     SeccionId = table.Column<int>(type: "int", nullable: true),
-                    MunicipioId = table.Column<int>(type: "int", nullable: true)
+                    MunicipioId = table.Column<int>(type: "int", nullable: true),
+                    EstadoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Votantes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Votantes_Estados_EstadoId",
+                        column: x => x.EstadoId,
+                        principalTable: "Estados",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Votantes_Municipios_MunicipioId",
                         column: x => x.MunicipioId,
@@ -291,6 +312,11 @@ namespace beneficiariosdifapi.Migrations
                 column: "VotanteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Votantes_EstadoId",
+                table: "Votantes",
+                column: "EstadoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Votantes_MunicipioId",
                 table: "Votantes",
                 column: "MunicipioId");
@@ -327,6 +353,9 @@ namespace beneficiariosdifapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Votantes");
+
+            migrationBuilder.DropTable(
+                name: "Estados");
 
             migrationBuilder.DropTable(
                 name: "Municipios");

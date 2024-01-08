@@ -18,6 +18,8 @@ namespace beneficiarios_dif_api.DTOs
         public string Folio { get; set; }
         public SeccionDTO Seccion { get; set; }
         public MunicipioDTO Municipio { get; set; }
+        public Estado Estado { get; set; }
+
 
     }
 }
