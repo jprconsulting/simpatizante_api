@@ -143,3 +143,13 @@ INSERT INTO simpatizantes.programassociales (nombre) VALUES
 ('Subsidios para Discapacitados'),
 ('Asistencia Psicológica Comunitaria'),
 ('Programa de Desarrollo Rural');
+
+INSERT INTO simpatizantes.casillas (nombre) VALUES 
+('Básicas 1'),
+('Básicas 2'),
+('Contiguas 1'),
+('Contiguas 2'),
+('Extraordinarias 1'),
+('Extraordinarias 2'),
+('Especiales 1'),
+('Especiales 2');

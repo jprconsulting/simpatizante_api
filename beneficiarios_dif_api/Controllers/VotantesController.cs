@@ -70,9 +70,11 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             var votante = mapper.Map<Votante>(dto);
-            votante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
-            votante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
-            votante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
+
+            // Asignaciones condicionales para las propiedades de navegación restantes
+            votante.Municipio = dto.Municipio != null ? await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id) : null;
+            votante.Seccion = dto.Seccion != null ? await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id) : null;
+            votante.Estado = dto.Estado != null ? await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id) : null;
 
             context.Add(votante);
 
@@ -83,8 +85,9 @@ namespace beneficiarios_dif_api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Error interno del servidor al guardar el votante.", details = ex.Message });
+                return StatusCode(500, new { error = "Error interno del servidor al guardar el votante.", details = ex.ToString() });
             }
+
         }
 
         [HttpDelete("eliminar/{id:int}")]

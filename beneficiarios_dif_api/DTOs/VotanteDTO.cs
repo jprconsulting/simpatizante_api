@@ -16,10 +16,10 @@ namespace beneficiarios_dif_api.DTOs
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
         public string Folio { get; set; }
+        public ProgramaSocialDTO? ProgramaSocial { get; set; }
         public SeccionDTO Seccion { get; set; }
         public MunicipioDTO Municipio { get; set; }
-        public Estado Estado { get; set; }
-
-
+        public EstadoDTO Estado { get; set; }
     }
+
 }

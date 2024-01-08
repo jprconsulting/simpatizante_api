@@ -18,6 +18,12 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Rol, RolDTO>();
             CreateMap<RolDTO, Rol>();
 
+            CreateMap<Incidencia, IncidenciaDTO>();
+            CreateMap<IncidenciaDTO, Incidencia>();
+
+            CreateMap<Casilla, CasillaDTO>();
+            CreateMap<CasillaDTO, Casilla>();
+
             CreateMap<ProgramaSocial, ProgramaSocialDTO>();
             CreateMap<ProgramaSocialDTO, ProgramaSocial>();
 
@@ -34,7 +40,7 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<SeccionDTO, Seccion>();
 
             CreateMap<VotanteDTO, Votante>();
-            CreateMap<Votante, VotanteDTO>();
+            CreateMap<Votante, VotanteDTO>();           
 
             CreateMap<VisitaDTO, Visita>();
             CreateMap<Visita, VisitaDTO>()
