@@ -18,8 +18,14 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Rol, RolDTO>();
             CreateMap<RolDTO, Rol>();
 
+            CreateMap<Cargo, CargoDTO>();
+            CreateMap<CargoDTO, Cargo>();
+
             CreateMap<Incidencia, IncidenciaDTO>();
             CreateMap<IncidenciaDTO, Incidencia>();
+
+            CreateMap<Candidato, CandidatoDTO>();
+            CreateMap<CandidatoDTO, Candidato>();
 
             CreateMap<Operador, OperadorDTO>();
             CreateMap<OperadorDTO, Operador>();
