@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace beneficiariosdifapi.Migrations
 {
     /// <inheritdoc />
-    public partial class Votantes : Migration
+    public partial class Votante : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

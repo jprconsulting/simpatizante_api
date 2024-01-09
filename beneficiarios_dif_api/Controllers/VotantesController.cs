@@ -2,9 +2,9 @@
 using beneficiarios_dif_api.DTOs;
 using beneficiarios_dif_api.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace beneficiarios_dif_api.Controllers
 {
@@ -25,8 +25,10 @@ namespace beneficiarios_dif_api.Controllers
         public async Task<ActionResult<VotanteDTO>> GetById(int id)
         {
             var votante = await context.Votantes
-
+                .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
+                .Include(e => e.Estado)
+                .Include(p => p.ProgramaSocial)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
             if (votante == null)
@@ -34,24 +36,25 @@ namespace beneficiarios_dif_api.Controllers
                 return NotFound();
             }
 
-            return Ok(mapper.Map<VotanteDTO>(votante));
+            return Ok(mapper.Map<IncidenciaDTO>(votante));
         }
 
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<VotanteDTO>>> GetAll()
         {
-            var votantes = await context.Votantes
-                .Include(m => m.Municipio)
+            var votante = await context.Votantes
                 .Include(s => s.Seccion)
+                .Include(m => m.Municipio)
                 .Include(e => e.Estado)
+                .Include(p => p.ProgramaSocial)
                 .ToListAsync();
 
-            if (!votantes.Any())
+            if (!votante.Any())
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<VotanteDTO>>(votantes));
+            return Ok(mapper.Map<List<VotanteDTO>>(votante));
         }
 
         [HttpPost("crear")]
@@ -62,19 +65,15 @@ namespace beneficiarios_dif_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existeVotante = await context.Votantes.AnyAsync(b => b.Nombres == dto.Nombres && b.ApellidoPaterno == dto.ApellidoPaterno);
-
-            if (existeVotante)
-            {
-                return Conflict();
-            }
-
             var votante = mapper.Map<Votante>(dto);
+            votante.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
+            votante.Municipio = await context.Municipios.SingleOrDefaultAsync(i => i.Id == dto.Municipio.Id);
+            votante.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
 
-            // Asignaciones condicionales para las propiedades de navegación restantes
-            votante.Municipio = dto.Municipio != null ? await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id) : null;
-            votante.Seccion = dto.Seccion != null ? await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id) : null;
-            votante.Estado = dto.Estado != null ? await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id) : null;
+            if (dto.ProgramaSocial != null)
+            {
+                votante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(c => c.Id == dto.ProgramaSocial.Id);
+            }
 
             context.Add(votante);
 
@@ -83,11 +82,19 @@ namespace beneficiarios_dif_api.Controllers
                 await context.SaveChangesAsync();
                 return Ok();
             }
+            catch (DbUpdateException ex)
+            {
+                var innerException = ex.InnerException;
+                return StatusCode(500, new { error = "Error al guardar el Votante.", details = innerException?.Message });
+            }
+            catch (MySqlException ex)
+            {
+                return StatusCode(500, new { error = "Error al guardar el Votante.", details = ex.Message });
+            }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Error interno del servidor al guardar el votante.", details = ex.ToString() });
+                return StatusCode(500, new { error = "Error interno del servidor al guardar el Votante.", details = ex.Message });
             }
-
         }
 
         [HttpDelete("eliminar/{id:int}")]
@@ -114,16 +121,19 @@ namespace beneficiarios_dif_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var votante = await context.Votantes.FindAsync(id);
+            var Votantes = await context.Votantes.FindAsync(id);
 
-            if (votante == null)
+            if (Votantes == null)
             {
                 return NotFound();
             }
 
-            mapper.Map(dto, votante);
-            votante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
-            context.Update(votante);
+            mapper.Map(dto, Votantes);
+            Votantes.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
+            Votantes.Municipio = await context.Municipios.SingleOrDefaultAsync(i => i.Id == dto.Municipio.Id);
+            Votantes.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+            Votantes.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(c => c.Id == dto.ProgramaSocial.Id);
+            context.Update(Votantes);
 
             try
             {
@@ -131,7 +141,7 @@ namespace beneficiarios_dif_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BeneficiarioExists(id))
+                if (!IncidenciasExists(id))
                 {
                     return NotFound();
                 }
@@ -144,9 +154,9 @@ namespace beneficiarios_dif_api.Controllers
             return NoContent();
         }
 
-        private bool BeneficiarioExists(int id)
+        private bool IncidenciasExists(int id)
         {
-            return context.Votantes.Any(e => e.Id == id);
+            return context.Incidencias.Any(e => e.Id == id);
         }
 
     }

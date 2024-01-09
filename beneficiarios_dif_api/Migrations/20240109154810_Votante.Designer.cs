@@ -11,8 +11,8 @@ using beneficiarios_dif_api;
 namespace beneficiariosdifapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240108221847_Votantes")]
-    partial class Votantes
+    [Migration("20240109154810_Votante")]
+    partial class Votante
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
