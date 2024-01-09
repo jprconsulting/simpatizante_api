@@ -265,6 +265,34 @@ namespace beneficiariosdifapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Operadores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ApellidoPaterno = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ApellidoMaterno = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Sexo = table.Column<int>(type: "int", nullable: false),
+                    Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    SeccionId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Operadores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Operadores_Secciones_SeccionId",
+                        column: x => x.SeccionId,
+                        principalTable: "Secciones",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Votantes",
                 columns: table => new
                 {
@@ -375,6 +403,11 @@ namespace beneficiariosdifapi.Migrations
                 column: "IndicadorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Operadores_SeccionId",
+                table: "Operadores",
+                column: "SeccionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_RolId",
                 table: "Usuarios",
                 column: "RolId");
@@ -416,6 +449,9 @@ namespace beneficiariosdifapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Incidencias");
+
+            migrationBuilder.DropTable(
+                name: "Operadores");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

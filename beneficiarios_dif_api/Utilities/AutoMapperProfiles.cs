@@ -21,6 +21,9 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Incidencia, IncidenciaDTO>();
             CreateMap<IncidenciaDTO, Incidencia>();
 
+            CreateMap<Operador, OperadorDTO>();
+            CreateMap<OperadorDTO, Operador>();
+
             CreateMap<Casilla, CasillaDTO>();
             CreateMap<CasillaDTO, Casilla>();
 
