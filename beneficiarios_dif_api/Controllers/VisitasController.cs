@@ -27,6 +27,8 @@ namespace beneficiarios_dif_api.Controllers
         {
             var visita = await context.Visitas
                 .Include(b => b.Votante)
+                .Include(o => o.Operador)
+                .Include(c => c.Candidato)
                 .FirstOrDefaultAsync(v => v.Id == id);
 
             if (visita == null)
@@ -59,6 +61,8 @@ namespace beneficiarios_dif_api.Controllers
                 var visitas = await context.Visitas
                 .Include(v => v.Votante)
                     .ThenInclude(b => b.Municipio)
+                .Include(o => o.Operador)
+                .Include(c => c.Candidato)
                 .ToListAsync();
 
                 if (!visitas.Any())
@@ -98,6 +102,8 @@ namespace beneficiarios_dif_api.Controllers
             var visita = mapper.Map<Visita>(dto);
             visita.FechaHoraVisita = DateTime.Now;
             visita.Votante = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
+            visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
+            visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
 
             context.Visitas.Add(visita);
             await context.SaveChangesAsync();
@@ -131,6 +137,8 @@ namespace beneficiarios_dif_api.Controllers
 
             mapper.Map(dto, visita);
             visita.Votante = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
+            visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
+            visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
 
             context.Update(visita);
 

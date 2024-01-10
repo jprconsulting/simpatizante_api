@@ -13,7 +13,7 @@
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
-        public string Folio { get; set; }
+        public string IDMEX { get; set; }
         public ProgramaSocial ProgramaSocial { get; set; }
         public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }

@@ -46,14 +46,8 @@ namespace beneficiariosdifapi.Migrations
                     b.Property<string>("Foto")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("MunicipioId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
-
-                    b.Property<int?>("SeccionId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Sexo")
                         .HasColumnType("int");
@@ -64,10 +58,6 @@ namespace beneficiariosdifapi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CargoId");
-
-                    b.HasIndex("MunicipioId");
-
-                    b.HasIndex("SeccionId");
 
                     b.ToTable("Candidatos");
                 });
@@ -83,7 +73,7 @@ namespace beneficiariosdifapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cargo");
+                    b.ToTable("Cargos");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Casilla", b =>
@@ -175,6 +165,25 @@ namespace beneficiariosdifapi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Indicadores");
+                });
+
+            modelBuilder.Entity("beneficiarios_dif_api.Entities.Localidad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MunicipioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MunicipioId");
+
+                    b.ToTable("Localidades");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Municipio", b =>
@@ -304,6 +313,9 @@ namespace beneficiariosdifapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("CandidatoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Descripcion")
                         .HasColumnType("longtext");
 
@@ -313,6 +325,9 @@ namespace beneficiariosdifapi.Migrations
                     b.Property<string>("Foto")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("OperadorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Servicio")
                         .HasColumnType("longtext");
 
@@ -320,6 +335,10 @@ namespace beneficiariosdifapi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CandidatoId");
+
+                    b.HasIndex("OperadorId");
 
                     b.HasIndex("VotanteId");
 
@@ -353,7 +372,7 @@ namespace beneficiariosdifapi.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Folio")
+                    b.Property<string>("IDMEX")
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Latitud")
@@ -396,19 +415,7 @@ namespace beneficiariosdifapi.Migrations
                         .WithMany()
                         .HasForeignKey("CargoId");
 
-                    b.HasOne("beneficiarios_dif_api.Entities.Municipio", "Municipio")
-                        .WithMany()
-                        .HasForeignKey("MunicipioId");
-
-                    b.HasOne("beneficiarios_dif_api.Entities.Seccion", "Seccion")
-                        .WithMany()
-                        .HasForeignKey("SeccionId");
-
                     b.Navigation("Cargo");
-
-                    b.Navigation("Municipio");
-
-                    b.Navigation("Seccion");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Claim", b =>
@@ -437,6 +444,15 @@ namespace beneficiariosdifapi.Migrations
                     b.Navigation("Indicador");
                 });
 
+            modelBuilder.Entity("beneficiarios_dif_api.Entities.Localidad", b =>
+                {
+                    b.HasOne("beneficiarios_dif_api.Entities.Municipio", "Municipio")
+                        .WithMany()
+                        .HasForeignKey("MunicipioId");
+
+                    b.Navigation("Municipio");
+                });
+
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Operador", b =>
                 {
                     b.HasOne("beneficiarios_dif_api.Entities.Seccion", "Seccion")
@@ -459,9 +475,21 @@ namespace beneficiariosdifapi.Migrations
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Visita", b =>
                 {
+                    b.HasOne("beneficiarios_dif_api.Entities.Candidato", "Candidato")
+                        .WithMany()
+                        .HasForeignKey("CandidatoId");
+
+                    b.HasOne("beneficiarios_dif_api.Entities.Operador", "Operador")
+                        .WithMany()
+                        .HasForeignKey("OperadorId");
+
                     b.HasOne("beneficiarios_dif_api.Entities.Votante", "Votante")
                         .WithMany()
                         .HasForeignKey("VotanteId");
+
+                    b.Navigation("Candidato");
+
+                    b.Navigation("Operador");
 
                     b.Navigation("Votante");
                 });
