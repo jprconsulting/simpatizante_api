@@ -57,60 +57,30 @@ namespace beneficiarios_dif_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(CandidatoDTO dto)
         {
-            try
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                if (!string.IsNullOrEmpty(dto.ImagenBase64))
-                {
-                    byte[] imagenBytes = Convert.FromBase64String(dto.ImagenBase64);
-                    string imagenFileName = $"{Guid.NewGuid()}.jpg";
-                    string imagenFilePath = Path.Combine(webHostEnvironment.WebRootPath, "images", imagenFileName);
-                    await System.IO.File.WriteAllBytesAsync(imagenFilePath, imagenBytes);
-                    dto.Foto = imagenFileName;
-                }
-
-                if (!string.IsNullOrEmpty(dto.EmblemaBase64))
-                {
-                    byte[] emblemaBytes = Convert.FromBase64String(dto.EmblemaBase64);
-                    string emblemaFileName = $"{Guid.NewGuid()}.jpg";
-                    string emblemaFilePath = Path.Combine(webHostEnvironment.WebRootPath, "images", emblemaFileName);
-                    await System.IO.File.WriteAllBytesAsync(emblemaFilePath, emblemaBytes);
-                    dto.Emblema = emblemaFileName;
-                }
-
-                var cargo = await context.Cargos.FindAsync(dto.Cargo.Id);
-
-                var candidato = new Candidato
-                {
-                    Nombres = dto.Nombres,
-                    ApellidoPaterno = dto.ApellidoPaterno,
-                    ApellidoMaterno = dto.ApellidoMaterno,
-                    FechaNacimiento = dto.FechaNacimiento,
-                    Sexo = dto.Sexo,
-                    Sobrenombre = dto.Sobrenombre,
-                    Foto = dto.Foto,
-                    Emblema = dto.Emblema,
-                    Estatus = dto.Estatus,
-                    Cargo = cargo,
-                };
-
-                context.Candidatos.Add(candidato);
-                await context.SaveChangesAsync();
-
-                return Ok();
+                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
+                string fileName = Guid.NewGuid().ToString() + ".jpg";
+                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
+                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
+                dto.Foto = fileName;
             }
-            catch (Exception ex)
+            if (!string.IsNullOrEmpty(dto.EmblemaBase64))
             {
-                string errorMessage = "Error occurred while saving entity changes.";
-
-                if (ex.InnerException != null)
-                {
-                    errorMessage += $" Inner exception: {ex.InnerException.Message}";
-                }
-
-                return StatusCode(500, errorMessage);
+                byte[] bytes = Convert.FromBase64String(dto.EmblemaBase64);
+                string fileName = Guid.NewGuid().ToString() + ".jpg";
+                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
+                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
+                dto.Emblema = fileName;
             }
+            var candidato = mapper.Map<Candidato>(dto);
+            candidato.Cargo = await context.Cargo.SingleOrDefaultAsync(b => b.Id == dto.Cargo.Id);
+
+            context.Candidatos.Add(candidato);
+            await context.SaveChangesAsync();
+
+            return Ok();
         }
-
 
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
@@ -144,7 +114,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, Candidatos);
-            Candidatos.Cargo = await context.Cargos.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
+            Candidatos.Cargo = await context.Cargo.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
             context.Update(Candidatos);
 
             try
