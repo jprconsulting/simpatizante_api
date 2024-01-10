@@ -28,8 +28,6 @@ namespace beneficiarios_dif_api.Controllers
         public async Task<ActionResult<CandidatoDTO>> GetById(int id)
         {
             var votante = await context.Candidatos
-                .Include(s => s.Seccion)
-                .Include(m => m.Municipio)
                 .Include(c => c.Cargo)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
@@ -45,8 +43,6 @@ namespace beneficiarios_dif_api.Controllers
         public async Task<ActionResult<List<CandidatoDTO>>> GetAll()
         {
             var votante = await context.Candidatos
-                .Include(s => s.Seccion)
-                .Include(m => m.Municipio)
                 .Include(c => c.Cargo)
                 .ToListAsync();
 
@@ -82,8 +78,6 @@ namespace beneficiarios_dif_api.Controllers
                 }
 
                 var cargo = await context.Cargos.FindAsync(dto.Cargo.Id);
-                var municipio = await context.Municipios.FindAsync(dto.Municipio.Id);
-                var seccion = await context.Secciones.FindAsync(dto.Seccion.Id);
 
                 var candidato = new Candidato
                 {
@@ -97,8 +91,6 @@ namespace beneficiarios_dif_api.Controllers
                     Emblema = dto.Emblema,
                     Estatus = dto.Estatus,
                     Cargo = cargo,
-                    Municipio = municipio,
-                    Seccion = seccion
                 };
 
                 context.Candidatos.Add(candidato);
@@ -152,8 +144,6 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, Candidatos);
-            Candidatos.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
-            Candidatos.Municipio = await context.Municipios.SingleOrDefaultAsync(i => i.Id == dto.Municipio.Id);
             Candidatos.Cargo = await context.Cargos.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
             context.Update(Candidatos);
 
