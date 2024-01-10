@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace beneficiariosdifapi.Migrations
 {
     /// <inheritdoc />
-    public partial class Votante : Migration
+    public partial class operador : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -277,7 +277,6 @@ namespace beneficiariosdifapi.Migrations
                     ApellidoMaterno = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaNacimiento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Sexo = table.Column<int>(type: "int", nullable: false),
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     SeccionId = table.Column<int>(type: "int", nullable: true)
                 },

@@ -11,8 +11,8 @@ using beneficiarios_dif_api;
 namespace beneficiariosdifapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240109173200_Votante")]
-    partial class Votante
+    [Migration("20240110153020_operador")]
+    partial class operador
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -216,9 +216,6 @@ namespace beneficiariosdifapi.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int?>("SeccionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sexo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

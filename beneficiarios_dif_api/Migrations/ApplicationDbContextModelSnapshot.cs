@@ -215,9 +215,6 @@ namespace beneficiariosdifapi.Migrations
                     b.Property<int?>("SeccionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Sexo")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SeccionId");

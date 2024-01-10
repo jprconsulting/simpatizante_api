@@ -9,7 +9,6 @@ namespace beneficiarios_dif_api.DTOs
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
         public DateTime FechaNacimiento { get; set; }
-        public int Sexo { get; set; }
         public bool Estatus { get; set; }
         public SeccionDTO Seccion { get; set; }
     }
