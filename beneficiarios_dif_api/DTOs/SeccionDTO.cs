@@ -6,6 +6,6 @@ namespace beneficiarios_dif_api.DTOs
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public MunicipioDTO Municipio { get; set; }
+        public Municipio Municipio { get; set; }
     }
 }

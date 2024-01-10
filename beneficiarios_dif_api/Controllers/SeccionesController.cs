@@ -28,8 +28,9 @@ namespace beneficiarios_dif_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<SeccionDTO>>> GetAll()
         {
-            var secciones = await context.Secciones.ToListAsync();
-
+            var secciones = await context.Secciones
+            .Include(u => u.Municipio)
+            .ToListAsync();
             if (!secciones.Any())
             {
                 return NotFound();
