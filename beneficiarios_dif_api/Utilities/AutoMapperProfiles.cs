@@ -21,13 +21,22 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Cargo, CargoDTO>();
             CreateMap<CargoDTO, Cargo>();
 
-            CreateMap<Incidencia, IncidenciaDTO>();
+            CreateMap<Incidencia, IncidenciaDTO>()
+                .ForMember(dest => dest.Indicador, opt => opt.MapFrom(src => src.Indicador))
+                .ForMember(dest => dest.Casilla, opt => opt.MapFrom(src => src.Casilla));
+
             CreateMap<IncidenciaDTO, Incidencia>();
 
-            CreateMap<Candidato, CandidatoDTO>();
+            CreateMap<Candidato, CandidatoDTO>()
+                .ForMember(dest => dest.Cargo, opt => opt.MapFrom(src => src.Cargo))
+                .ForMember(dest => dest.FechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
+
             CreateMap<CandidatoDTO, Candidato>();
 
-            CreateMap<Operador, OperadorDTO>();
+            CreateMap<Operador, OperadorDTO>()
+                .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
+                .ForMember(dest => dest.FechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
+
             CreateMap<OperadorDTO, Operador>();
 
             CreateMap<Casilla, CasillaDTO>();
@@ -49,12 +58,19 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<SeccionDTO, Seccion>();
 
             CreateMap<VotanteDTO, Votante>();
-            CreateMap<Votante, VotanteDTO>()           
-            .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"));
+            CreateMap<Votante, VotanteDTO>()
+            .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
+            .ForMember(dest => dest.ProgramaSocial, opt => opt.MapFrom(src => src.ProgramaSocial))
+            .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
+            .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio))
+            .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado))
+            .ForMember(dest => dest.FechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
+
 
             CreateMap<VisitaDTO, Visita>();
             CreateMap<Visita, VisitaDTO>()
-                  .ForMember(dest => dest.StrFechaHoraVisita, opt => opt.MapFrom(src => $"{src.FechaHoraVisita:dd/MM/yyyy H:mm}"));
+                  .ForMember(dest => dest.StrFechaHoraVisita, opt => opt.MapFrom(src => $"{src.FechaHoraVisita:dd/MM/yyyy H:mm}"))
+                  .ForMember(dest => dest.Votante, opt => opt.MapFrom(src => src.Votante));
 
             CreateMap<Rol, ClaimDTO>()
                 .ForMember(dest => dest.RolId, opt => opt.MapFrom(src => src.Id));
