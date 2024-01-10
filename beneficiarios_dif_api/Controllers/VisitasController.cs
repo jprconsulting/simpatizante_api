@@ -103,7 +103,11 @@ namespace beneficiarios_dif_api.Controllers
             visita.FechaHoraVisita = DateTime.Now;
             visita.Votante = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
             visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
-            visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
+            if (dto.Candidato != null)
+            {
+                visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
+            }
+           
 
             context.Visitas.Add(visita);
             await context.SaveChangesAsync();
