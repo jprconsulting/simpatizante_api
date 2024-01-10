@@ -74,7 +74,7 @@ namespace beneficiarios_dif_api.Controllers
                 dto.Emblema = fileName;
             }
             var candidato = mapper.Map<Candidato>(dto);
-            candidato.Cargo = await context.Cargo.SingleOrDefaultAsync(b => b.Id == dto.Cargo.Id);
+            candidato.Cargo = await context.Cargos.SingleOrDefaultAsync(b => b.Id == dto.Cargo.Id);
 
             context.Candidatos.Add(candidato);
             await context.SaveChangesAsync();
@@ -114,7 +114,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, Candidatos);
-            Candidatos.Cargo = await context.Cargo.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
+            Candidatos.Cargo = await context.Cargos.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
             context.Update(Candidatos);
 
             try

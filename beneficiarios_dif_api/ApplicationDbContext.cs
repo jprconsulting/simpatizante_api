@@ -23,7 +23,7 @@ namespace beneficiarios_dif_api
         public DbSet<Indicador> Indicadores { get; set; }
         public DbSet<Visita> Visitas { get; set; }
         public DbSet<Claim> Claims { get; set; }
-        public DbSet<Cargo> Cargo { get; set; }
+        public DbSet<Cargo> Cargos { get; set; }
         public DbSet<Localidad> Localidades { get; set; }
 
     }
