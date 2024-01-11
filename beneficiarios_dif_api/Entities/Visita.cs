@@ -11,8 +11,8 @@ namespace beneficiarios_dif_api.Entities
         public DateTime FechaHoraVisita { get; set; }
         public Votante Votante { get; set; }
         public int? CandidatoId { get; set; }
-        public Candidato? Candidato { get; set; }
+        public Candidato Candidato { get; set; }
         public int? OperadorId { get; set; }
-        public Operador? Operador { get; set; }
+        public Operador Operador { get; set; }
     }
 }
