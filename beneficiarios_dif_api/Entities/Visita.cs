@@ -9,7 +9,7 @@ namespace beneficiarios_dif_api.Entities
         public string Descripcion { get; set; }
         public string Foto { get; set; }
         public DateTime FechaHoraVisita { get; set; }
-        public SimpatizanteDTO Simpatizante { get; set; }
+        public Simpatizante Simpatizante { get; set; }
         public int? CandidatoId { get; set; }
         public Candidato Candidato { get; set; }
         public int? OperadorId { get; set; }

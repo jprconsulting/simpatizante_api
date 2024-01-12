@@ -62,7 +62,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             // Verificación de la existencia del usuario
-            var existeUsuario = await context.Usuarios.AnyAsync(u => u.Nombre == dto.Nombre && u.ApellidoPaterno == dto.ApellidoPaterno);
+            var existeUsuario = await context.Usuarios.AnyAsync(u => u.Correo == dto.Correo);
 
             if (existeUsuario)
             {

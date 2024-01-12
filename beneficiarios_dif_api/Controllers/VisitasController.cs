@@ -101,7 +101,7 @@ namespace beneficiarios_dif_api.Controllers
 
             var visita = mapper.Map<Visita>(dto);
             visita.FechaHoraVisita = DateTime.Now;
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
+            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
             visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
             if (dto.Candidato != null)
             {
@@ -140,7 +140,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, visita);
-            visita.Simpatizante = await context.Simpatizantess.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
+            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
             visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
             visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
 

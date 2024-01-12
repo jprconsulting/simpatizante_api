@@ -12,8 +12,7 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<UsuarioDTO, Usuario>();
 
             CreateMap<Usuario, UsuarioDTO>()
-                .ForMember(dest => dest.Rol, opt => opt.MapFrom(src => src.Rol))
-                .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombre} {src.ApellidoPaterno} {src.ApellidoMaterno}"));      
+                .ForMember(dest => dest.Rol, opt => opt.MapFrom(src => src.Rol));
 
             CreateMap<Rol, RolDTO>();
             CreateMap<RolDTO, Rol>();
@@ -22,7 +21,7 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<CargoDTO, Cargo>();
 
             CreateMap<Incidencia, IncidenciaDTO>()
-                .ForMember(dest => dest.Indicador, opt => opt.MapFrom(src => src.Indicador))
+                .ForMember(dest => dest.Indicador, opt => opt.MapFrom(src => src.TipoIncidencia))
                 .ForMember(dest => dest.Casilla, opt => opt.MapFrom(src => src.Casilla));
 
             CreateMap<IncidenciaDTO, Incidencia>();
@@ -51,8 +50,8 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Estado, EstadoDTO>();
             CreateMap<EstadoDTO, Estado>();
 
-            CreateMap<Indicador, IndicadorDTO>();
-            CreateMap<IndicadorDTO, Indicador>();
+            CreateMap<TipoIncidencia, IndicadorDTO>();
+            CreateMap<IndicadorDTO, TipoIncidencia>();
 
             CreateMap<Seccion, SeccionDTO>();
             CreateMap<SeccionDTO, Seccion>();
@@ -70,7 +69,7 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<VisitaDTO, Visita>();
             CreateMap<Visita, VisitaDTO>()
                   .ForMember(dest => dest.StrFechaHoraVisita, opt => opt.MapFrom(src => $"{src.FechaHoraVisita:dd/MM/yyyy H:mm}"))
-                  .ForMember(dest => dest.Votante, opt => opt.MapFrom(src => src.Votante));
+                  .ForMember(dest => dest.Simpatizante, opt => opt.MapFrom(src => src.Simpatizante));
 
             CreateMap<Rol, ClaimDTO>()
                 .ForMember(dest => dest.RolId, opt => opt.MapFrom(src => src.Id));

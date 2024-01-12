@@ -26,7 +26,7 @@ namespace beneficiarios_dif_api.Controllers
         {
             var incidencia = await context.Incidencias
 
-                .Include(i => i.Indicador)
+                .Include(i => i.TipoIncidencia)
                 .Include(c => c.Casilla)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
@@ -42,7 +42,7 @@ namespace beneficiarios_dif_api.Controllers
         public async Task<ActionResult<List<IncidenciaDTO>>> GetAll()
         {
             var incidencia = await context.Incidencias
-                .Include(i => i.Indicador)
+                .Include(i => i.TipoIncidencia)
                 .Include(c => c.Casilla)
                 .ToListAsync();
 
@@ -63,7 +63,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             var incidencia = mapper.Map<Incidencia>(dto);
-            incidencia.Indicador = await context.Indicadores.SingleOrDefaultAsync(i => i.Id == dto.Indicador.Id);
+            incidencia.TipoIncidencia = await context.Indicadores.SingleOrDefaultAsync(i => i.Id == dto.Indicador.Id);
             incidencia.Casilla = await context.Casillas.SingleOrDefaultAsync(c => c.Id == dto.Casilla.Id);
 
             context.Add(incidencia);
@@ -111,7 +111,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, incidencia);
-            incidencia.Indicador = await context.Indicadores.SingleOrDefaultAsync(i => i.Id == dto.Indicador.Id);
+            incidencia.TipoIncidencia = await context.Indicadores.SingleOrDefaultAsync(i => i.Id == dto.Indicador.Id);
             incidencia.Casilla = await context.Casillas.SingleOrDefaultAsync(c => c.Id == dto.Casilla.Id);
             context.Update(incidencia);
 
