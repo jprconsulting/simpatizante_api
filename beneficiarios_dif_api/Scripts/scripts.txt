@@ -1,9 +1,9 @@
-INSERT INTO simpatizantes.municipios (nombre, estadoId) VALUES 
+INSERT INTO simpatizantes.s (nombre, estadoId) VALUES 
 ('Amaxac de Guerrero', 29),
 ('Apetatitlán de Antonio Carvajal', 29),
 ('Atlangatepec', 29),
 ('Atltzayanca', 29),
-('Apizaco', 29),
+('Apizaco', 29),municipio
 ('Calpulalpan', 29),
 ('El Carmen Tequexquitla', 29),
 ('Cuapiaxtla', 29),
@@ -138,15 +138,20 @@ INSERT INTO simpatizantes.programassociales (nombre) VALUES
 ('Asistencia Psicológica Comunitaria'),
 ('Programa de Desarrollo Rural');
 
-INSERT INTO simpatizantes.casillas (nombre) VALUES 
-('Básicas 1'),
-('Básicas 2'),
-('Contiguas 1'),
-('Contiguas 2'),
-('Extraordinarias 1'),
-('Extraordinarias 2'),
-('Especiales 1'),
-('Especiales 2');
+insert into simpatizantes.casillas(nombre, clave) values('BÁSICA 01', 'B1'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 01', 'C1'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 02', 'C2'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 03', 'C3'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 04', 'C4'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 05', 'C5'); 
+insert into simpatizantes.casillas(nombre, clave) values('ESPECIAL 01', 'S1'); 
+insert into simpatizantes.casillas(nombre, clave) values('EXTRAORDINARIA 01', 'E1'); 
+insert into simpatizantes.casillas(nombre, clave) values('EXTRAORDINARIA 01', 'CONTIGUA 01 E1 C1'); 
+insert into simpatizantes.casillas(nombre, clave) values('EXTRAORDINARIA 01', 'CONTIGUA 02 E1 C2'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 06', 'C6'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 07', 'C7'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 08', 'C8'); 
+insert into simpatizantes.casillas(nombre, clave) values('CONTIGUA 09', 'C9'); 
 
 INSERT INTO simpatizantes.cargos (nombre)
 VALUES 

@@ -3,8 +3,8 @@
     public class Seccion
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }        
+        public string Clave { get; set; }        
         public Municipio Municipio { get; set; }
-        public List<Votante> Votantes { get; set; }
+        public List<Simpatizante> Simpatizantes { get; set; }
     }
 }

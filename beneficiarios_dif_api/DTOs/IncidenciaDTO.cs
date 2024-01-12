@@ -6,7 +6,7 @@ namespace beneficiarios_dif_api.DTOs
     {
         public int Id { get; set; }
         public string Retroalimentacion { get; set; }
-        public Indicador Indicador { get; set; }
+        public TipoIncidencia Indicador { get; set; }
         public Casilla Casilla { get; set; }
     }
 }
