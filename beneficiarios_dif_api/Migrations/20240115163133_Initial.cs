@@ -37,6 +37,8 @@ namespace beneficiariosdifapi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Clave = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -66,7 +68,7 @@ namespace beneficiariosdifapi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Descripcion = table.Column<string>(type: "longtext", nullable: true)
+                    Tipo = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Color = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -170,7 +172,15 @@ namespace beneficiariosdifapi.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Retroalimentacion = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IndicadorId = table.Column<int>(type: "int", nullable: true),
+                    Foto = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Direccion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Latitude = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Longitude = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TipoIncidenciaId = table.Column<int>(type: "int", nullable: true),
                     CasillaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -182,8 +192,8 @@ namespace beneficiariosdifapi.Migrations
                         principalTable: "Casillas",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Incidencias_Indicadores_IndicadorId",
-                        column: x => x.IndicadorId,
+                        name: "FK_Incidencias_Indicadores_TipoIncidenciaId",
+                        column: x => x.TipoIncidenciaId,
                         principalTable: "Indicadores",
                         principalColumn: "Id");
                 })
@@ -213,43 +223,12 @@ namespace beneficiariosdifapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Usuarios",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nombre = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ApellidoPaterno = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ApellidoMaterno = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Correo = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    RolId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuarios", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Usuarios_Rols_RolId",
-                        column: x => x.RolId,
-                        principalTable: "Rols",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Secciones",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nombre = table.Column<string>(type: "longtext", nullable: true)
+                    Clave = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MunicipioId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -270,7 +249,7 @@ namespace beneficiariosdifapi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nombre = table.Column<string>(type: "longtext", nullable: true)
+                    Nombres = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ApellidoPaterno = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -292,7 +271,7 @@ namespace beneficiariosdifapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Votantes",
+                name: "Simpatizantes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -321,27 +300,64 @@ namespace beneficiariosdifapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Votantes", x => x.Id);
+                    table.PrimaryKey("PK_Simpatizantes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Votantes_Estados_EstadoId",
+                        name: "FK_Simpatizantes_Estados_EstadoId",
                         column: x => x.EstadoId,
                         principalTable: "Estados",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Votantes_Municipios_MunicipioId",
+                        name: "FK_Simpatizantes_Municipios_MunicipioId",
                         column: x => x.MunicipioId,
                         principalTable: "Municipios",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Votantes_ProgramasSociales_ProgramaSocialId",
+                        name: "FK_Simpatizantes_ProgramasSociales_ProgramaSocialId",
                         column: x => x.ProgramaSocialId,
                         principalTable: "ProgramasSociales",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Votantes_Secciones_SeccionId",
+                        name: "FK_Simpatizantes_Secciones_SeccionId",
                         column: x => x.SeccionId,
                         principalTable: "Secciones",
                         principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Correo = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    RolId = table.Column<int>(type: "int", nullable: false),
+                    CandidatoId = table.Column<int>(type: "int", nullable: true),
+                    OperadorId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Usuarios_Candidatos_CandidatoId",
+                        column: x => x.CandidatoId,
+                        principalTable: "Candidatos",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Usuarios_Operadores_OperadorId",
+                        column: x => x.OperadorId,
+                        principalTable: "Operadores",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Usuarios_Rols_RolId",
+                        column: x => x.RolId,
+                        principalTable: "Rols",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -358,7 +374,7 @@ namespace beneficiariosdifapi.Migrations
                     Foto = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaHoraVisita = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    VotanteId = table.Column<int>(type: "int", nullable: true),
+                    SimpatizanteId = table.Column<int>(type: "int", nullable: true),
                     CandidatoId = table.Column<int>(type: "int", nullable: true),
                     OperadorId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -376,10 +392,33 @@ namespace beneficiariosdifapi.Migrations
                         principalTable: "Operadores",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Visitas_Votantes_VotanteId",
-                        column: x => x.VotanteId,
-                        principalTable: "Votantes",
+                        name: "FK_Visitas_Simpatizantes_SimpatizanteId",
+                        column: x => x.SimpatizanteId,
+                        principalTable: "Simpatizantes",
                         principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Voto",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Foto = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FechaHoraVot = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    SimpatizanteId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Voto", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Voto_Simpatizantes_SimpatizanteId",
+                        column: x => x.SimpatizanteId,
+                        principalTable: "Simpatizantes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -399,9 +438,9 @@ namespace beneficiariosdifapi.Migrations
                 column: "CasillaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Incidencias_IndicadorId",
+                name: "IX_Incidencias_TipoIncidenciaId",
                 table: "Incidencias",
-                column: "IndicadorId");
+                column: "TipoIncidenciaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Municipios_EstadoId",
@@ -419,9 +458,42 @@ namespace beneficiariosdifapi.Migrations
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Simpatizantes_EstadoId",
+                table: "Simpatizantes",
+                column: "EstadoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Simpatizantes_MunicipioId",
+                table: "Simpatizantes",
+                column: "MunicipioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Simpatizantes_ProgramaSocialId",
+                table: "Simpatizantes",
+                column: "ProgramaSocialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Simpatizantes_SeccionId",
+                table: "Simpatizantes",
+                column: "SeccionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_CandidatoId",
+                table: "Usuarios",
+                column: "CandidatoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_OperadorId",
+                table: "Usuarios",
+                column: "OperadorId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_RolId",
                 table: "Usuarios",
-                column: "RolId");
+                column: "RolId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Visitas_CandidatoId",
@@ -434,29 +506,15 @@ namespace beneficiariosdifapi.Migrations
                 column: "OperadorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visitas_VotanteId",
+                name: "IX_Visitas_SimpatizanteId",
                 table: "Visitas",
-                column: "VotanteId");
+                column: "SimpatizanteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Votantes_EstadoId",
-                table: "Votantes",
-                column: "EstadoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Votantes_MunicipioId",
-                table: "Votantes",
-                column: "MunicipioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Votantes_ProgramaSocialId",
-                table: "Votantes",
-                column: "ProgramaSocialId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Votantes_SeccionId",
-                table: "Votantes",
-                column: "SeccionId");
+                name: "IX_Voto_SimpatizanteId",
+                table: "Voto",
+                column: "SimpatizanteId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -475,6 +533,9 @@ namespace beneficiariosdifapi.Migrations
                 name: "Visitas");
 
             migrationBuilder.DropTable(
+                name: "Voto");
+
+            migrationBuilder.DropTable(
                 name: "Casillas");
 
             migrationBuilder.DropTable(
@@ -490,7 +551,7 @@ namespace beneficiariosdifapi.Migrations
                 name: "Operadores");
 
             migrationBuilder.DropTable(
-                name: "Votantes");
+                name: "Simpatizantes");
 
             migrationBuilder.DropTable(
                 name: "Cargos");

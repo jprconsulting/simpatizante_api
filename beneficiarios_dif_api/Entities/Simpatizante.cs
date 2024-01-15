@@ -18,7 +18,7 @@
         public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }
         public Estado Estado { get; set; }
-        public Voto Voto { get; set; }
+        public Voto? Voto { get; set; }
         public List<Visita> Visitas { get; set; }
 
     }

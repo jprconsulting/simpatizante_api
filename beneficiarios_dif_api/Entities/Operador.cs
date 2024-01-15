@@ -9,8 +9,7 @@
         public DateTime FechaNacimiento { get; set; }
         public bool Estatus { get; set; }
         public Seccion Seccion { get; set; }
-        public int? UsuarioId { get; set; }
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
         public List<Visita> Visitas { get; set; }
     }
 }
