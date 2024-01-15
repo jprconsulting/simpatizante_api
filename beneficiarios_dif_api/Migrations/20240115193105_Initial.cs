@@ -176,10 +176,8 @@ namespace beneficiariosdifapi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Direccion = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Latitude = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Longitude = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     TipoIncidenciaId = table.Column<int>(type: "int", nullable: true),
                     CasillaId = table.Column<int>(type: "int", nullable: true)
                 },

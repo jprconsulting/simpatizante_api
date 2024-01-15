@@ -107,13 +107,13 @@ VALUES
 ('Tolerante', '#FFC107'),
 ('Grave', '#00C853');
 
-INSERT INTO simpatizantes.secciones (Id, nombre, municipioId)
+INSERT INTO simpatizantes.secciones (Id, clave, municipioId)
 VALUES 
 (1, '0078', 2), (2, '0079', 2), (3, '0080', 2), (4, '0081', 2), (5, '0082', 2), (6, '0083', 2), (7, '0084', 2), (8, '0085', 2), (9, '0086', 2), (10, '0087', 2);
 
-INSERT INTO simpatizantes.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
+INSERT INTO simpatizantes.usuarios (Correo, Password, Estatus, RolId) 
 VALUES 
-('Administrador', 'Administrador' , 'Administrador', 'admin@gmail.com', '123',   true, 1);
+('admin@gmail.com', '123',   true, 1);
 
 INSERT INTO simpatizantes.programassociales (nombre) VALUES
 ('Programa de Asistencia Alimentaria'),

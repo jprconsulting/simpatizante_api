@@ -144,11 +144,11 @@ namespace beneficiariosdifapi.Migrations
                     b.Property<string>("Foto")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Latitude")
-                        .HasColumnType("longtext");
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(65,30)");
 
-                    b.Property<string>("Longitude")
-                        .HasColumnType("longtext");
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("Retroalimentacion")
                         .HasColumnType("longtext");

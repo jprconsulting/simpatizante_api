@@ -11,7 +11,7 @@ using beneficiarios_dif_api;
 namespace beneficiariosdifapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240115163133_Initial")]
+    [Migration("20240115193105_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -147,11 +147,11 @@ namespace beneficiariosdifapi.Migrations
                     b.Property<string>("Foto")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Latitude")
-                        .HasColumnType("longtext");
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(65,30)");
 
-                    b.Property<string>("Longitude")
-                        .HasColumnType("longtext");
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("Retroalimentacion")
                         .HasColumnType("longtext");

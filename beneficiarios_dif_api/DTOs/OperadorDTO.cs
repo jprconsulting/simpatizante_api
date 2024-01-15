@@ -11,5 +11,7 @@ namespace beneficiarios_dif_api.DTOs
         public DateTime FechaNacimiento { get; set; }
         public bool Estatus { get; set; }
         public SeccionDTO Seccion { get; set; }
+        public string NombreCompleto { get; set; }
+
     }
 }
