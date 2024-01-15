@@ -7,15 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace beneficiarios_dif_api.Controllers
 {
-    [Route("api/visitas")]
+    [Route("api/voto")]
     [ApiController]
-    public class VisitasController : ControllerBase
+    public class VotoController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        public VisitasController(ApplicationDbContext context, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public VotoController(ApplicationDbContext context, IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             this.context = context;
             this.mapper = mapper;
@@ -23,20 +23,18 @@ namespace beneficiarios_dif_api.Controllers
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
-        public async Task<ActionResult<VisitaDTO>> GetById(int id)
+        public async Task<ActionResult<VotoDTO>> GetById(int id)
         {
-            var visita = await context.Visitas
-                .Include(b => b.Simpatizante)
-                .Include(o => o.Operador)
-                .Include(c => c.Candidato)
+            var voto = await context.Votos
+                .Include(b => b.Simpatizante)                
                 .FirstOrDefaultAsync(v => v.Id == id);
 
-            if (visita == null)
+            if (voto == null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<VisitaDTO>(visita));
+            return Ok(mapper.Map<VotoDTO>(voto));
         }
 
         private string GetBase64Image(string fileName)
@@ -58,26 +56,24 @@ namespace beneficiarios_dif_api.Controllers
         {
             try
             {
-                var visitas = await context.Visitas
+                var votos = await context.Votos
                 .Include(v => v.Simpatizante)
-                .ThenInclude(b => b.Municipio)
-                .Include(o => o.Operador)
-                .Include(c => c.Candidato)
+                .ThenInclude(b => b.Municipio)                
                 .ToListAsync();
 
-                if (!visitas.Any())
+                if (!votos.Any())
                 {
                     return NotFound();
                 }
 
-                var visitasDTO = mapper.Map<List<VisitaDTO>>(visitas);
+                var votoDTO = mapper.Map<List<VotoDTO>>(votos);
 
-                foreach (var visita in visitasDTO)
+                foreach (var voto in votoDTO)
                 {
-                    visita.ImagenBase64 = GetBase64Image(visita.Foto); // Asigna el base64 de la imagen
+                    voto.ImagenBase64 = GetBase64Image(voto.Foto); // Asigna el base64 de la imagen
                 }
 
-                return Ok(visitasDTO);
+                return Ok(votoDTO);
             }
             catch (Exception ex)
             {
@@ -88,7 +84,7 @@ namespace beneficiarios_dif_api.Controllers
 
 
         [HttpPost("crear")]
-        public async Task<ActionResult> Post(VisitaDTO dto)
+        public async Task<ActionResult> Post(VotoDTO dto)
         {
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
@@ -99,33 +95,26 @@ namespace beneficiarios_dif_api.Controllers
                 dto.Foto = fileName;
             }
 
-            var visita = mapper.Map<Visita>(dto);
-            visita.FechaHoraVisita = DateTime.Now;
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
-            visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
-            if (dto.Candidato != null)
-            {
-                visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
-            }
-           
+            var voto = mapper.Map<Voto>(dto);
+            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
 
-            context.Visitas.Add(visita);
+            context.Votos.Add(voto);
             await context.SaveChangesAsync();
 
             return Ok();
         }
 
         [HttpPut("actualizar/{id:int}")]
-        public async Task<ActionResult> Put(int id, VisitaDTO dto)
+        public async Task<ActionResult> Put(int id, VotoDTO dto)
         {
             if (id != dto.Id)
             {
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var visita = await context.Visitas.FindAsync(id);
+            var voto = await context.Votos.FindAsync(id);
 
-            if (visita == null)
+            if (voto == null)
             {
                 return NotFound();
             }
@@ -139,12 +128,10 @@ namespace beneficiarios_dif_api.Controllers
                 dto.Foto = fileName;
             }
 
-            mapper.Map(dto, visita);
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
-            visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
-            visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
+            mapper.Map(dto, voto);
+            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
 
-            context.Update(visita);
+            context.Update(voto);
 
             try
             {
@@ -152,7 +139,7 @@ namespace beneficiarios_dif_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!context.Visitas.Any(e => e.Id == id))
+                if (!context.Votos.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }
@@ -168,14 +155,14 @@ namespace beneficiarios_dif_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var visita = await context.Visitas.FindAsync(id);
+            var voto = await context.Votos.FindAsync(id);
 
-            if (visita == null)
+            if (voto == null)
             {
                 return NotFound();
             }
 
-            context.Visitas.Remove(visita);
+            context.Votos.Remove(voto);
             await context.SaveChangesAsync();
             return NoContent();
         }

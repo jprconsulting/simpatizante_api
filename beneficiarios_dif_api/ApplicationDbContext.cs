@@ -25,6 +25,7 @@ namespace beneficiarios_dif_api
         public DbSet<Visita> Visitas { get; set; }
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Cargo> Cargos { get; set; }
+        public DbSet<Voto> Votos { get; set; }
 
     }
 }

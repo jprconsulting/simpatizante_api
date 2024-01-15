@@ -58,6 +58,10 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Seccion, SeccionDTO>();
             CreateMap<SeccionDTO, Seccion>();
 
+            CreateMap<VotoDTO, Voto>();
+            CreateMap<Voto, VotoDTO>()
+            .ForMember(dest => dest.Simpatizante, opt => opt.MapFrom(src => src.Simpatizante));
+
             CreateMap<VotanteDTO, Simpatizante>();
             CreateMap<Simpatizante, VotanteDTO>()
             .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
