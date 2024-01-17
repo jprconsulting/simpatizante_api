@@ -112,7 +112,24 @@ namespace beneficiarios_dif_api.Controllers
             {
                 return NotFound();
             }
-
+            //---------------------------------
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
+            {
+                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
+                string fileName = Guid.NewGuid().ToString() + ".jpg";
+                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
+                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
+                dto.Foto = fileName;
+            }
+            if (!string.IsNullOrEmpty(dto.EmblemaBase64))
+            {
+                byte[] bytes = Convert.FromBase64String(dto.EmblemaBase64);
+                string fileName = Guid.NewGuid().ToString() + ".jpg";
+                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
+                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
+                dto.Emblema = fileName;
+            }
+            //--------------------------------------
             mapper.Map(dto, Candidatos);
             Candidatos.Cargo = await context.Cargos.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
             context.Update(Candidatos);
