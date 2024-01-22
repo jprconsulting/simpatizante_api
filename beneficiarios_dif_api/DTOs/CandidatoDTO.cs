@@ -8,7 +8,7 @@ namespace beneficiarios_dif_api.DTOs
         public string Nombres { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
-        public string StrFechaNacimiento { get; set; }
+        public DateTime FechaNacimiento { get; set; }
         public int Sexo { get; set; }
         public string Sobrenombre { get; set; }
         public string Foto { get; set; }
