@@ -38,20 +38,51 @@ namespace beneficiarios_dif_api.Controllers
 
             return Ok(mapper.Map<CandidatoDTO>(votante));
         }
-
-        [HttpGet("obtener-todos")]
-        public async Task<ActionResult<List<CandidatoDTO>>> GetAll()
+        private string GetBase64Image(string fileName)
         {
-            var votante = await context.Candidatos
-                .Include(c => c.Cargo)
-                .ToListAsync();
+            string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
 
-            if (!votante.Any())
+            if (System.IO.File.Exists(filePath))
             {
-                return NotFound();
+                byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                string base64String = Convert.ToBase64String(imageBytes);
+                return base64String;
             }
 
-            return Ok(mapper.Map<List<CandidatoDTO>>(votante));
+            return null;
+        }
+
+        [HttpGet("obtener-todos")]
+        public async Task<ActionResult> GetAll()
+        {
+            try
+            {
+                var incidencias = await context.Candidatos
+                    .Include(t => t.Cargo)
+                    .ToListAsync();
+
+                if (!incidencias.Any())
+                {
+                    return NotFound();
+                }
+
+                var incidenciasDTO = mapper.Map<List<CandidatoDTO>>(incidencias);
+
+                foreach (var incidencia in incidenciasDTO)
+                {
+                    incidencia.ImagenBase64 = GetBase64Image(incidencia.Foto); // Asigna el base64 de la imagen
+                }
+
+                foreach (var incidencia in incidenciasDTO)
+                {
+                    incidencia.EmblemaBase64 = GetBase64Image(incidencia.Emblema); // Asigna el base64 de la imagen
+                }
+                return Ok(incidenciasDTO);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost("crear")]

@@ -6,6 +6,6 @@
         public string Foto { get; set; }
         public DateTime FechaHoraVot { get; set; }
         public int SimpatizanteId { get; set; }
-        public Simpatizante Simpatizante { get; set; } = null!;
+        public Votante Votante { get; set; } = null!;
     }
 }

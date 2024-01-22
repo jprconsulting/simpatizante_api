@@ -24,7 +24,7 @@ namespace beneficiarios_dif_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<VotanteDTO>> GetById(int id)
         {
-            var votante = await context.Simpatizantes
+            var votante = await context.Votantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -36,13 +36,13 @@ namespace beneficiarios_dif_api.Controllers
                 return NotFound();
             }
 
-            return Ok(mapper.Map<IncidenciaDTO>(votante));
+            return Ok(mapper.Map<VotanteDTO>(votante));
         }
 
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<VotanteDTO>>> GetAll()
         {
-            var votante = await context.Simpatizantes
+            var votante = await context.Votantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -100,14 +100,14 @@ namespace beneficiarios_dif_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var votante = await context.Simpatizantes.FindAsync(id);
+            var votante = await context.Votantes.FindAsync(id);
 
             if (votante == null)
             {
                 return NotFound();
             }
 
-            context.Simpatizantes.Remove(votante);
+            context.Votantes.Remove(votante);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -121,7 +121,7 @@ namespace beneficiarios_dif_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var Votantes = await context.Simpatizantes.FindAsync(id);
+            var Votantes = await context.Votantes.FindAsync(id);
 
             if (Votantes == null)
             {

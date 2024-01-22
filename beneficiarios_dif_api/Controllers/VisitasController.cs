@@ -26,7 +26,7 @@ namespace beneficiarios_dif_api.Controllers
         public async Task<ActionResult<VisitaDTO>> GetById(int id)
         {
             var visita = await context.Visitas
-                .Include(b => b.Simpatizante)
+                .Include(b => b.Votante)
                 .Include(o => o.Operador)
                 .Include(c => c.Candidato)
                 .FirstOrDefaultAsync(v => v.Id == id);
@@ -59,7 +59,7 @@ namespace beneficiarios_dif_api.Controllers
             try
             {
                 var visitas = await context.Visitas
-                .Include(v => v.Simpatizante)
+                .Include(v => v.Votante)
                 .ThenInclude(b => b.Municipio)
                 .Include(o => o.Operador)
                 .Include(c => c.Candidato)
@@ -101,8 +101,14 @@ namespace beneficiarios_dif_api.Controllers
 
             var visita = mapper.Map<Visita>(dto);
             visita.FechaHoraVisita = DateTime.Now;
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
-            visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
+            if (dto.Votante != null)
+            {
+                visita.Votante = await context.Votantes.SingleOrDefaultAsync(c => c.Id == dto.Votante.Id);
+            }
+            if (dto.Operador != null)
+            {
+                visita.Operador = await context.Operadores.SingleOrDefaultAsync(c => c.Id == dto.Operador.Id);
+            }
             if (dto.Candidato != null)
             {
                 visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
@@ -140,7 +146,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, visita);
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
+            visita.Votante   = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
             visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
             visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
 

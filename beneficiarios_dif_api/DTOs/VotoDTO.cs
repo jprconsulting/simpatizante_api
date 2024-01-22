@@ -8,6 +8,6 @@ namespace beneficiarios_dif_api.DTOs
         public string Foto { get; set; }
         public string ImagenBase64 { get; set; }
         public DateTime FechaHoraVot { get; set; }
-        public SimpatizanteDTO Simpatizante { get; set; }
+        public VotanteDTO Votante { get; set; }
     }
 }

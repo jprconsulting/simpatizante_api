@@ -6,7 +6,7 @@
         public string Nombre { get; set; }
         public Estado Estado { get; set; }
         public List<Seccion> Secciones { get; set; }
-        public List<Simpatizante> Simpatizantes { get; set; }
+        public List<Votante> Votantes { get; set; }
 
     }
 }

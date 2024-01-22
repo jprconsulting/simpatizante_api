@@ -29,14 +29,14 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Candidato, CandidatoDTO>()
                 .ForMember(dest => dest.Cargo, opt => opt.MapFrom(src => src.Cargo))
                 .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
-                .ForMember(dest => dest.StrFechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy H:mm}"));
+                .ForMember(dest => dest.StrFechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
 
             CreateMap<CandidatoDTO, Candidato>();
 
             CreateMap<Operador, OperadorDTO>()
                 .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
                 .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
-                .ForMember(dest => dest.StrFechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy H:mm}"));
+                .ForMember(dest => dest.StrFechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
 
             CreateMap<OperadorDTO, Operador>();
 
@@ -60,10 +60,10 @@ namespace beneficiarios_dif_api.Utilities
 
             CreateMap<VotoDTO, Voto>();
             CreateMap<Voto, VotoDTO>()
-            .ForMember(dest => dest.Simpatizante, opt => opt.MapFrom(src => src.Simpatizante));
+            .ForMember(dest => dest.Votante, opt => opt.MapFrom(src => src.Votante));
 
-            CreateMap<VotanteDTO, Simpatizante>();
-            CreateMap<Simpatizante, VotanteDTO>()
+            CreateMap<VotanteDTO, Votante>();
+            CreateMap<Votante, VotanteDTO>()
             .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
             .ForMember(dest => dest.ProgramaSocial, opt => opt.MapFrom(src => src.ProgramaSocial))
             .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
@@ -74,8 +74,8 @@ namespace beneficiarios_dif_api.Utilities
 
             CreateMap<VisitaDTO, Visita>();
             CreateMap<Visita, VisitaDTO>()
-                  .ForMember(dest => dest.StrFechaHoraVisita, opt => opt.MapFrom(src => $"{src.FechaHoraVisita:dd/MM/yyyy H:mm}"))
-                  .ForMember(dest => dest.Simpatizante, opt => opt.MapFrom(src => src.Simpatizante));
+                  .ForMember(dest => dest.StrFechaHoraVisita, opt => opt.MapFrom(src => $"{src.FechaHoraVisita:dd/MM/yyyy}"))
+                  .ForMember(dest => dest.Votante, opt => opt.MapFrom(src => src.Votante));
 
             CreateMap<Rol, ClaimDTO>()
                 .ForMember(dest => dest.RolId, opt => opt.MapFrom(src => src.Id));

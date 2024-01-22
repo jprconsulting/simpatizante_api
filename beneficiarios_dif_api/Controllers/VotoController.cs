@@ -26,7 +26,7 @@ namespace beneficiarios_dif_api.Controllers
         public async Task<ActionResult<VotoDTO>> GetById(int id)
         {
             var voto = await context.Votos
-                .Include(b => b.Simpatizante)                
+                .Include(b => b.Votante)                
                 .FirstOrDefaultAsync(v => v.Id == id);
 
             if (voto == null)
@@ -57,7 +57,7 @@ namespace beneficiarios_dif_api.Controllers
             try
             {
                 var votos = await context.Votos
-                .Include(v => v.Simpatizante)
+                .Include(v => v.Votante)
                 .ThenInclude(b => b.Municipio)                
                 .ToListAsync();
 
@@ -96,7 +96,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             var voto = mapper.Map<Voto>(dto);
-            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
+            voto.Votante = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
 
             context.Votos.Add(voto);
             await context.SaveChangesAsync();
@@ -129,7 +129,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, voto);
-            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
+            voto.Votante = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
 
             context.Update(voto);
 
