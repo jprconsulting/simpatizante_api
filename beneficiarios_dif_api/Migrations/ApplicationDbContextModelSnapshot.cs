@@ -285,6 +285,12 @@ namespace beneficiariosdifapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("ApellidoMaterno")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ApellidoPaterno")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("CandidatoId")
                         .HasColumnType("int");
 
@@ -293,6 +299,9 @@ namespace beneficiariosdifapi.Migrations
 
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("OperadorId")
                         .HasColumnType("int");
