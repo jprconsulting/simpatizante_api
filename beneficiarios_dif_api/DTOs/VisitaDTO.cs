@@ -9,7 +9,7 @@
         public string StrFechaHoraVisita { get; set; }
         public string ImagenBase64 { get; set; }
         public VotanteDTO Votante { get; set; }
-        public CandidatoDTO Candidato { get; set; }
-        public OperadorDTO Operador { get; set; }
+        public CandidatoDTO? Candidato { get; set; }
+        public OperadorDTO? Operador { get; set; }
     }
 }

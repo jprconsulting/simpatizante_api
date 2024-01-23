@@ -130,6 +130,18 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             var visita = await context.Visitas.FindAsync(id);
+            if (dto.Votante != null)
+            {
+                visita.Votante = await context.Votantes.SingleOrDefaultAsync(c => c.Id == dto.Votante.Id);
+            }
+            if (dto.Operador != null)
+            {
+                visita.Operador = await context.Operadores.SingleOrDefaultAsync(c => c.Id == dto.Operador.Id);
+            }
+            if (dto.Candidato != null)
+            {
+                visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
+            }
 
             if (visita == null)
             {
@@ -147,8 +159,6 @@ namespace beneficiarios_dif_api.Controllers
 
             mapper.Map(dto, visita);
             visita.Votante   = await context.Votantes.SingleOrDefaultAsync(b => b.Id == dto.Votante.Id);
-            visita.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
-            visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
 
             context.Update(visita);
 
