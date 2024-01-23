@@ -478,8 +478,7 @@ namespace beneficiariosdifapi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_RolId",
                 table: "Usuarios",
-                column: "RolId",
-                unique: true);
+                column: "RolId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Visitas_CandidatoId",

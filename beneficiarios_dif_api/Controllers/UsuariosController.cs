@@ -4,6 +4,7 @@ using beneficiarios_dif_api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace beneficiarios_dif_api.Controllers
 {
@@ -55,42 +56,32 @@ namespace beneficiarios_dif_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(UsuarioDTO dto)
         {
-            // Validación del modelo
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Verificación de la existencia del usuario
-            var existeUsuario = await context.Usuarios.AnyAsync(u => u.Correo == dto.Correo);
-
-            if (existeUsuario)
-            {
-                // return Conflict(new { error = "El usuario ya existe." });
-                return Conflict();
-            }
-
-            // Mapeo del DTO a la entidad
             var usuario = mapper.Map<Usuario>(dto);
-
-            // Asociar el rol
-            usuario.Rol = await context.Rols.SingleOrDefaultAsync(r => r.Id == dto.Rol.Id);
-
-            // Incluir la entidad en el contexto
+            usuario.Rol = await context.Rols.SingleOrDefaultAsync(b => b.Id == dto.Rol.Id);
             context.Add(usuario);
 
             try
             {
-                // Guardar cambios en la base de datos dentro de una transacción
                 await context.SaveChangesAsync();
                 return Ok();
-                // return Ok(new { success = true });
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerException = ex.InnerException;
+                return StatusCode(500, new { error = "Error al guardar el usuario.", details = innerException?.Message });
+            }
+            catch (MySqlException ex)
+            {
+                return StatusCode(500, new { error = "Error al guardar el usuario.", details = ex.Message });
             }
             catch (Exception ex)
             {
-                // Manejar errores de base de datos
-                // return StatusCode(500, new { error = "Error interno del servidor.", details = ex.Message });
-                return StatusCode(500);
+                return StatusCode(500, new { error = "Error interno del servidor al guardar al usuario.", details = ex.Message });
             }
         }
 

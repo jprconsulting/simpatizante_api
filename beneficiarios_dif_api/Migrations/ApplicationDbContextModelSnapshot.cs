@@ -320,8 +320,7 @@ namespace beneficiariosdifapi.Migrations
                     b.HasIndex("OperadorId")
                         .IsUnique();
 
-                    b.HasIndex("RolId")
-                        .IsUnique();
+                    b.HasIndex("RolId");
 
                     b.ToTable("Usuarios");
                 });
@@ -529,8 +528,8 @@ namespace beneficiariosdifapi.Migrations
                         .HasForeignKey("beneficiarios_dif_api.Entities.Usuario", "OperadorId");
 
                     b.HasOne("beneficiarios_dif_api.Entities.Rol", "Rol")
-                        .WithOne("Usuario")
-                        .HasForeignKey("beneficiarios_dif_api.Entities.Usuario", "RolId")
+                        .WithMany("Usuarios")
+                        .HasForeignKey("RolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -645,7 +644,7 @@ namespace beneficiariosdifapi.Migrations
                 {
                     b.Navigation("Claims");
 
-                    b.Navigation("Usuario");
+                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Seccion", b =>
