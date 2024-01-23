@@ -103,9 +103,9 @@ VALUES
 
 INSERT INTO simpatizantes.indicadores (Tipo, Color) 
 VALUES 
-('Nada grave', '#D84315'),
+('Nada grave', '#00C853'),
 ('Tolerante', '#FFC107'),
-('Grave', '#00C853');
+('Grave', '#D84315');
 
 INSERT INTO simpatizantes.secciones (Id, clave, municipioId)
 VALUES 
