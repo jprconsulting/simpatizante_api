@@ -13,7 +13,6 @@ namespace beneficiarios_dif_api.DTOs
         public DateTime FechaNacimiento { get; set; }
         public bool Estatus { get; set; }
         public List<int> SeccionesIds { get; set; }
-        public List<OperadorSeccionDTO> OperadorSecciones { get; set; }
-
+        public List<SeccionDTO> Secciones { get; set; }
     }
 }

@@ -33,12 +33,14 @@ namespace beneficiarios_dif_api.Utilities
 
             CreateMap<CandidatoDTO, Candidato>();
 
-            CreateMap<Operador, OperadorDTO>()
-                .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
+            CreateMap<Operador, OperadorDTO>()               
                 .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
                 .ForMember(dest => dest.StrFechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
-
             CreateMap<OperadorDTO, Operador>();
+
+            CreateMap<OperadorSeccion, OperadorSeccionDTO>()
+                 .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion));
+            CreateMap<OperadorSeccionDTO, OperadorSeccion>();
 
             CreateMap<Casilla, CasillaDTO>();
             CreateMap<CasillaDTO, Casilla>();

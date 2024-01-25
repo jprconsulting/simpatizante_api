@@ -205,14 +205,30 @@ namespace beneficiariosdifapi.Migrations
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
 
+                    b.HasKey("Id");
+
+                    b.ToTable("Operadores");
+                });
+
+            modelBuilder.Entity("beneficiarios_dif_api.Entities.OperadorSeccion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OperadorId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SeccionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OperadorId");
+
                     b.HasIndex("SeccionId");
 
-                    b.ToTable("Operadores");
+                    b.ToTable("OperadoresSecciones");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.ProgramaSocial", b =>
@@ -499,11 +515,17 @@ namespace beneficiariosdifapi.Migrations
                     b.Navigation("Estado");
                 });
 
-            modelBuilder.Entity("beneficiarios_dif_api.Entities.Operador", b =>
+            modelBuilder.Entity("beneficiarios_dif_api.Entities.OperadorSeccion", b =>
                 {
+                    b.HasOne("beneficiarios_dif_api.Entities.Operador", "Operador")
+                        .WithMany("OperadorSecciones")
+                        .HasForeignKey("OperadorId");
+
                     b.HasOne("beneficiarios_dif_api.Entities.Seccion", "Seccion")
-                        .WithMany()
+                        .WithMany("OperadorSecciones")
                         .HasForeignKey("SeccionId");
+
+                    b.Navigation("Operador");
 
                     b.Navigation("Seccion");
                 });
@@ -630,6 +652,8 @@ namespace beneficiariosdifapi.Migrations
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Operador", b =>
                 {
+                    b.Navigation("OperadorSecciones");
+
                     b.Navigation("Usuario");
 
                     b.Navigation("Visitas");
@@ -649,6 +673,8 @@ namespace beneficiariosdifapi.Migrations
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Seccion", b =>
                 {
+                    b.Navigation("OperadorSecciones");
+
                     b.Navigation("Votantes");
                 });
 

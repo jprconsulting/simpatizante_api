@@ -31,18 +31,34 @@ namespace beneficiarios_dif_api.Controllers
 
             return Ok(mapper.Map<OperadorDTO>(operador));
         }
+
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<OperadorDTO>>> GetAll()
         {
-            var operador = await context.Operadores.ToListAsync();
+            var operadores = await context.Operadores.ToListAsync();
 
-            if (!operador.Any())
+            if (!operadores.Any())
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<OperadorDTO>>(operador));
+            var operadoresDTO = mapper.Map<List<OperadorDTO>>(operadores);
+
+            foreach (var operador in operadoresDTO)
+            {
+                var secciones = await context.OperadoresSecciones
+                    .Include(s => s.Seccion)
+                        .ThenInclude(s => s.Municipio)
+                    .Where(os => os.Operador.Id == operador.Id)
+                    .Select(i => i.Seccion)
+                    .ToListAsync();
+
+                operador.Secciones = mapper.Map<List<SeccionDTO>>(secciones);
+            }
+
+            return Ok(operadoresDTO);
         }
+
 
         [HttpPost("crear")]
         public async Task<ActionResult> Post(OperadorDTO dto)
@@ -52,44 +68,50 @@ namespace beneficiarios_dif_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var operador = mapper.Map<Operador>(dto);
-            context.Add(operador);
-
-            try
+            using (var transaction = await context.Database.BeginTransactionAsync())
             {
-                if (await context.SaveChangesAsync() > 0)
+                try
                 {
-                    foreach (var seccionId in dto.SeccionesIds)
+                    var operador = mapper.Map<Operador>(dto);
+                    context.Add(operador);
+
+                    if (await context.SaveChangesAsync() > 0)
                     {
-                        var existsSeccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == seccionId);
-                        var existsOperadorSeccion = await context.OperadoresSecciones.AnyAsync(os => os.Operador.Id == dto.Id && os.Seccion.Id == seccionId);
-
-                        if (existsSeccion != null && !existsOperadorSeccion)
+                        foreach (var seccionId in dto.SeccionesIds)
                         {
-                            var operadorSeccionDTO = new OperadorSeccionDTO() 
-                            { 
-                                Operador = new OperadorDTO() { Id = operador.Id }, 
-                                Seccion = new SeccionDTO() { Id = existsSeccion.Id } 
-                            };
-                            var operadorSeccion = mapper.Map<OperadorSeccion>(operadorSeccionDTO);
-                            context.Add(operadorSeccion);
+                            var existsSeccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == seccionId);
+                            var existsOperadorSeccion = await context.OperadoresSecciones.AnyAsync(os => os.Operador.Id == dto.Id && os.Seccion.Id == seccionId);
+
+                            if (existsSeccion != null && !existsOperadorSeccion)
+                            {
+                                var operadorSeccion = new OperadorSeccion
+                                {
+                                    Operador = operador,
+                                    Seccion = existsSeccion
+                                };
+                                context.Add(operadorSeccion);
+                            }
                         }
+
+                        await context.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                        return Ok();
                     }
-
-                    await context.SaveChangesAsync();
-                    return Ok();
+                    else
+                    {
+                        await transaction.RollbackAsync();
+                        return BadRequest();
+                    }
                 }
-                else 
-                { 
-                    return BadRequest(); 
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return StatusCode(500, new { error = "Error interno del servidor al guardar el operador.", details = ex.Message });
                 }
-
-            }           
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { error = "Error interno del servidor al guardar el operador.", details = ex.Message });
             }
         }
+
+
 
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
