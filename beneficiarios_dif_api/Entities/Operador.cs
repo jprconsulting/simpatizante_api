@@ -8,8 +8,8 @@
         public string ApellidoMaterno { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public bool Estatus { get; set; }
-        public Seccion Seccion { get; set; }
         public Usuario? Usuario { get; set; }
         public List<Visita> Visitas { get; set; }
+        public List<OperadorSeccion> OperadorSecciones { get; set; }
     }
 }

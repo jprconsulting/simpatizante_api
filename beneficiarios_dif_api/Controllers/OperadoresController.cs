@@ -22,9 +22,7 @@ namespace beneficiarios_dif_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<OperadorDTO>> GetById(int id)
         {
-            var operador = await context.Operadores
-                .Include(s => s.Seccion)
-                .FirstOrDefaultAsync(b => b.Id == id);
+            var operador = await context.Operadores.FirstOrDefaultAsync(b => b.Id == id);
 
             if (operador == null)
             {
@@ -36,9 +34,7 @@ namespace beneficiarios_dif_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<OperadorDTO>>> GetAll()
         {
-            var operador = await context.Operadores
-                .Include(s => s.Seccion)
-                .ToListAsync();
+            var operador = await context.Operadores.ToListAsync();
 
             if (!operador.Any())
             {
@@ -57,29 +53,44 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             var operador = mapper.Map<Operador>(dto);
-            operador.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
-
             context.Add(operador);
 
             try
             {
-                await context.SaveChangesAsync();
-                return Ok();
-            }
-            catch (DbUpdateException ex)
-            {
-                var innerException = ex.InnerException;
-                return StatusCode(500, new { error = "Error al guardar el operador.", details = innerException?.Message });
-            }
-            catch (MySqlException ex)
-            {
-                return StatusCode(500, new { error = "Error al guardar el operador.", details = ex.Message });
-            }
+                if (await context.SaveChangesAsync() > 0)
+                {
+                    foreach (var seccionId in dto.SeccionesIds)
+                    {
+                        var existsSeccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == seccionId);
+                        var existsOperadorSeccion = await context.OperadoresSecciones.AnyAsync(os => os.Operador.Id == dto.Id && os.Seccion.Id == seccionId);
+
+                        if (existsSeccion != null && !existsOperadorSeccion)
+                        {
+                            var operadorSeccionDTO = new OperadorSeccionDTO() 
+                            { 
+                                Operador = new OperadorDTO() { Id = operador.Id }, 
+                                Seccion = new SeccionDTO() { Id = existsSeccion.Id } 
+                            };
+                            var operadorSeccion = mapper.Map<OperadorSeccion>(operadorSeccionDTO);
+                            context.Add(operadorSeccion);
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+                    return Ok();
+                }
+                else 
+                { 
+                    return BadRequest(); 
+                }
+
+            }           
             catch (Exception ex)
             {
                 return StatusCode(500, new { error = "Error interno del servidor al guardar el operador.", details = ex.Message });
             }
         }
+
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -111,7 +122,7 @@ namespace beneficiarios_dif_api.Controllers
             }
 
             mapper.Map(dto, Operadores);
-            Operadores.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
+            //Operadores.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
             context.Update(Operadores);
 
             try
