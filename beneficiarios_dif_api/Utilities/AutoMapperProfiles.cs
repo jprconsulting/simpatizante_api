@@ -54,8 +54,8 @@ namespace beneficiarios_dif_api.Utilities
             CreateMap<Estado, EstadoDTO>();
             CreateMap<EstadoDTO, Estado>();
 
-            CreateMap<TipoIncidencia, IndicadorDTO>();
-            CreateMap<IndicadorDTO, TipoIncidencia>();
+            CreateMap<TipoIncidencia, TipoIncidenciaDTO>();
+            CreateMap<TipoIncidenciaDTO, TipoIncidencia>();
 
             CreateMap<Seccion, SeccionDTO>();
             CreateMap<SeccionDTO, Seccion>();
