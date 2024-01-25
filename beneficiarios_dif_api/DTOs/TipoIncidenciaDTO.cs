@@ -1,6 +1,6 @@
 ﻿namespace beneficiarios_dif_api.DTOs
 {
-    public class IndicadorDTO
+    public class TipoIncidenciaDTO
     {
         public int Id { get; set; }       
         public string Tipo { get; set; }

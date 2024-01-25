@@ -11,7 +11,7 @@ namespace beneficiarios_dif_api.DTOs
         public string Direccion { get; set; }
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
-        public IndicadorDTO TipoIncidencia { get; set; }
+        public TipoIncidenciaDTO TipoIncidencia { get; set; }
         public CasillaDTO Casilla { get; set; }
     }
 }

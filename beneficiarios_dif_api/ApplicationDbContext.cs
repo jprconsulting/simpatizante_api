@@ -18,6 +18,7 @@ namespace beneficiarios_dif_api
         public DbSet<ProgramaSocial> ProgramasSociales { get; set; }
         public DbSet<Seccion> Secciones { get; set; }
         public DbSet<Incidencia> Incidencias { get; set; }
+        public DbSet<TipoIncidencia> TiposIncidencias { get; set; }
         public DbSet<Rol> Rols { get; set; }
         public DbSet<Casilla> Casillas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
