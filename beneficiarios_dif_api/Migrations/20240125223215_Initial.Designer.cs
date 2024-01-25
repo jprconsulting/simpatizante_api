@@ -11,7 +11,7 @@ using beneficiarios_dif_api;
 namespace beneficiariosdifapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240125042632_Initial")]
+    [Migration("20240125223215_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -295,7 +295,7 @@ namespace beneficiariosdifapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Indicadores");
+                    b.ToTable("TipoIncidencia");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Usuario", b =>

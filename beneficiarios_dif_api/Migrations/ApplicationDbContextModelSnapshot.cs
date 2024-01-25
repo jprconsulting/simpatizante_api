@@ -292,7 +292,7 @@ namespace beneficiariosdifapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Indicadores");
+                    b.ToTable("TipoIncidencia");
                 });
 
             modelBuilder.Entity("beneficiarios_dif_api.Entities.Usuario", b =>
