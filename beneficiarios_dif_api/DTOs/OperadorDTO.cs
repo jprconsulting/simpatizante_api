@@ -4,7 +4,7 @@ namespace beneficiarios_dif_api.DTOs
 {
     public class OperadorDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Nombres { get; set; }
         public string NombreCompleto { get; set; }
         public string ApellidoPaterno { get; set; }
