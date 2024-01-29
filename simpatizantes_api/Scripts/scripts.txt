@@ -1,0 +1,148 @@
+INSERT INTO simpatizantes.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
+VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
+
+INSERT INTO simpatizantes.estados(nombre) VALUES 
+('Aguascalientes'),
+('Baja California'),
+('Baja California Sur'),
+('Campeche'),
+('Chiapas'),
+('Chihuahua'),
+('Ciudad de México'),
+('Coahuila'),
+('Colima'),
+('Durango'),
+('Estado de México'),
+('Guanajuato'),
+('Guerrero'),
+('Hidalgo'),
+('Jalisco'),
+('Michoacán'),
+('Morelos'),
+('Nayarit'),
+('Nuevo León'),
+('Oaxaca'),
+('Puebla'),
+('Querétaro'),
+('Quintana Roo'),
+('San Luis Potosí'),
+('Sinaloa'),
+('Sonora'),
+('Tabasco'),
+('Tamaulipas'),
+('Tlaxcala'),
+('Veracruz'),
+('Yucatán'),
+('Zacatecas');
+
+INSERT INTO simpatizantes.municipios (nombre, estadoId) VALUES 
+('Amaxac de Guerrero', 29),
+('Apetatitlán de Antonio Carvajal', 29),
+('Atlangatepec', 29),
+('Atltzayanca', 29),
+('Apizaco', 29),
+('Calpulalpan', 29),
+('El Carmen Tequexquitla', 29),
+('Cuapiaxtla', 29),
+('Cuaxomulco', 29),
+('Chiautempan', 29),
+('Muñoz de Domingo Arenas', 29),
+('Españita', 29),
+('Huamantla', 29),
+('Hueyotlipan', 29),
+('Ixtacuixtla de Mariano Matamoros', 29),
+('Ixtenco', 29),
+('Mazatecochco de José María Morelos', 29),
+('Contla de Juan Cuamatzi', 29),
+('Tepetitla de Lardizábal', 29),
+('Sanctórum de Lázaro Cárdenas', 29),
+('Nanacamilpa de Mariano Arista', 29),
+('Acuamanala de Miguel Hidalgo', 29),
+('Natívitas', 29),                 
+('Panotla', 29),
+('San Pablo del Monte', 29),
+('Santa Cruz Tlaxcala', 29),
+('Tenancingo', 29),
+('Teolocholco', 29),
+('Tepeyanco', 29),
+('Terrenate', 29),
+('Tetla de la Solidaridad', 29),
+('Tetlatlahuca', 29),
+('Tlaxcala', 29),
+('Tlaxco', 29),
+('Tocatlán', 29),
+('Totolac', 29),
+('Ziltlaltépec de Trinidad Sánchez Santos', 29),
+('Tzompantepec', 29),
+('Xaloztoc', 29),
+('Xaltocan', 29),
+('Papalotla de Xicohténcatl', 29),
+('Xicohtzinco', 29),
+('Yauhquemehcan', 29),
+('Zacatelco', 29),
+('Benito Juárez', 29),
+('Emiliano Zapata', 29),
+('Lázaro Cárdenas', 29),
+('La Magdalena Tlaltelulco', 29),
+('San Damián Texóloc', 29),
+('San Francisco Tetlanohcan', 29),
+('San Jerónimo Zacualpan', 29),
+('San José Teacalco', 29),
+('San Juan Huactzinco', 29),
+('San Lorenzo Axocomanitla', 29),
+('San Lucas Tecopilco', 29),
+('Santa Ana Nopalucan', 29),
+('Santa Apolonia Teacalco', 29),
+('Santa Catarina Ayometla', 29),
+('Santa Cruz Quilehtla', 29),
+('Santa Isabel Xiloxoxtla', 29);
+
+
+INSERT INTO simpatizantes.rols (nombreRol)
+VALUES 
+('Administrador'),
+('Operador'),
+('Candidato');
+
+INSERT INTO simpatizantes.tiposIncidencias (Tipo, Color) 
+VALUES 
+('Nada grave', '#00C853'),
+('Tolerante', '#FFC107'),
+('Grave', '#D84315');
+
+INSERT INTO simpatizantes.secciones (Id, clave, municipioId)
+VALUES 
+(1, '0078', 2), (2, '0079', 2), (3, '0080', 2), (4, '0081', 2), (5, '0082', 2), (6, '0083', 2), (7, '0084', 2), (8, '0085', 2), (9, '0086', 2), (10, '0087', 2);
+
+
+
+INSERT INTO simpatizantes.programassociales (nombre) VALUES
+('Programa de Asistencia Alimentaria'),
+('Becas Educativas'),
+('Subsidios de Vivienda'),
+('Programa de Salud Pública'),
+('Ayuda a Personas Mayores'),
+('Apoyo a Familias Monoparentales'),
+('Programa de Capacitación Laboral'),
+('Subsidios para Discapacitados'),
+('Asistencia Psicológica Comunitaria'),
+('Programa de Desarrollo Rural');
+
+INSERT INTO simpatizantes.casillas (nombre, clave) VALUES 
+('Básicas 1', '0001'),
+('Básicas 2', '0002'),
+('Contiguas 1', '0003'),
+('Contiguas 2', '0004'),
+('Extraordinarias 1', '0005'),
+('Extraordinarias 2', '0006'),
+('Especiales 1', '0007'),
+('Especiales 2', '0008');
+
+INSERT INTO simpatizantes.cargos (nombre)
+VALUES 
+('Presidente de la Republica'),
+('Gobernador'),
+('Diputado');
+
+
+
