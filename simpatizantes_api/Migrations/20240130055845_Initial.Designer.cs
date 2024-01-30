@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240129053259_Initial")]
+    [Migration("20240130055845_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -434,9 +434,6 @@ namespace simpatizantesapi.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Foto")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ImagenBase64")
                         .HasColumnType("longtext");
 
                     b.Property<int?>("OperadorId")

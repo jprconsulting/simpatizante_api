@@ -433,9 +433,6 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Foto")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ImagenBase64")
-                        .HasColumnType("longtext");
-
                     b.Property<int?>("OperadorId")
                         .HasColumnType("int");
 
