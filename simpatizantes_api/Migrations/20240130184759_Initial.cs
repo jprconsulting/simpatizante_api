@@ -443,6 +443,7 @@ namespace simpatizantesapi.Migrations
                     Foto = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaHoraVot = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EstatusVoto = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     SimpatizanteId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

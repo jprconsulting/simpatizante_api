@@ -459,6 +459,9 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<bool>("EstatusVoto")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("FechaHoraVot")
                         .HasColumnType("datetime(6)");
 

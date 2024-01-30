@@ -4,6 +4,7 @@ using simpatizantes_api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
@@ -13,21 +14,25 @@ namespace simpatizantes_api.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IAlmacenadorImagenes almacenadorImagenes;
+        private readonly string directorioVotos = "votos";
 
-        public VotoController(ApplicationDbContext context, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public VotoController(
+            ApplicationDbContext context,
+            IMapper mapper,
+            IAlmacenadorImagenes almacenadorImagenes)
         {
             this.context = context;
             this.mapper = mapper;
-            this.webHostEnvironment = webHostEnvironment;
+            this.almacenadorImagenes = almacenadorImagenes;
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<VotoDTO>> GetById(int id)
         {
             var voto = await context.Votos
-                .Include(b => b.Simpatizante)                
-                .FirstOrDefaultAsync(v => v.Id == id);
+                 .Include(b => b.Simpatizante)
+                 .FirstOrDefaultAsync(v => v.Id == id);
 
             if (voto == null)
             {
@@ -37,28 +42,14 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<VotoDTO>(voto));
         }
 
-        private string GetBase64Image(string fileName)
-        {
-            string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-
-            if (System.IO.File.Exists(filePath))
-            {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
-                string base64String = Convert.ToBase64String(imageBytes);
-                return base64String;
-            }
-
-            return null;
-        }
-
-        [HttpGet("obtener-todos")]
-        public async Task<ActionResult> GetAll()
+    [HttpGet("obtener-todos")]
+        public async Task<ActionResult<List<VotoDTO>>> GetAll()
         {
             try
             {
                 var votos = await context.Votos
                 .Include(v => v.Simpatizante)
-                .ThenInclude(b => b.Municipio)                
+                .ThenInclude(b => b.Municipio)
                 .ToListAsync();
 
                 if (!votos.Any())
@@ -66,14 +57,7 @@ namespace simpatizantes_api.Controllers
                     return NotFound();
                 }
 
-                var votoDTO = mapper.Map<List<VotoDTO>>(votos);
-
-                foreach (var voto in votoDTO)
-                {
-                    voto.ImagenBase64 = GetBase64Image(voto.Foto); // Asigna el base64 de la imagen
-                }
-
-                return Ok(votoDTO);
+                return Ok(mapper.Map<List<VotoDTO>>(votos));
             }
             catch (Exception ex)
             {
@@ -81,22 +65,19 @@ namespace simpatizantes_api.Controllers
             }
         }
 
-
-
         [HttpPost("crear")]
         public async Task<ActionResult> Post(VotoDTO dto)
         {
+
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
-                string fileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                dto.Foto = fileName;
+                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVotos);
             }
 
             var voto = mapper.Map<Voto>(dto);
-            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
+            voto.FechaHoraVot = DateTime.Now;
+            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
+
 
             context.Votos.Add(voto);
             await context.SaveChangesAsync();
@@ -112,26 +93,25 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var voto = await context.Votos.FindAsync(id);
+            var visita = await context.Votos.FindAsync(id);
 
-            if (voto == null)
+            if (visita == null)
             {
                 return NotFound();
             }
 
+            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(c => c.Id == dto.Simpatizante.Id);
+
+
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
-                string fileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                dto.Foto = fileName;
+                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVotos);
             }
 
-            mapper.Map(dto, voto);
-            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
+            mapper.Map(dto, visita);
+            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
 
-            context.Update(voto);
+            context.Update(visita);
 
             try
             {

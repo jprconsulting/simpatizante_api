@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240130055845_Initial")]
+    [Migration("20240130184759_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -461,6 +461,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<bool>("EstatusVoto")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("FechaHoraVot")
                         .HasColumnType("datetime(6)");
