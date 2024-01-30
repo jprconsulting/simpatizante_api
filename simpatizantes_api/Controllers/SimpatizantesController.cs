@@ -8,14 +8,14 @@ using MySqlConnector;
 
 namespace simpatizantes_api.Controllers
 {
-    [Route("api/votantes")]
+    [Route("api/simpatizantes")]
     [ApiController]
-    public class VotantesController : ControllerBase
+    public class SimpatizantesController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
 
-        public VotantesController(ApplicationDbContext context, IMapper mapper)
+        public SimpatizantesController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
@@ -24,19 +24,19 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<SimpatizanteDTO>> GetById(int id)
         {
-            var votante = await context.Simpatizantes
+            var simpatizante = await context.Simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
                 .Include(p => p.ProgramaSocial)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (votante == null)
+            if (simpatizante == null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<SimpatizanteDTO>(votante));
+            return Ok(mapper.Map<SimpatizanteDTO>(simpatizante));
         }
 
         [HttpGet("obtener-simpatizantes-por-candidato-id/{candidatoId:int}")]
@@ -82,19 +82,19 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetAll()
         {
-            var votante = await context.Simpatizantes
+            var simpatizantes = await context.Simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
                 .Include(p => p.ProgramaSocial)
                 .ToListAsync();
 
-            if (!votante.Any())
+            if (!simpatizantes.Any())
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<SimpatizanteDTO>>(votante));
+            return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
         }
 
         [HttpPost("crear")]
@@ -107,18 +107,18 @@ namespace simpatizantes_api.Controllers
 
             int currentUserRolId = int.Parse(User.FindFirst("rolId")?.Value);
 
-            var votante = mapper.Map<Simpatizante>(dto);
-            votante.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
-            votante.Municipio = await context.Municipios.SingleOrDefaultAsync(i => i.Id == dto.Municipio.Id);
-            votante.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
-            votante.Operador = null;
-            votante.OperadorId = null;
-            votante.Candidato = null;
-            votante.CandidatoId = null;
+            var simpatizante = mapper.Map<Simpatizante>(dto);
+            simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
+            simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
+            simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
+            simpatizante.Operador = null;
+            simpatizante.OperadorId = null;
+            simpatizante.Candidato = null;
+            simpatizante.CandidatoId = null;
 
             if (dto.ProgramaSocial != null)
             {
-                votante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(c => c.Id == dto.ProgramaSocial.Id);
+                simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
             }
 
             // Si es operador
@@ -126,7 +126,7 @@ namespace simpatizantes_api.Controllers
             {
                 if (int.TryParse(User.FindFirst("operadorId")?.Value, out int parsedOperadorId))
                 {
-                    votante.Operador = await context.Operadores.FirstOrDefaultAsync(o => o.Id == parsedOperadorId);
+                    simpatizante.Operador = await context.Operadores.FirstOrDefaultAsync(o => o.Id == parsedOperadorId);
                 }
             }
 
@@ -135,43 +135,34 @@ namespace simpatizantes_api.Controllers
             {
                 if (int.TryParse(User.FindFirst("candidatoId")?.Value, out int parsedCandidatoId))
                 {
-                    votante.Candidato = await context.Candidatos.FirstOrDefaultAsync(c => c.Id == parsedCandidatoId);
+                    simpatizante.Candidato = await context.Candidatos.FirstOrDefaultAsync(c => c.Id == parsedCandidatoId);
                 }
             }
 
-            context.Add(votante);
+            context.Add(simpatizante);
 
             try
             {
                 await context.SaveChangesAsync();
                 return Ok();
-            }
-            catch (DbUpdateException ex)
-            {
-                var innerException = ex.InnerException;
-                return StatusCode(500, new { error = "Error al guardar el Votante.", details = innerException?.Message });
-            }
-            catch (MySqlException ex)
-            {
-                return StatusCode(500, new { error = "Error al guardar el Votante.", details = ex.Message });
-            }
+            }          
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Error interno del servidor al guardar el Votante.", details = ex.Message });
+                return StatusCode(500, new { error = "Error interno del servidor al guardar el Simpatizante.", details = ex.Message });
             }
         }
 
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var votante = await context.Simpatizantes.FindAsync(id);
+            var simpatizante = await context.Simpatizantes.FindAsync(id);
 
-            if (votante == null)
+            if (simpatizante == null)
             {
                 return NotFound();
             }
 
-            context.Simpatizantes.Remove(votante);
+            context.Simpatizantes.Remove(simpatizante);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -185,19 +176,47 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var Votantes = await context.Simpatizantes.FindAsync(id);
+            var simpatizante = await context.Simpatizantes.FindAsync(id);
 
-            if (Votantes == null)
+            if (simpatizante == null)
             {
                 return NotFound();
             }
+            int currentUserRolId = int.Parse(User.FindFirst("rolId")?.Value);
 
-            mapper.Map(dto, Votantes);
-            Votantes.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
-            Votantes.Municipio = await context.Municipios.SingleOrDefaultAsync(i => i.Id == dto.Municipio.Id);
-            Votantes.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
-            Votantes.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(c => c.Id == dto.ProgramaSocial.Id);
-            context.Update(Votantes);
+            mapper.Map(dto, simpatizante);
+            simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
+            simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
+            simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
+            simpatizante.Operador = null;
+            simpatizante.OperadorId = null;
+            simpatizante.Candidato = null;
+            simpatizante.CandidatoId = null;
+
+            if (dto.ProgramaSocial != null)
+            {
+                simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
+            }
+
+            // Si es operador
+            if (currentUserRolId == 2)
+            {
+                if (int.TryParse(User.FindFirst("operadorId")?.Value, out int parsedOperadorId))
+                {
+                    simpatizante.Operador = await context.Operadores.FirstOrDefaultAsync(o => o.Id == parsedOperadorId);
+                }
+            }
+
+            // Si es candidato
+            if (currentUserRolId == 3)
+            {
+                if (int.TryParse(User.FindFirst("candidatoId")?.Value, out int parsedCandidatoId))
+                {
+                    simpatizante.Candidato = await context.Candidatos.FirstOrDefaultAsync(c => c.Id == parsedCandidatoId);
+                }
+            }
+
+            context.Update(simpatizante);
 
             try
             {
@@ -205,7 +224,7 @@ namespace simpatizantes_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IncidenciasExists(id))
+                if (!SimpatizanteExists(id))
                 {
                     return NotFound();
                 }
@@ -218,9 +237,9 @@ namespace simpatizantes_api.Controllers
             return NoContent();
         }
 
-        private bool IncidenciasExists(int id)
+        private bool SimpatizanteExists(int id)
         {
-            return context.Incidencias.Any(e => e.Id == id);
+            return context.Simpatizantes.Any(s => s.Id == id);
         }
 
     }

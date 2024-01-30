@@ -14,19 +14,16 @@ namespace simpatizantes_api.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
-        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IAlmacenadorImagenes almacenadorImagenes;
         private readonly string directorioVisitas = "visitas";
 
         public VisitasController(
             ApplicationDbContext context,
             IMapper mapper,
-            IWebHostEnvironment webHostEnvironment,
             IAlmacenadorImagenes almacenadorImagenes)
         {
             this.context = context;
             this.mapper = mapper;
-            this.webHostEnvironment = webHostEnvironment;
             this.almacenadorImagenes = almacenadorImagenes;
         }
 
@@ -45,55 +42,32 @@ namespace simpatizantes_api.Controllers
             }
 
             return Ok(mapper.Map<VisitaDTO>(visita));
-        }
-
-        private string GetBase64Image(string fileName)
-        {
-            string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-
-            if (System.IO.File.Exists(filePath))
-            {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
-                string base64String = Convert.ToBase64String(imageBytes);
-                return base64String;
-            }
-
-            return null;
-        }
+        }      
 
         [HttpGet("obtener-todos")]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult<List<VisitaDTO>>> GetAll()
         {
             try
             {
                 var visitas = await context.Visitas
-                .Include(v => v.Simpatizante)
-                .ThenInclude(b => b.Municipio)
-                .Include(o => o.Operador)
-                .Include(c => c.Candidato)
-                .ToListAsync();
+                    .Include(v => v.Simpatizante)
+                    .ThenInclude(b => b.Municipio)
+                    .Include(o => o.Operador)
+                    .Include(c => c.Candidato)
+                    .ToListAsync();
 
                 if (!visitas.Any())
                 {
                     return NotFound();
-                }
+                }             
 
-                var visitasDTO = mapper.Map<List<VisitaDTO>>(visitas);
-
-                foreach (var visita in visitasDTO)
-                {
-                    visita.ImagenBase64 = GetBase64Image(visita.Foto); // Asigna el base64 de la imagen
-                }
-
-                return Ok(visitasDTO);
+                return Ok(mapper.Map<List<VisitaDTO>>(visitas));
             }
             catch (Exception ex)
             {
                 return StatusCode(500);
             }
         }
-
-
 
         [HttpPost("crear")]
         public async Task<ActionResult> Post(VisitaDTO dto)

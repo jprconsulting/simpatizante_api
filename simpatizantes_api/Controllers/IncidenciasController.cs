@@ -44,24 +44,10 @@ namespace simpatizantes_api.Controllers
             }
 
             return Ok(mapper.Map<IncidenciaDTO>(incidencia));
-        }
-
-        private string GetBase64Image(string fileName)
-        {
-            string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-
-            if (System.IO.File.Exists(filePath))
-            {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
-                string base64String = Convert.ToBase64String(imageBytes);
-                return base64String;
-            }
-
-            return null;
-        }
+        }     
 
         [HttpGet("obtener-todos")]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult<List<IncidenciaDTO>>> GetAll()
         {
             try
             {
@@ -75,14 +61,7 @@ namespace simpatizantes_api.Controllers
                     return NotFound();
                 }
 
-                var incidenciasDTO = mapper.Map<List<IncidenciaDTO>>(incidencias);
-
-                foreach (var incidencia in incidenciasDTO)
-                {
-                    incidencia.ImagenBase64 = GetBase64Image(incidencia.Foto); // Asigna el base64 de la imagen
-                }
-
-                return Ok(incidenciasDTO);
+                return Ok(mapper.Map<List<IncidenciaDTO>>(incidencias));
             }
             catch (Exception ex)
             {

@@ -14,11 +14,9 @@ namespace simpatizantes_api.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
-        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IAlmacenadorImagenes almacenadorImagenes;
         private readonly string directorioCandidatos = "candidatos";
         private readonly string directorioEmblemas = "emblemas";
-
 
         public CandidatoController(
             ApplicationDbContext context, 
@@ -28,24 +26,23 @@ namespace simpatizantes_api.Controllers
         {
             this.context = context;
             this.mapper = mapper;
-            this.webHostEnvironment = webHostEnvironment;
             this.almacenadorImagenes = almacenadorImagenes;
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<CandidatoDTO>> GetById(int id)
         {
-            var votante = await context.Candidatos
+            var candidato = await context.Candidatos
                 .Include(c => c.Cargo)
                 .Include(s => s.Simpatizantes)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (votante == null)
+            if (candidato == null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<CandidatoDTO>(votante));
+            return Ok(mapper.Map<CandidatoDTO>(candidato));
         }     
 
         [HttpGet("obtener-todos")]
@@ -131,24 +128,18 @@ namespace simpatizantes_api.Controllers
             {
                 return NotFound();
             }
-            //---------------------------------
+
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
-                string fileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                dto.Foto = fileName;
+                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCandidatos);
             }
+
             if (!string.IsNullOrEmpty(dto.EmblemaBase64))
             {
-                byte[] bytes = Convert.FromBase64String(dto.EmblemaBase64);
-                string fileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                dto.Emblema = fileName;
+
+                dto.Emblema = await almacenadorImagenes.GuardarImagen(dto.EmblemaBase64, directorioEmblemas);
             }
-            //--------------------------------------
+            
             mapper.Map(dto, Candidatos);
             Candidatos.Cargo = await context.Cargos.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
             context.Update(Candidatos);
