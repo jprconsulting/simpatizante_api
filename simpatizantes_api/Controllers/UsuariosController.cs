@@ -143,7 +143,7 @@ namespace simpatizantes_api.Controllers
             usuario.OperadorId = null;
 
             // Si es  operador
-            if (dto.Rol.Id == 2)
+            if (dto.Rol.Id == 2 && usuario.Operador.Id != dto.Operador.Id)
             {
 
                 if (await context.Usuarios.AnyAsync(c => c.Operador.Id == dto.Operador.Id))
@@ -155,7 +155,7 @@ namespace simpatizantes_api.Controllers
             }
 
             // Si es  candidato
-            if (dto.Rol.Id == 3)
+            if (dto.Rol.Id == 3 && usuario.Candidato.Id != dto.Candidato.Id)
             {
                 if (await context.Usuarios.AnyAsync(c => c.Candidato.Id == dto.Candidato.Id))
                 {

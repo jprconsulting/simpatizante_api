@@ -48,7 +48,7 @@ namespace simpatizantes_api.Controllers
                 return Conflict();
             }
 
-            var tipoIncidencia = mapper.Map<TipoIncidenciaDTO>(dto);
+            var tipoIncidencia = mapper.Map<TipoIncidencia>(dto);
             context.Add(tipoIncidencia);
 
             try

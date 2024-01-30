@@ -4,6 +4,7 @@ using simpatizantes_api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
@@ -14,12 +15,19 @@ namespace simpatizantes_api.Controllers
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IAlmacenadorImagenes almacenadorImagenes;
+        private readonly string directorioVisitas = "visitas";
 
-        public VisitasController(ApplicationDbContext context, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public VisitasController(
+            ApplicationDbContext context,
+            IMapper mapper,
+            IWebHostEnvironment webHostEnvironment,
+            IAlmacenadorImagenes almacenadorImagenes)
         {
             this.context = context;
             this.mapper = mapper;
             this.webHostEnvironment = webHostEnvironment;
+            this.almacenadorImagenes = almacenadorImagenes;
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
@@ -89,31 +97,40 @@ namespace simpatizantes_api.Controllers
 
         [HttpPost("crear")]
         public async Task<ActionResult> Post(VisitaDTO dto)
-        {
+        {          
+
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
-                string fileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                dto.Foto = fileName;
+                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
             }
+
+            int currentUserRolId = int.Parse(User.FindFirst("rolId")?.Value);
 
             var visita = mapper.Map<Visita>(dto);
             visita.FechaHoraVisita = DateTime.Now;
-            if (dto.Simpatizante != null)
+            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
+            visita.Operador = null;
+            visita.OperadorId = null;
+            visita.Candidato = null;
+            visita.CandidatoId = null;
+
+            // Si es operador
+            if (currentUserRolId == 2)
             {
-                visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(c => c.Id == dto.Simpatizante.Id);
+                if (int.TryParse(User.FindFirst("operadorId")?.Value, out int parsedOperadorId))
+                {
+                    visita.Operador = await context.Operadores.FirstOrDefaultAsync(o => o.Id == parsedOperadorId);
+                }
             }
-            if (dto.Operador != null)
+
+            // Si es candidato
+            if (currentUserRolId == 3)
             {
-                visita.Operador = await context.Operadores.SingleOrDefaultAsync(c => c.Id == dto.Operador.Id);
+                if (int.TryParse(User.FindFirst("candidatoId")?.Value, out int parsedCandidatoId))
+                {
+                    visita.Candidato = await context.Candidatos.FirstOrDefaultAsync(c => c.Id == parsedCandidatoId);
+                }
             }
-            if (dto.Candidato != null)
-            {
-                visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
-            }
-           
 
             context.Visitas.Add(visita);
             await context.SaveChangesAsync();
@@ -130,32 +147,41 @@ namespace simpatizantes_api.Controllers
             }
 
             var visita = await context.Visitas.FindAsync(id);
-            if (dto.Simpatizante != null)
-            {
-                visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(c => c.Id == dto.Simpatizante.Id);
-            }
-            if (dto.Operador != null)
-            {
-                visita.Operador = await context.Operadores.SingleOrDefaultAsync(c => c.Id == dto.Operador.Id);
-            }
-            if (dto.Candidato != null)
-            {
-                visita.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
-            }
 
             if (visita == null)
             {
                 return NotFound();
             }
 
+            int currentUserRolId = int.Parse(User.FindFirst("rolId")?.Value);
+            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(c => c.Id == dto.Simpatizante.Id);
+            visita.Operador = null;
+            visita.OperadorId = null;
+            visita.Candidato = null;
+            visita.CandidatoId = null;
+
+            // Si es operador
+            if (currentUserRolId == 2)
+            {
+                if (int.TryParse(User.FindFirst("operadorId")?.Value, out int parsedOperadorId))
+                {
+                    visita.Operador = await context.Operadores.FirstOrDefaultAsync(o => o.Id == parsedOperadorId);
+                }
+            }
+
+            // Si es candidato
+            if (currentUserRolId == 3)
+            {
+                if (int.TryParse(User.FindFirst("candidatoId")?.Value, out int parsedCandidatoId))
+                {
+                    visita.Candidato = await context.Candidatos.FirstOrDefaultAsync(c => c.Id == parsedCandidatoId);
+                }
+            }
+
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
-                string fileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                dto.Foto = fileName;
-            }
+                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
+            }           
 
             mapper.Map(dto, visita);
             visita.Simpatizante   = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);

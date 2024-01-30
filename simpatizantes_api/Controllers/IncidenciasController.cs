@@ -4,6 +4,7 @@ using simpatizantes_api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
@@ -14,12 +15,19 @@ namespace simpatizantes_api.Controllers
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IAlmacenadorImagenes almacenadorImagenes;
+        private readonly string directorioIncidencias = "incidencias";
 
-        public IncidenciasController(ApplicationDbContext context, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public IncidenciasController(
+            ApplicationDbContext context,
+            IMapper mapper, 
+            IWebHostEnvironment webHostEnvironment,
+            IAlmacenadorImagenes almacenadorImagenes)
         {
             this.context = context;
             this.mapper = mapper;
             this.webHostEnvironment = webHostEnvironment;
+            this.almacenadorImagenes = almacenadorImagenes;
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
@@ -89,11 +97,7 @@ namespace simpatizantes_api.Controllers
         {
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
-                string fileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                dto.Foto = fileName;
+                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioIncidencias);
             }
 
             var incidencia = mapper.Map<Incidencia>(dto);
@@ -119,15 +123,11 @@ namespace simpatizantes_api.Controllers
             if (incidencia == null)
             {
                 return NotFound();
-            }
+            }           
 
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                byte[] bytes = Convert.FromBase64String(dto.ImagenBase64);
-                string fileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", fileName);
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                dto.Foto = fileName;
+                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioIncidencias);
             }
 
             mapper.Map(dto, incidencia);

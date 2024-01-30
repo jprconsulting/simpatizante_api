@@ -32,7 +32,9 @@ namespace simpatizantes_api.Services
                                     NombreCompleto = $"{u.Nombre} {u.ApellidoPaterno} {u.ApellidoMaterno}",
                                     Email = u.Correo,
                                     RolId = r.Id,
-                                    Rol = r.NombreRol
+                                    Rol = r.NombreRol,
+                                    CandidatoId = u.CandidatoId,
+                                    OperadorId = u.OperadorId
                                 }).FirstOrDefaultAsync();
 
             if (user != null)
@@ -60,8 +62,12 @@ namespace simpatizantes_api.Services
             // Describe las propiedades del usuario
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, dto.UsuarioId.ToString()),
+                new Claim("usuarioId", dto.UsuarioId.ToString()),
                 new Claim("nombreCompleto", dto.NombreCompleto),
+                new Claim("rolId", dto.RolId.ToString()),
+                new Claim("rol", dto.Rol),
+                new Claim("operadorId", dto.OperadorId?.ToString() ?? ""),
+                new Claim("candidatoId", dto.CandidatoId?.ToString() ?? ""),
                 // Puedes agregar más claims personalizados según tus necesidades
             };
 

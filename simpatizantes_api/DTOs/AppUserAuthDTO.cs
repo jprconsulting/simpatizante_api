@@ -9,6 +9,8 @@
         public string Rol { get; set; }
         public bool IsAuthenticated { get; set; }
         public string Token { get; set; }
+        public int? CandidatoId { get; set; }
+        public int? OperadorId { get; set; }
         public List<ClaimDTO> Claims { get; set; }
     }
 }
