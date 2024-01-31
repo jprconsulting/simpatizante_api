@@ -52,7 +52,6 @@ namespace simpatizantes_api.Controllers
             {
                 var candidatos = await context.Candidatos
                     .Include(t => t.Cargo)
-                    .Include(s => s.Simpatizantes)
                     .ToListAsync();
 
                 if (!candidatos.Any())
@@ -64,7 +63,7 @@ namespace simpatizantes_api.Controllers
             }           
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { error = "Error interno del candidatos ", details = ex.Message });
             }
         }
 

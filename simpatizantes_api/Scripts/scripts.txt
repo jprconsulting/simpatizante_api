@@ -144,9 +144,10 @@ VALUES
 INSERT INTO simpatizantes.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
 VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
 
+/* admin */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 1),
-('CanAccessUsuarios', 1, 1);
+('CanAccessUsuarios', 1, 1),
 ('CanAccessCandidatos',1,1),
 ('CanAccessSimpatizantes', 1,1),
 ('CanAccessMapaSimpatizantes', 1,1),
@@ -155,10 +156,28 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessOperadores', 1,1),
 ('CanAccessIncidencias', 1,1),
 ('CanAccessMapaIncidencias', 1,1),
-('CanAccessVoto', 1,1),
+('CanAccessSeguimientoVoto', 1,1),
 ('CanAccessResultados', 1,1),
-('CanAccessReportes', 1,1)
+('CanAccessReportes', 1,1);
 
+/* operador */
+INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessInicio', 1, 2),
+('CanAccessSimpatizantes', 1,2),
+('CanAccessMapaSimpatizantes', 1,2),
+('CanAccessVisitas', 1,2),
+('CanAccessIncidencias', 1,2),
+('CanAccessMapaIncidencias', 1,2),
+('CanAccessSeguimientoVoto', 1,2);
 
+/* candidato */
+INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessInicio', 1, 3),
+('CanAccessSimpatizantes', 1,3),
+('CanAccessMapaSimpatizantes', 1,3),
+('CanAccessVisitas', 1,3),
+('CanAccessIncidencias', 1,3),
+('CanAccessMapaIncidencias', 1,3),
+('CanAccessSeguimientoVoto', 1,3);
 
 

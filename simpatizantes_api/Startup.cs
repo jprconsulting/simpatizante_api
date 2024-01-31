@@ -88,6 +88,12 @@ namespace simpatizantes_api
                 endpoints.MapControllers();
             });
             app.UseStaticFiles();
+
+            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
+            }
         }
     }
 }

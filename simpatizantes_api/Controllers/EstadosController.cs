@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace simpatizantes_api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/estados")]
     [ApiController]
     public class EstadosController : ControllerBase
