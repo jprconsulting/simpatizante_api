@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/programas")]
     [ApiController]
     public class ProgramasSocialesController : ControllerBase

@@ -18,10 +18,7 @@
         public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }
         public Estado Estado { get; set; }
-        public int? CandidatoId { get; set; }
-        public Candidato Candidato { get; set; }
-        public int? OperadorId { get; set; }
-        public Operador Operador { get; set; }
+        public Usuario Usuario { get; set; }
         public List<Visita> Visitas { get; set; }
         public List<Voto> Votos { get; set; }
 

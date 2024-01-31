@@ -8,6 +8,7 @@ using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/candidato")]
     [ApiController]
     public class CandidatoController : ControllerBase
@@ -34,7 +35,6 @@ namespace simpatizantes_api.Controllers
         {
             var candidato = await context.Candidatos
                 .Include(c => c.Cargo)
-                .Include(s => s.Simpatizantes)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
             if (candidato == null)
