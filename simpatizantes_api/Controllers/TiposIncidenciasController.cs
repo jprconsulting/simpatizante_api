@@ -4,9 +4,11 @@ using simpatizantes_api.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/tipos-incidencias")]
     [ApiController]
     public class TiposIncidenciasController : ControllerBase

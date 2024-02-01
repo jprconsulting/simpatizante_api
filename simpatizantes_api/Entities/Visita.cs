@@ -8,9 +8,7 @@
         public string Foto { get; set; }
         public DateTime FechaHoraVisita { get; set; }
         public Simpatizante Simpatizante { get; set; }
-        public int? CandidatoId { get; set; }
-        public Candidato Candidato { get; set; }
-        public int? OperadorId { get; set; }
-        public Operador Operador { get; set; }
+        public Usuario Usuario { get; set; }
+
     }
 }

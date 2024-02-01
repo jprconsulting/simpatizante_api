@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace simpatizantesapi.Migrations
 {
     /// <inheritdoc />
-    public partial class Inital : Migration
+    public partial class Intial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -357,17 +357,11 @@ namespace simpatizantesapi.Migrations
                     SeccionId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     EstadoId = table.Column<int>(type: "int", nullable: true),
-                    CandidatoId = table.Column<int>(type: "int", nullable: true),
-                    OperadorId = table.Column<int>(type: "int", nullable: true)
+                    UsuarioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Simpatizantes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Simpatizantes_Candidatos_CandidatoId",
-                        column: x => x.CandidatoId,
-                        principalTable: "Candidatos",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Simpatizantes_Estados_EstadoId",
                         column: x => x.EstadoId,
@@ -379,11 +373,6 @@ namespace simpatizantesapi.Migrations
                         principalTable: "Municipios",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Simpatizantes_Operadores_OperadorId",
-                        column: x => x.OperadorId,
-                        principalTable: "Operadores",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Simpatizantes_ProgramasSociales_ProgramaSocialId",
                         column: x => x.ProgramaSocialId,
                         principalTable: "ProgramasSociales",
@@ -392,6 +381,11 @@ namespace simpatizantesapi.Migrations
                         name: "FK_Simpatizantes_Secciones_SeccionId",
                         column: x => x.SeccionId,
                         principalTable: "Secciones",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Simpatizantes_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -410,26 +404,20 @@ namespace simpatizantesapi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaHoraVisita = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     SimpatizanteId = table.Column<int>(type: "int", nullable: true),
-                    CandidatoId = table.Column<int>(type: "int", nullable: true),
-                    OperadorId = table.Column<int>(type: "int", nullable: true)
+                    UsuarioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Visitas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Visitas_Candidatos_CandidatoId",
-                        column: x => x.CandidatoId,
-                        principalTable: "Candidatos",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Visitas_Operadores_OperadorId",
-                        column: x => x.OperadorId,
-                        principalTable: "Operadores",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Visitas_Simpatizantes_SimpatizanteId",
                         column: x => x.SimpatizanteId,
                         principalTable: "Simpatizantes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Visitas_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -498,11 +486,6 @@ namespace simpatizantesapi.Migrations
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_CandidatoId",
-                table: "Simpatizantes",
-                column: "CandidatoId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Simpatizantes_EstadoId",
                 table: "Simpatizantes",
                 column: "EstadoId");
@@ -513,11 +496,6 @@ namespace simpatizantesapi.Migrations
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_OperadorId",
-                table: "Simpatizantes",
-                column: "OperadorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Simpatizantes_ProgramaSocialId",
                 table: "Simpatizantes",
                 column: "ProgramaSocialId");
@@ -526,6 +504,11 @@ namespace simpatizantesapi.Migrations
                 name: "IX_Simpatizantes_SeccionId",
                 table: "Simpatizantes",
                 column: "SeccionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Simpatizantes_UsuarioId",
+                table: "Simpatizantes",
+                column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_CandidatoId",
@@ -545,19 +528,14 @@ namespace simpatizantesapi.Migrations
                 column: "RolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visitas_CandidatoId",
-                table: "Visitas",
-                column: "CandidatoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Visitas_OperadorId",
-                table: "Visitas",
-                column: "OperadorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Visitas_SimpatizanteId",
                 table: "Visitas",
                 column: "SimpatizanteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Visitas_UsuarioId",
+                table: "Visitas",
+                column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Votos_SimpatizanteId",
@@ -578,9 +556,6 @@ namespace simpatizantesapi.Migrations
                 name: "OperadoresSecciones");
 
             migrationBuilder.DropTable(
-                name: "Usuarios");
-
-            migrationBuilder.DropTable(
                 name: "Visitas");
 
             migrationBuilder.DropTable(
@@ -593,16 +568,7 @@ namespace simpatizantesapi.Migrations
                 name: "TiposIncidencias");
 
             migrationBuilder.DropTable(
-                name: "Rols");
-
-            migrationBuilder.DropTable(
                 name: "Simpatizantes");
-
-            migrationBuilder.DropTable(
-                name: "Candidatos");
-
-            migrationBuilder.DropTable(
-                name: "Operadores");
 
             migrationBuilder.DropTable(
                 name: "ProgramasSociales");
@@ -611,13 +577,25 @@ namespace simpatizantesapi.Migrations
                 name: "Secciones");
 
             migrationBuilder.DropTable(
-                name: "Cargos");
+                name: "Usuarios");
 
             migrationBuilder.DropTable(
                 name: "Municipios");
 
             migrationBuilder.DropTable(
+                name: "Candidatos");
+
+            migrationBuilder.DropTable(
+                name: "Operadores");
+
+            migrationBuilder.DropTable(
+                name: "Rols");
+
+            migrationBuilder.DropTable(
                 name: "Estados");
+
+            migrationBuilder.DropTable(
+                name: "Cargos");
         }
     }
 }

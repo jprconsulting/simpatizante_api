@@ -5,9 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using simpatizantes_api.DTOs;
 using simpatizantes_api.Entities;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/dashboard")]
     [ApiController]
     public class DashboardController : ControllerBase

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/rols")]
     [ApiController]
     public class RolsController : ControllerBase
