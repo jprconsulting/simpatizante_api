@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/casillas")]
     [ApiController]
     public class CasillasController : ControllerBase

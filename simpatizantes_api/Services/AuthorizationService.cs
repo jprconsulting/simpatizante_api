@@ -33,8 +33,6 @@ namespace simpatizantes_api.Services
                                     Email = u.Correo,
                                     RolId = r.Id,
                                     Rol = r.NombreRol,
-                                    CandidatoId = u.CandidatoId,
-                                    OperadorId = u.OperadorId
                                 }).FirstOrDefaultAsync();
 
             if (user != null)
@@ -66,8 +64,7 @@ namespace simpatizantes_api.Services
                 new Claim("nombreCompleto", dto.NombreCompleto),
                 new Claim("rolId", dto.RolId.ToString()),
                 new Claim("rol", dto.Rol),
-                new Claim("operadorId", dto.OperadorId?.ToString() ?? ""),
-                new Claim("candidatoId", dto.CandidatoId?.ToString() ?? ""),
+
                 // Puedes agregar más claims personalizados según tus necesidades
             };
 

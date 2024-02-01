@@ -8,6 +8,7 @@ using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/visitas")]
     [ApiController]
     public class VisitasController : ControllerBase
@@ -32,8 +33,6 @@ namespace simpatizantes_api.Controllers
         {
             var visita = await context.Visitas
                 .Include(b => b.Simpatizante)
-                .Include(o => o.Operador)
-                .Include(c => c.Candidato)
                 .FirstOrDefaultAsync(v => v.Id == id);
 
             if (visita == null)
@@ -52,8 +51,6 @@ namespace simpatizantes_api.Controllers
                 var visitas = await context.Visitas
                     .Include(v => v.Simpatizante)
                     .ThenInclude(b => b.Municipio)
-                    .Include(o => o.Operador)
-                    .Include(c => c.Candidato)
                     .ToListAsync();
 
                 if (!visitas.Any())
@@ -78,33 +75,13 @@ namespace simpatizantes_api.Controllers
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
             }
 
-            int currentUserRolId = int.Parse(User.FindFirst("rolId")?.Value);
+            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
 
             var visita = mapper.Map<Visita>(dto);
             visita.FechaHoraVisita = DateTime.Now;
+            visita.Usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuarioId);
             visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
-            visita.Operador = null;
-            visita.OperadorId = null;
-            visita.Candidato = null;
-            visita.CandidatoId = null;
 
-            // Si es operador
-            if (currentUserRolId == 2)
-            {
-                if (int.TryParse(User.FindFirst("operadorId")?.Value, out int parsedOperadorId))
-                {
-                    visita.Operador = await context.Operadores.FirstOrDefaultAsync(o => o.Id == parsedOperadorId);
-                }
-            }
-
-            // Si es candidato
-            if (currentUserRolId == 3)
-            {
-                if (int.TryParse(User.FindFirst("candidatoId")?.Value, out int parsedCandidatoId))
-                {
-                    visita.Candidato = await context.Candidatos.FirstOrDefaultAsync(c => c.Id == parsedCandidatoId);
-                }
-            }
 
             context.Visitas.Add(visita);
             await context.SaveChangesAsync();
@@ -127,43 +104,34 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
-            int currentUserRolId = int.Parse(User.FindFirst("rolId")?.Value);
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(c => c.Id == dto.Simpatizante.Id);
-            visita.Operador = null;
-            visita.OperadorId = null;
-            visita.Candidato = null;
-            visita.CandidatoId = null;
+            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
 
-            // Si es operador
-            if (currentUserRolId == 2)
+            visita.Simpatizante = await context.Simpatizantes.FirstOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
+
+
+            // Asignar Simpatizante solo si hay un Id válido en dto.Simpatizante.Id
+            if (dto.Simpatizante != null && dto.Simpatizante.Id > 0)
             {
-                if (int.TryParse(User.FindFirst("operadorId")?.Value, out int parsedOperadorId))
-                {
-                    visita.Operador = await context.Operadores.FirstOrDefaultAsync(o => o.Id == parsedOperadorId);
-                }
+                visita.Simpatizante = await context.Simpatizantes.FindAsync(dto.Simpatizante.Id);
             }
 
-            // Si es candidato
-            if (currentUserRolId == 3)
-            {
-                if (int.TryParse(User.FindFirst("candidatoId")?.Value, out int parsedCandidatoId))
-                {
-                    visita.Candidato = await context.Candidatos.FirstOrDefaultAsync(c => c.Id == parsedCandidatoId);
-                }
-            }
+            visita.Usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuarioId);
 
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
+                // Almacenar la imagen y asignar la ruta a dto.Foto
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
-            }           
+            }
 
+            // Mapear los datos desde dto a la entidad visita
             mapper.Map(dto, visita);
-            visita.Simpatizante   = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
 
+            // Actualizar la entidad visita en la base de datos
             context.Update(visita);
 
             try
             {
+                // Guardar los cambios en la base de datos
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -178,8 +146,10 @@ namespace simpatizantes_api.Controllers
                 }
             }
 
+            // Retornar una respuesta de éxito
             return NoContent();
         }
+
 
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)

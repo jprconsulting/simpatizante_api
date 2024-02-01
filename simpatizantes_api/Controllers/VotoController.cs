@@ -8,6 +8,7 @@ using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/voto")]
     [ApiController]
     public class VotoController : ControllerBase

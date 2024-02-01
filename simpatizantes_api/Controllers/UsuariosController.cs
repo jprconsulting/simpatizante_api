@@ -8,6 +8,7 @@ using MySqlConnector;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/usuarios")]
     [ApiController]
     public class UsuariosController : ControllerBase

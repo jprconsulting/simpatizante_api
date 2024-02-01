@@ -8,6 +8,7 @@ using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/incidencias")]
     [ApiController]
     public class IncidenciasController : ControllerBase

@@ -30,7 +30,6 @@ namespace simpatizantes_api.Utilities
             CreateMap<Candidato, CandidatoDTO>()
                 .ForMember(dest => dest.Cargo, opt => opt.MapFrom(src => src.Cargo))
                 .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
-                .ForMember(dest => dest.Simpatizantes, opt => opt.MapFrom(src => src.Simpatizantes))
             .ForMember(dest => dest.FechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
 
             CreateMap<CandidatoDTO, Candidato>();
