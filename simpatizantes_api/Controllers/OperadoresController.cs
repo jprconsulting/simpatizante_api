@@ -75,6 +75,7 @@ namespace simpatizantes_api.Controllers
                 try
                 {
                     var operador = mapper.Map<Operador>(dto);
+                    operador.Candidato = await context.Candidatos.SingleOrDefaultAsync(r => r.Id == dto.Candidato.Id);
                     context.Add(operador);
 
                     if (await context.SaveChangesAsync() > 0)
@@ -139,6 +140,7 @@ namespace simpatizantes_api.Controllers
             }
 
             var Operadores = await context.Operadores.FindAsync(id);
+            Operadores.Candidato = await context.Candidatos.SingleOrDefaultAsync(r => r.Id == dto.Candidato.Id);
 
             if (Operadores == null)
             {

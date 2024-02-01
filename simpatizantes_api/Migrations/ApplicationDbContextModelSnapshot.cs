@@ -196,6 +196,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("ApellidoPaterno")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("CandidatoId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
 
@@ -206,6 +209,8 @@ namespace simpatizantesapi.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CandidatoId");
 
                     b.ToTable("Operadores");
                 });
@@ -320,6 +325,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("OperadorId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ProgramaSocialId")
                         .HasColumnType("int");
 
@@ -337,6 +345,8 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("EstadoId");
 
                     b.HasIndex("MunicipioId");
+
+                    b.HasIndex("OperadorId");
 
                     b.HasIndex("ProgramaSocialId");
 
@@ -512,6 +522,15 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Estado");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Operador", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Candidato", "Candidato")
+                        .WithMany()
+                        .HasForeignKey("CandidatoId");
+
+                    b.Navigation("Candidato");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.OperadorSeccion", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
@@ -546,6 +565,10 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Simpatizantes")
                         .HasForeignKey("MunicipioId");
 
+                    b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
+                        .WithMany()
+                        .HasForeignKey("OperadorId");
+
                     b.HasOne("simpatizantes_api.Entities.ProgramaSocial", "ProgramaSocial")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("ProgramaSocialId");
@@ -561,6 +584,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Estado");
 
                     b.Navigation("Municipio");
+
+                    b.Navigation("Operador");
 
                     b.Navigation("ProgramaSocial");
 

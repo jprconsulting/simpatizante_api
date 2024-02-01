@@ -60,6 +60,26 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
         }
 
+        [HttpGet("obtener-simpatizantes-por-candidato-id/{operadorId:int}")]
+        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorCandidatoId(int operadorId)
+        {
+            var simpatizantes = await context.Simpatizantes
+                .Include(s => s.Seccion)
+                .Include(m => m.Municipio)
+                .Include(e => e.Estado)
+                .Include(u => u.Usuario)
+                .Include(p => p.ProgramaSocial)
+                .Include(c => c.Operador)
+                .Where(s => s.Operador.Id == operadorId)
+                .ToListAsync();
+
+            if (!simpatizantes.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
+        }
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetAll()
         {
@@ -95,6 +115,7 @@ namespace simpatizantes_api.Controllers
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
+            simpatizante.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
 
             if (dto.ProgramaSocial != null)
             {
@@ -151,6 +172,7 @@ namespace simpatizantes_api.Controllers
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
+            simpatizante.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
 
             if (dto.ProgramaSocial != null)
             {
