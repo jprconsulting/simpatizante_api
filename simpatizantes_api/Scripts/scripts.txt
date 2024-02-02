@@ -99,7 +99,9 @@ INSERT INTO simpatizantes.rols (nombreRol)
 VALUES 
 ('Administrador'),
 ('Operador'),
-('Candidato');
+('Candidato'),
+('Brigadista');
+
 
 INSERT INTO simpatizantes.tiposIncidencias (Tipo, Color) 
 VALUES 
@@ -179,5 +181,11 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessIncidencias', 1,3),
 ('CanAccessMapaIncidencias', 1,3),
 ('CanAccessSeguimientoVoto', 1,3);
+
+/* BRIGADISTA */
+INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessInicio', 1, 4),
+('CanAccessVisitas', 1,4),
+('CanAccessSimpatizantes', 1,4);
 
 

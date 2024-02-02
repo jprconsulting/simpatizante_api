@@ -60,8 +60,8 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
         }
 
-        [HttpGet("obtener-simpatizantes-por-candidato-id/{operadorId:int}")]
-        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorCandidatoId(int operadorId)
+        [HttpGet("obtener-simpatizantes-por-operador-id/{operadorId:int}")]
+        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorOperadorId(int operadorId)
         {
             var simpatizantes = await context.Simpatizantes
                 .Include(s => s.Seccion)
@@ -80,6 +80,28 @@ namespace simpatizantes_api.Controllers
 
             return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
         }
+
+        [HttpGet("obtener-simpatizantes-por-candidato-id/{candidatoId:int}")]
+        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorCandidatoId(int candidatoId)
+        {
+            var simpatizantes = await context.Simpatizantes
+                .Include(s => s.Seccion)
+                .Include(m => m.Municipio)
+                .Include(e => e.Estado)
+                .Include(u => u.Usuario)
+                .Include(p => p.ProgramaSocial)
+                .Include(c => c.Operador)
+                .Where(s => s.Operador.Candidato.Id == candidatoId)
+                .ToListAsync();
+
+            if (!simpatizantes.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
+        }
+
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetAll()
         {

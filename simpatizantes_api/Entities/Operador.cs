@@ -9,6 +9,7 @@
         public DateTime FechaNacimiento { get; set; }
         public bool Estatus { get; set; }
         public Candidato Candidato { get; set; }
+        public List<Simpatizante> Simpatizantes { get; set; }
         public List<OperadorSeccion> OperadorSecciones { get; set; }
         public Usuario? Usuario { get; set; }
 

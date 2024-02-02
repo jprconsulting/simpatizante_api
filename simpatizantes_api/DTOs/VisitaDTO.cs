@@ -8,6 +8,9 @@
         public string Foto { get; set; }
         public string StrFechaHoraVisita { get; set; }
         public string ImagenBase64 { get; set; }
-        public SimpatizanteDTO Simpatizante { get; set; }     
+        public SimpatizanteDTO Simpatizante { get; set; }
+        public UsuarioDTO Usuario { get; set; }
+        public string NombreUsuario { get; set; }
+        public string RolUsuario { get; set; }
     }
 }
