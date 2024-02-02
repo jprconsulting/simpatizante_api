@@ -10,6 +10,7 @@
         public string StrFechaNacimiento { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public bool Estatus { get; set; }
+        public CandidatoDTO Candidato { get; set; }
         public List<int> SeccionesIds { get; set; }
         public List<SeccionDTO> Secciones { get; set; }
     }

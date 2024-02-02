@@ -18,6 +18,7 @@
         public SeccionDTO Seccion { get; set; }
         public MunicipioDTO Municipio { get; set; }
         public EstadoDTO Estado { get; set; }
+        public OperadorDTO Operador { get; set; }
         public string NombreCompleto { get; set; }
 
     }

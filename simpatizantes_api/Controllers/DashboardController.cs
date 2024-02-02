@@ -20,7 +20,7 @@ namespace simpatizantes_api.Controllers
         public DashboardController(ApplicationDbContext context)
         {
             this.context = context;
-        }      
+        }
 
         [HttpGet("obtener-nube-palabras")]
         public async Task<ActionResult> WordCloud()
@@ -86,5 +86,74 @@ namespace simpatizantes_api.Controllers
                 .OrderByDescending(modelo => modelo.Weight)
                 .ToList();
         }
+        [HttpGet("total-Simpatizantes-por-programa-social")]
+        public async Task<ActionResult<List<SimpatizantesEstadisticaDTO>>> TotalSimpatizantesPorProgramaSocial()
+        {
+            var Simpatizantes = await context.Simpatizantes.ToListAsync();
+            var totalSimpatizantes = Simpatizantes.Count;
+
+            if (totalSimpatizantes == 0)
+            {
+                return Ok(new List<SimpatizantesEstadisticaDTO>());
+            }
+
+            var programasSociales = await context.ProgramasSociales
+                .Include(p => p.Simpatizantes).ToListAsync();
+
+            var estadisticas = programasSociales
+                .Select(programa => new SimpatizantesEstadisticaDTO
+                {
+                    Id = programa.Id,
+                    Nombre = programa.Nombre,
+                    TotalSinpatizantes = programa.Simpatizantes?.Count ?? 0,
+                    Porcentaje = programa.Simpatizantes?.Count * 100 / totalSimpatizantes ?? 0
+                })
+                .ToList();
+
+            return Ok(estadisticas);
+        }
+        [HttpGet("total-general")]
+        public async Task<ActionResult<TotalGeneralDTO>> TotalGeneral()
+        {
+            var totales = new TotalGeneralDTO()
+            {
+                TotalSimpatizantes = (await context.Simpatizantes.ToListAsync()).Count,
+                TotalOperadores = (await context.Operadores.ToListAsync()).Count,
+                TotalCandidatos = (await context.Candidatos.ToListAsync()).Count,
+                TotalUsuarios = (await context.Usuarios.ToListAsync()).Count,
+                TotalVisitas = (await context.Visitas.ToListAsync()).Count,
+            };
+
+            return Ok(totales);
+        }
+        [HttpGet("total-incidencias-jornada-electoral-por-Incidencia")]
+        public async Task<ActionResult<List<IncidenciasJornadaEstadisticaDTO>>> TotalIncidenciasjornadaelectoralPortipoIncidencia()
+        {
+            var tipoincidencias = await context.TiposIncidencias.ToListAsync();
+            
+            var totalIncidencias = tipoincidencias.Count; 
+
+            if (totalIncidencias == 0)
+            {
+                return Ok(new List<IncidenciasJornadaEstadisticaDTO>());
+            }
+            var Incidencias = await context.Incidencias
+                .Include(p => p.TipoIncidencia).ToListAsync();
+
+            var estadisticas = Incidencias
+                .Select(incidencia => new IncidenciasJornadaEstadisticaDTO
+                {
+                    Id = incidencia.Id,
+                    Retroalimentacion = incidencia.Retroalimentacion,
+                     
+        })
+                .ToList();
+
+            return Ok(estadisticas);
+        }
+
     }
-}
+    
+    
+
+    }

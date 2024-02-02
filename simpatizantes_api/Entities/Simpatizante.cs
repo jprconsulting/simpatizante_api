@@ -19,6 +19,7 @@
         public Municipio Municipio { get; set; }
         public Estado Estado { get; set; }
         public Usuario Usuario { get; set; }
+        public Operador Operador { get; set; }
         public List<Visita> Visitas { get; set; }
         public List<Voto> Votos { get; set; }
 
