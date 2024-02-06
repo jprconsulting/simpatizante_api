@@ -59,7 +59,9 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<OperadorDTO>>> GetAll()
         {
-            var operadores = await context.Operadores.ToListAsync();
+            var operadores = await context.Operadores
+                .Include(o => o.Candidato)
+                .ToListAsync();
 
             if (!operadores.Any())
             {

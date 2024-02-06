@@ -6,7 +6,9 @@
         public string Nombres { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
+        public string NombreCompleto { get; set; }
         public DateTime FechaNacimiento { get; set; }
+        public string StrFechaNacimiento { get; set; }
         public string Domicilio { get; set; }
         public int Sexo { get; set; }
         public string CURP { get; set; }
@@ -19,7 +21,6 @@
         public MunicipioDTO Municipio { get; set; }
         public EstadoDTO Estado { get; set; }
         public OperadorDTO Operador { get; set; }
-        public string NombreCompleto { get; set; }
 
     }
 

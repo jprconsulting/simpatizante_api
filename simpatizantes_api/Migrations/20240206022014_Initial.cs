@@ -363,7 +363,6 @@ namespace simpatizantesapi.Migrations
                     SeccionId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     EstadoId = table.Column<int>(type: "int", nullable: true),
-                    UsuarioId = table.Column<int>(type: "int", nullable: true),
                     OperadorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -393,11 +392,6 @@ namespace simpatizantesapi.Migrations
                         name: "FK_Simpatizantes_Secciones_SeccionId",
                         column: x => x.SeccionId,
                         principalTable: "Secciones",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Simpatizantes_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -528,11 +522,6 @@ namespace simpatizantesapi.Migrations
                 column: "SeccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_UsuarioId",
-                table: "Simpatizantes",
-                column: "UsuarioId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_CandidatoId",
                 table: "Usuarios",
                 column: "CandidatoId",
@@ -590,7 +579,16 @@ namespace simpatizantesapi.Migrations
                 name: "TiposIncidencias");
 
             migrationBuilder.DropTable(
+                name: "Usuarios");
+
+            migrationBuilder.DropTable(
                 name: "Simpatizantes");
+
+            migrationBuilder.DropTable(
+                name: "Rols");
+
+            migrationBuilder.DropTable(
+                name: "Operadores");
 
             migrationBuilder.DropTable(
                 name: "ProgramasSociales");
@@ -599,25 +597,16 @@ namespace simpatizantesapi.Migrations
                 name: "Secciones");
 
             migrationBuilder.DropTable(
-                name: "Usuarios");
+                name: "Candidatos");
 
             migrationBuilder.DropTable(
                 name: "Municipios");
 
             migrationBuilder.DropTable(
-                name: "Operadores");
-
-            migrationBuilder.DropTable(
-                name: "Rols");
+                name: "Cargos");
 
             migrationBuilder.DropTable(
                 name: "Estados");
-
-            migrationBuilder.DropTable(
-                name: "Candidatos");
-
-            migrationBuilder.DropTable(
-                name: "Cargos");
         }
     }
 }
