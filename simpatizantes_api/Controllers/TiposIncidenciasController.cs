@@ -35,6 +35,34 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<List<TipoIncidenciaDTO>>(tiposIncidencias));
         }
 
+        [HttpGet("obtener-por-incidencias")]
+        public async Task<ActionResult<List<TipoIncidenciaDTO>>> GetByIncidencias()
+        {
+            try
+            {
+                var tiposIncidencias = await context.TiposIncidencias.ToListAsync();
+
+                if (!tiposIncidencias.Any())
+                {
+                    return NotFound();
+                }
+
+                var tiposIncidenciasDTO = mapper.Map<List<TipoIncidenciaDTO>>(tiposIncidencias);
+
+                foreach (var tipoDTO in tiposIncidenciasDTO)
+                {
+                    // Calcula el número total de incidencias asociadas a cada tipo de incidencia
+                    tipoDTO.TotalIncidencias = await context.Incidencias.CountAsync(i => i.TipoIncidencia.Id == tipoDTO.Id);
+                }
+
+                return Ok(tiposIncidenciasDTO);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+        }
+
         [HttpPost("crear")]
         public async Task<ActionResult> Post(TipoIncidenciaDTO dto)
         {
