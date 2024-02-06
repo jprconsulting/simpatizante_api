@@ -41,7 +41,7 @@ namespace simpatizantes_api.Controllers
             }
 
             return Ok(mapper.Map<VisitaDTO>(visita));
-        }      
+        }
 
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<VisitaDTO>>> GetAll()
@@ -50,18 +50,34 @@ namespace simpatizantes_api.Controllers
             {
                 var visitas = await context.Visitas
                     .Include(v => v.Simpatizante)
-                    .ThenInclude(b => b.Municipio)
+                    .Include(u => u.Usuario)
+                    .ThenInclude(r => r.Rol)
                     .ToListAsync();
 
                 if (!visitas.Any())
                 {
                     return NotFound();
-                }             
+                }
 
-                return Ok(mapper.Map<List<VisitaDTO>>(visitas));
+                var visitasDTO = mapper.Map<List<VisitaDTO>>(visitas);
+
+                foreach (var visitaDTO in visitasDTO)
+                {
+                    // Obtén la información del usuario desde la entidad Visita y asígnala al DTO
+                    var usuario = visitas.FirstOrDefault(v => v.Id == visitaDTO.Id)?.Usuario;
+                    if (usuario != null)
+                    {
+                        Console.WriteLine($"Nombre de usuario: {usuario.Nombre}");
+
+                        visitaDTO.Usuario = mapper.Map<UsuarioDTO>(usuario);
+                    }
+                }
+
+                return Ok(visitasDTO);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error: {ex.Message}");
                 return StatusCode(500);
             }
         }

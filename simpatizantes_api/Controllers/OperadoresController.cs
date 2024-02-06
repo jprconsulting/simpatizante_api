@@ -34,10 +34,34 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<OperadorDTO>(operador));
         }
 
+        [HttpGet("obtener-operadores-por-candidato-id/{candidatoId:int}")]
+        public async Task<ActionResult<List<OperadorDTO>>> GetOperadoresPorCandidatoId(int candidatoId)
+        {
+            var operadores = await context.Operadores
+                .Include(o => o.Candidato)
+                .Include(o => o.OperadorSecciones)
+                    .ThenInclude(os => os.Seccion)
+                        .ThenInclude(s => s.Municipio)
+                .Where(o => o.Candidato.Id == candidatoId)
+                .ToListAsync();
+
+            if (!operadores.Any())
+            {
+                return NotFound();
+            }
+
+            var operadoresDTO = mapper.Map<List<OperadorDTO>>(operadores);
+
+            return Ok(operadoresDTO);
+        }
+
+
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<OperadorDTO>>> GetAll()
         {
-            var operadores = await context.Operadores.ToListAsync();
+            var operadores = await context.Operadores
+                .Include(o => o.Candidato)
+                .ToListAsync();
 
             if (!operadores.Any())
             {
@@ -50,7 +74,7 @@ namespace simpatizantes_api.Controllers
             {
                 var secciones = await context.OperadoresSecciones
                     .Include(s => s.Seccion)
-                        .ThenInclude(s => s.Municipio)
+                    .ThenInclude(s => s.Municipio)
                     .Where(os => os.Operador.Id == operador.Id)
                     .Select(i => i.Seccion)
                     .ToListAsync();

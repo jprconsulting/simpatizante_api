@@ -112,6 +112,117 @@ namespace simpatizantes_api.Controllers
 
             return Ok(estadisticas);
         }
+        [HttpGet("total-Simpatizantes-por-edad")]
+        public async Task<ActionResult<List<SimpatizanteEstatdisticasEdades>>> TotalSimpatizantesPorEdad()
+        {
+            var simpatizantes = await context.Simpatizantes.ToListAsync();
+            var totalSimpatizantes = simpatizantes.Count;
+
+            if (totalSimpatizantes == 0)
+            {
+                return Ok(new List<SimpatizanteEstatdisticasEdades>());
+            }
+
+            // Calcula la edad y clasifica por rangos
+            var estadisticas = simpatizantes
+                .Select(s => new
+                {
+                    Edad = CalcularEdad(s.FechaNacimiento),
+                })
+                .GroupBy(s => ObtenerRangoEdad(s.Edad))
+                .Select(g => new SimpatizanteEstatdisticasEdades
+                {
+                    
+                    RangoEdad = ObtenerRangoEdadTexto(g.Key),
+                    TotalSinpatizantes = g.Count(),
+                    Porcentaje = (decimal)g.Count() * 100 / totalSimpatizantes
+                })
+                .ToList();
+
+            return Ok(estadisticas);
+        }
+
+        private int CalcularEdad(DateTime fechaNacimiento)
+        {
+            DateTime fechaActual = DateTime.Now;
+            int edad = fechaActual.Year - fechaNacimiento.Year;
+
+            if (fechaNacimiento > fechaActual.AddYears(-edad))
+            {
+                edad--;
+            }
+
+            return edad;
+        }
+
+        private string ObtenerRangoEdad(int edad)
+        {
+            if (edad >= 18 && edad <= 28)
+            {
+                return "18-28";
+            }
+            else if (edad >= 29 && edad <= 39)
+            {
+                return "29-39";
+            }
+            else if (edad >= 40 && edad <= 50)
+            {
+                return "40-50";
+            }
+            else
+            {
+                return "51+";
+            }
+        }
+
+        private string ObtenerRangoEdadTexto(string rangoEdad)
+        {
+            switch (rangoEdad)
+            {
+                case "18-28":
+                    return "18 a 28 años";
+                case "29-39":
+                    return "29 a 39 años";
+                case "40-50":
+                    return "40 a 50 años";
+                case "51+":
+                    return "51 años o más";
+                default:
+                    return "Desconocido";
+            }
+        }
+
+        [HttpGet("total-Simpatizantes-por-genero")]
+        public async Task<ActionResult<List<SimpatizantesEstadisticaGeneroDTO>>> TotalSimpatizantesPorGenero()
+        {
+            var simpatizantes = await context.Simpatizantes.ToListAsync();
+            var totalSimpatizantes = simpatizantes.Count;
+
+            if (totalSimpatizantes == 0)
+            {
+                return Ok(new List<SimpatizantesEstadisticaGeneroDTO>());
+            }
+
+            // Agrupa los simpatizantes por género
+            var estadisticas = simpatizantes
+                .GroupBy(s => s.Sexo)
+                .Select(g => new SimpatizantesEstadisticaGeneroDTO
+                {
+                    Id = g.Key, 
+                    Genero = ObtenerNombreGenero(g.Key), 
+                    TotalSinpatizantes = g.Count(),
+                    Porcentaje = (decimal)g.Count() * 100 / totalSimpatizantes
+                })
+                .ToList();
+
+            return Ok(estadisticas);
+        }
+
+        private string ObtenerNombreGenero(int idGenero)
+        {
+            return idGenero == 1 ? "Masculino" : "Femenino";
+        }
+
         [HttpGet("total-general")]
         public async Task<ActionResult<TotalGeneralDTO>> TotalGeneral()
         {

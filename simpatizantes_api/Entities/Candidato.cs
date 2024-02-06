@@ -13,6 +13,7 @@
         public string Emblema { get; set; }
         public bool Estatus { get; set; }
         public Cargo Cargo { get; set; }
+        public List <Operador> Operador { get; set; }
         public Usuario? Usuario { get; set; }
 
 

@@ -43,6 +43,8 @@ namespace simpatizantes_api.Controllers
         {
             var usuarios = await context.Usuarios
                 .Include(i => i.Rol)
+                .Include(i => i.Candidato)
+                .Include(i => i.Operador)
                 .OrderBy(u => u.Id)
                 .ToListAsync();
 
@@ -130,6 +132,9 @@ namespace simpatizantes_api.Controllers
 
             var usuario = await context.Usuarios.FindAsync(id);
 
+            var currentOperadorId = usuario?.OperadorId;
+            var currentCandidatoId = usuario?.CandidatoId;
+
             if (usuario == null)
             {
                 return NotFound();
@@ -144,27 +149,36 @@ namespace simpatizantes_api.Controllers
             usuario.OperadorId = null;
 
             // Si es  operador
-            if (dto.Rol.Id == 2 && usuario.Operador.Id != dto.Operador.Id)
+            if (dto.Rol.Id == 2)
             {
-
-                if (await context.Usuarios.AnyAsync(c => c.Operador.Id == dto.Operador.Id))
+                if (currentOperadorId != null && currentOperadorId != dto.Operador.Id) 
                 {
-                    return Conflict();
+                    var existsUserOperador = await context.Usuarios.AnyAsync(c => c.Operador.Id == dto.Operador.Id);
+                    if (existsUserOperador)
+                    {
+                        return Conflict();
+                    }                    
                 }
 
                 usuario.Operador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == dto.Operador.Id);
+                usuario.OperadorId = usuario.Operador.Id;
             }
 
             // Si es  candidato
-            if (dto.Rol.Id == 3 && usuario.Candidato.Id != dto.Candidato.Id)
+            if (dto.Rol.Id == 3)
             {
-                if (await context.Usuarios.AnyAsync(c => c.Candidato.Id == dto.Candidato.Id))
+                if (currentCandidatoId != null && currentCandidatoId != dto.Candidato.Id)
                 {
-                    return Conflict();
-                }
+                    var existsUserCandidato = await context.Usuarios.AnyAsync(c => c.Candidato.Id == dto.Candidato.Id);
+                    if (existsUserCandidato)
+                    {
+                        return Conflict();
+                    }
+                }               
 
                 usuario.Candidato = await context.Candidatos.SingleOrDefaultAsync(c => c.Id == dto.Candidato.Id);
-            }
+                usuario.CandidatoId = usuario.Candidato.Id;
+            }           
 
             context.Update(usuario);
 

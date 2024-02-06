@@ -38,36 +38,15 @@ namespace simpatizantes_api.Controllers
             }
 
             return Ok(mapper.Map<SimpatizanteDTO>(simpatizante));
-        }
+        }   
 
-        [HttpGet("obtener-simpatizantes-por-usuario-id/{usuarioId:int}")]
-        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorUsuarioId(int usuarioId)
+        [HttpGet("obtener-simpatizantes-por-operador-id/{operadorId:int}")]
+        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorOperadorId(int operadorId)
         {
             var simpatizantes = await context.Simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
-                .Include(u => u.Usuario)
-                .Include(p => p.ProgramaSocial)
-                .Where(s => s.Usuario.Id == usuarioId)
-                .ToListAsync();
-
-            if (!simpatizantes.Any())
-            {
-                return NotFound();
-            }
-
-            return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
-        }
-
-        [HttpGet("obtener-simpatizantes-por-candidato-id/{operadorId:int}")]
-        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorCandidatoId(int operadorId)
-        {
-            var simpatizantes = await context.Simpatizantes
-                .Include(s => s.Seccion)
-                .Include(m => m.Municipio)
-                .Include(e => e.Estado)
-                .Include(u => u.Usuario)
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
                 .Where(s => s.Operador.Id == operadorId)
@@ -80,6 +59,27 @@ namespace simpatizantes_api.Controllers
 
             return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
         }
+
+        [HttpGet("obtener-simpatizantes-por-candidato-id/{candidatoId:int}")]
+        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorCandidatoId(int candidatoId)
+        {
+            var simpatizantes = await context.Simpatizantes
+                .Include(s => s.Seccion)
+                .Include(m => m.Municipio)
+                .Include(e => e.Estado)
+                .Include(p => p.ProgramaSocial)
+                .Include(c => c.Operador)
+                .Where(s => s.Operador.Candidato.Id == candidatoId)
+                .ToListAsync();
+
+            if (!simpatizantes.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
+        }
+
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetAll()
         {
@@ -87,7 +87,7 @@ namespace simpatizantes_api.Controllers
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
-                .Include(u => u.Usuario)
+                .Include(o => o.Operador)
                 .Include(p => p.ProgramaSocial)
                 .ToListAsync();
 
@@ -111,7 +111,6 @@ namespace simpatizantes_api.Controllers
 
             var simpatizante = mapper.Map<Simpatizante>(dto);
 
-            simpatizante.Usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuarioId);
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
@@ -168,7 +167,6 @@ namespace simpatizantes_api.Controllers
             int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
 
             mapper.Map(dto, simpatizante);
-            simpatizante.Usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuarioId);
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);

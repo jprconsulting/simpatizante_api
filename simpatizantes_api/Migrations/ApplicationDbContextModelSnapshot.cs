@@ -337,9 +337,6 @@ namespace simpatizantesapi.Migrations
                     b.Property<int>("Sexo")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
@@ -351,8 +348,6 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("ProgramaSocialId");
 
                     b.HasIndex("SeccionId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Simpatizantes");
                 });
@@ -525,7 +520,7 @@ namespace simpatizantesapi.Migrations
             modelBuilder.Entity("simpatizantes_api.Entities.Operador", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Candidato", "Candidato")
-                        .WithMany()
+                        .WithMany("Operador")
                         .HasForeignKey("CandidatoId");
 
                     b.Navigation("Candidato");
@@ -566,7 +561,7 @@ namespace simpatizantesapi.Migrations
                         .HasForeignKey("MunicipioId");
 
                     b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
-                        .WithMany()
+                        .WithMany("Simpatizantes")
                         .HasForeignKey("OperadorId");
 
                     b.HasOne("simpatizantes_api.Entities.ProgramaSocial", "ProgramaSocial")
@@ -577,10 +572,6 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Simpatizantes")
                         .HasForeignKey("SeccionId");
 
-                    b.HasOne("simpatizantes_api.Entities.Usuario", "Usuario")
-                        .WithMany("Simpatizantes")
-                        .HasForeignKey("UsuarioId");
-
                     b.Navigation("Estado");
 
                     b.Navigation("Municipio");
@@ -590,8 +581,6 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("ProgramaSocial");
 
                     b.Navigation("Seccion");
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
@@ -643,6 +632,8 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Candidato", b =>
                 {
+                    b.Navigation("Operador");
+
                     b.Navigation("Usuario");
                 });
 
@@ -673,6 +664,8 @@ namespace simpatizantesapi.Migrations
             modelBuilder.Entity("simpatizantes_api.Entities.Operador", b =>
                 {
                     b.Navigation("OperadorSecciones");
+
+                    b.Navigation("Simpatizantes");
 
                     b.Navigation("Usuario");
                 });
@@ -710,8 +703,6 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
                 {
-                    b.Navigation("Simpatizantes");
-
                     b.Navigation("Visitas");
                 });
 #pragma warning restore 612, 618

@@ -33,6 +33,8 @@ namespace simpatizantes_api.Services
                                     Email = u.Correo,
                                     RolId = r.Id,
                                     Rol = r.NombreRol,
+                                    CandidatoId = u.Rol.Id == 3 ? u.CandidatoId : null,
+                                    OperadorId = u.Rol.Id == 2 ? u.OperadorId : null,
                                 }).FirstOrDefaultAsync();
 
             if (user != null)
