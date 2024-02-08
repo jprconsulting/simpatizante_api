@@ -33,8 +33,9 @@ namespace simpatizantes_api.Utilities
 
             CreateMap<Candidato, CandidatoDTO>()
                 .ForMember(dest => dest.Cargo, opt => opt.MapFrom(src => src.Cargo))
+                .ForMember(dest => dest.Genero, opt => opt.MapFrom(src => src.Genero))
                 .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
-            .ForMember(dest => dest.StrFechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
+                .ForMember(dest => dest.StrFechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
 
             CreateMap<CandidatoDTO, Candidato>();
 
@@ -77,6 +78,7 @@ namespace simpatizantes_api.Utilities
                 .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
                 .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio))
                 .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado))
+                .ForMember(dest => dest.Genero, opt => opt.MapFrom(src => src.Genero))
                 .ForMember(dest => dest.StrFechaNacimiento, opt => opt.MapFrom(src => $"{src.FechaNacimiento:dd/MM/yyyy}"));
 
 

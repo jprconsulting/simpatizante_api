@@ -158,7 +158,6 @@ namespace simpatizantesapi.Migrations
                     ApellidoMaterno = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaNacimiento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Sexo = table.Column<int>(type: "int", nullable: false),
                     Sobrenombre = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Foto = table.Column<string>(type: "longtext", nullable: true)
@@ -166,8 +165,8 @@ namespace simpatizantesapi.Migrations
                     Emblema = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CargoId = table.Column<int>(type: "int", nullable: true),
-                    GeneroId = table.Column<int>(type: "int", nullable: true)
+                    GeneroId = table.Column<int>(type: "int", nullable: true),
+                    CargoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -329,7 +328,6 @@ namespace simpatizantesapi.Migrations
                     FechaNacimiento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Domicilio = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Sexo = table.Column<int>(type: "int", nullable: false),
                     CURP = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
@@ -337,12 +335,12 @@ namespace simpatizantesapi.Migrations
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IDMEX = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    GeneroId = table.Column<int>(type: "int", nullable: true),
                     ProgramaSocialId = table.Column<int>(type: "int", nullable: true),
                     SeccionId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     EstadoId = table.Column<int>(type: "int", nullable: true),
-                    OperadorId = table.Column<int>(type: "int", nullable: true),
-                    GeneroId = table.Column<int>(type: "int", nullable: true)
+                    OperadorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

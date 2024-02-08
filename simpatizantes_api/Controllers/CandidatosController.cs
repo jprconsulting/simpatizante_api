@@ -35,6 +35,7 @@ namespace simpatizantes_api.Controllers
         {
             var candidato = await context.Candidatos
                 .Include(c => c.Cargo)
+                .Include(g => g.Genero)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
             if (candidato == null)
@@ -52,6 +53,7 @@ namespace simpatizantes_api.Controllers
             {
                 var candidatos = await context.Candidatos
                     .Include(t => t.Cargo)
+                    .Include(g => g.Genero)
                     .ToListAsync();
 
                 if (!candidatos.Any())
@@ -84,6 +86,7 @@ namespace simpatizantes_api.Controllers
                 }
                 var candidato = mapper.Map<Candidato>(dto);
                 candidato.Cargo = await context.Cargos.SingleOrDefaultAsync(b => b.Id == dto.Cargo.Id);
+                candidato.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
 
                 context.Candidatos.Add(candidato);
                 await context.SaveChangesAsync();
@@ -141,6 +144,8 @@ namespace simpatizantes_api.Controllers
             
             mapper.Map(dto, Candidatos);
             Candidatos.Cargo = await context.Cargos.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
+            Candidatos.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
+
             context.Update(Candidatos);
 
             try

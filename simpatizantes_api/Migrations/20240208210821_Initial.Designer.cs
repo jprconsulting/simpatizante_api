@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240208182408_Initial")]
+    [Migration("20240208210821_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -54,9 +54,6 @@ namespace simpatizantesapi.Migrations
 
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
-
-                    b.Property<int>("Sexo")
-                        .HasColumnType("int");
 
                     b.Property<string>("Sobrenombre")
                         .HasColumnType("longtext");
@@ -359,9 +356,6 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("SeccionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Sexo")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
@@ -506,11 +500,13 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Candidatos")
                         .HasForeignKey("CargoId");
 
-                    b.HasOne("simpatizantes_api.Entities.Genero", null)
+                    b.HasOne("simpatizantes_api.Entities.Genero", "Genero")
                         .WithMany("Candidato")
                         .HasForeignKey("GeneroId");
 
                     b.Navigation("Cargo");
+
+                    b.Navigation("Genero");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Claim", b =>
@@ -587,7 +583,7 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Simpatizantes")
                         .HasForeignKey("EstadoId");
 
-                    b.HasOne("simpatizantes_api.Entities.Genero", null)
+                    b.HasOne("simpatizantes_api.Entities.Genero", "Genero")
                         .WithMany("Simpatizante")
                         .HasForeignKey("GeneroId");
 
@@ -608,6 +604,8 @@ namespace simpatizantesapi.Migrations
                         .HasForeignKey("SeccionId");
 
                     b.Navigation("Estado");
+
+                    b.Navigation("Genero");
 
                     b.Navigation("Municipio");
 

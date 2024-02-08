@@ -12,7 +12,7 @@ namespace simpatizantes_api.DTOs
         public DateTime FechaNacimiento { get; set; }
         public string StrFechaNacimiento { get; set; }
         public string Domicilio { get; set; }
-        public int Sexo { get; set; }
+        public GeneroDTO Genero { get; set; }
         public string CURP { get; set; }
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
