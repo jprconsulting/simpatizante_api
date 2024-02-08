@@ -209,7 +209,7 @@ namespace simpatizantes_api.Controllers
                 .Select(g => new SimpatizantesEstadisticaGeneroDTO
                 {
                     Id = g.Key, 
-                    Genero = ObtenerNombreGenero(g.Key), 
+                    Nombre = ObtenerNombreGenero(g.Key), 
                     TotalSinpatizantes = g.Count(),
                     Porcentaje = (decimal)g.Count() * 100 / totalSimpatizantes
                 })

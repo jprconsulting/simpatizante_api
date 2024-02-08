@@ -11,6 +11,7 @@ namespace simpatizantes_api
 
         }
         public DbSet<Simpatizante> Simpatizantes { get; set; }
+        public DbSet<Genero> Generos { get; set; }
         public DbSet<Operador> Operadores { get; set; }
         public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<Municipio> Municipios { get; set; }

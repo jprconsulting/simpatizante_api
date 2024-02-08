@@ -22,6 +22,9 @@ namespace simpatizantes_api.Utilities
             CreateMap<Cargo, CargoDTO>();
             CreateMap<CargoDTO, Cargo>();
 
+            CreateMap<Genero, GeneroDTO>();
+            CreateMap<GeneroDTO, Genero>();
+
             CreateMap<Incidencia, IncidenciaDTO>()
                 .ForMember(dest => dest.TipoIncidencia, opt => opt.MapFrom(src => src.TipoIncidencia))
                 .ForMember(dest => dest.Casilla, opt => opt.MapFrom(src => src.Casilla));
