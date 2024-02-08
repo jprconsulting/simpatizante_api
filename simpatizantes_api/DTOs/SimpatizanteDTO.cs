@@ -1,4 +1,6 @@
-﻿namespace simpatizantes_api.DTOs
+﻿using System;
+
+namespace simpatizantes_api.DTOs
 {
     public class SimpatizanteDTO
     {
@@ -16,12 +18,19 @@
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
         public string IDMEX { get; set; }
+        public int Edad => CalcularEdad(FechaNacimiento);
         public ProgramaSocialDTO ProgramaSocial { get; set; }
         public SeccionDTO Seccion { get; set; }
         public MunicipioDTO Municipio { get; set; }
         public EstadoDTO Estado { get; set; }
         public OperadorDTO Operador { get; set; }
 
+        private int CalcularEdad(DateTime fechaNacimiento)
+        {
+            var edad = DateTime.Today.Year - fechaNacimiento.Year;
+            if (fechaNacimiento.Date > DateTime.Today.AddYears(-edad))
+                edad--;
+            return edad;
+        }
     }
-
 }
