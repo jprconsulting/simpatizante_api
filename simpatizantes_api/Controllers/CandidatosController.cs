@@ -124,9 +124,9 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var Candidatos = await context.Candidatos.FindAsync(id);
+            var candidato = await context.Candidatos.FindAsync(id);
 
-            if (Candidatos == null)
+            if (candidato == null)
             {
                 return NotFound();
             }
@@ -135,18 +135,27 @@ namespace simpatizantes_api.Controllers
             {
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCandidatos);
             }
+            else
+            {
+                dto.Foto = candidato.Foto;
+            }
+
 
             if (!string.IsNullOrEmpty(dto.EmblemaBase64))
             {
 
                 dto.Emblema = await almacenadorImagenes.GuardarImagen(dto.EmblemaBase64, directorioEmblemas);
             }
+            else
+            {
+                dto.Emblema = candidato.Emblema;
+            }
             
-            mapper.Map(dto, Candidatos);
-            Candidatos.Cargo = await context.Cargos.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
-            Candidatos.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
+            mapper.Map(dto, candidato);
+            candidato.Cargo = await context.Cargos.SingleOrDefaultAsync(c => c.Id == dto.Cargo.Id);
+            candidato.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
 
-            context.Update(Candidatos);
+            context.Update(candidato);
 
             try
             {

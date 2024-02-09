@@ -164,7 +164,9 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var operador = await context.Operadores.FindAsync(id);
+            var operador = await context.Operadores
+                .Include(o => o.OperadorSecciones)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
             if (operador == null)
             {

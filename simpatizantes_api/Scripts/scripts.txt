@@ -186,6 +186,41 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessSimpatizantes', 1,4);
 
 
+-- Insertar secciones para Tlaxcala
+INSERT INTO simpatizantes.secciones (clave, municipioId)
+VALUES 
+('0435', 33), ('0436', 33), ('0437', 33), ('0438', 33), ('0439', 33), 
+('0440', 33), ('0441', 33), ('0442', 33), ('0443', 33), ('0444', 33), 
+('0445', 33), ('0446', 33), ('0447', 33), ('0448', 33), ('0449', 33), 
+('0450', 33), ('0451', 33), ('0452', 33), ('0454', 33), ('0455', 33), 
+('0456', 33), ('0457', 33), ('0459', 33), ('0460', 33), ('0461', 33), 
+('0462', 33), ('0463', 33), ('0464', 33), ('0465', 33), ('0466', 33), 
+('0467', 33), ('0468', 33), ('0469', 33), ('0612', 33), ('0626', 33), 
+('0627', 33), ('0628', 33), ('0629', 33), ('0630', 33), ('0631', 33);
+
+
+
+INSERT INTO simpatizantes.generos(nombre) VALUES 
+('Masculino'),
+('Femenino'),
+('No binario');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- Insertar secciones para Calpulalpan
 INSERT INTO simpatizantes.secciones (clave, municipioId)
 VALUES 
@@ -359,17 +394,7 @@ INSERT INTO simpatizantes.secciones (clave, municipioId)
 VALUES 
 ('0551', 29), ('0552', 29);
 
--- Insertar secciones para Tlaxcala
-INSERT INTO simpatizantes.secciones (clave, municipioId)
-VALUES 
-('0435', 39), ('0436', 39), ('0437', 39), ('0438', 39), ('0439', 39), 
-('0440', 39), ('0441', 39), ('0442', 39), ('0443', 39), ('0444', 39), 
-('0445', 39), ('0446', 39), ('0447', 39), ('0448', 39), ('0449', 39), 
-('0450', 39), ('0451', 39), ('0452', 39), ('0454', 39), ('0455', 39), 
-('0456', 39), ('0457', 39), ('0459', 39), ('0460', 39), ('0461', 39), 
-('0462', 39), ('0463', 39), ('0464', 39), ('0465', 39), ('0466', 39), 
-('0467', 39), ('0468', 39), ('0469', 39), ('0612', 39), ('0626', 39), 
-('0627', 39), ('0628', 39), ('0629', 39), ('0630', 39), ('0631', 39);
+
 
 -- Insertar secciones para Cuaxomulco
 INSERT INTO simpatizantes.secciones (clave, municipioId)
@@ -589,7 +614,3 @@ VALUES
 ('0358', 30), ('0359', 30), ('0360', 30), ('0361', 30), ('0363', 30), 
 ('0364', 30), ('0622', 30), ('0623', 30);
 
-INSERT INTO simpatizantes.generos(nombre) VALUES 
-('Masculino'),
-('Femenino'),
-('No binario');
