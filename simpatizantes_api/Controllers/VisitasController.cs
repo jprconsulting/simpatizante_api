@@ -120,13 +120,14 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
+            visita.Servicio = dto.Servicio;
+            visita.Descripcion = dto.Descripcion;
+
+            // Verificar si se proporciona una nueva imagen
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
-            }
-            else
-            {
-                dto.Foto = visita.Foto;
+                // Guardar la nueva imagen
+                visita.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
             }
 
             visita.SimpatizanteId = dto.Simpatizante.Id;
