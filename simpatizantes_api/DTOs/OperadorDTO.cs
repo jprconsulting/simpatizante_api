@@ -1,4 +1,6 @@
-﻿namespace simpatizantes_api.DTOs
+﻿using System;
+
+namespace simpatizantes_api.DTOs
 {
     public class OperadorDTO
     {
@@ -10,8 +12,17 @@
         public string StrFechaNacimiento { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public bool Estatus { get; set; }
+        public int Edad => CalcularEdad(FechaNacimiento);
         public CandidatoDTO Candidato { get; set; }
         public List<int> SeccionesIds { get; set; }
         public List<SeccionDTO> Secciones { get; set; }
+
+        private int CalcularEdad(DateTime fechaNacimiento)
+        {
+            var edad = DateTime.Today.Year - fechaNacimiento.Year;
+            if (fechaNacimiento.Date > DateTime.Today.AddYears(-edad))
+                edad--;
+            return edad;
+        }
     }
 }
