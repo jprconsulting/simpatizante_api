@@ -120,6 +120,15 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
+            {
+                dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
+            }
+            else
+            {
+                dto.Foto = visita.Foto;
+            }
+
             visita.SimpatizanteId = dto.Simpatizante.Id;
 
             try
