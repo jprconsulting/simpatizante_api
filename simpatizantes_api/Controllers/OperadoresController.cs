@@ -173,7 +173,24 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
+            // Actualizar propiedades de nombres y apellidos
             operador.CandidatoId = dto.Candidato.Id;
+            operador.Nombres = dto.Nombres;
+            operador.ApellidoPaterno = dto.ApellidoPaterno;
+            operador.ApellidoMaterno = dto.ApellidoMaterno;
+
+            // Limpiar todas las secciones actuales
+            operador.OperadorSecciones.Clear();
+
+            // Agregar las nuevas secciones
+            foreach (var seccionId in dto.SeccionesIds)
+            {
+                var seccion = await context.Secciones.FindAsync(seccionId);
+                if (seccion != null)
+                {
+                    operador.OperadorSecciones.Add(new OperadorSeccion { OperadorId = id, SeccionId = seccionId, Operador = operador, Seccion = seccion });
+                }
+            }
 
             try
             {
