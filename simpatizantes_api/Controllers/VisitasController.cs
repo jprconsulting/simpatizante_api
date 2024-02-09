@@ -120,34 +120,19 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
-            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
-
-            visita.Simpatizante = await context.Simpatizantes.FirstOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
-
-
-            // Asignar Simpatizante solo si hay un Id válido en dto.Simpatizante.Id
-            if (dto.Simpatizante != null && dto.Simpatizante.Id > 0)
-            {
-                visita.Simpatizante = await context.Simpatizantes.FindAsync(dto.Simpatizante.Id);
-            }
-
-            visita.Usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuarioId);
-
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
-                // Almacenar la imagen y asignar la ruta a dto.Foto
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
             }
+            else
+            {
+                dto.Foto = visita.Foto;
+            }
 
-            // Mapear los datos desde dto a la entidad visita
-            mapper.Map(dto, visita);
-
-            // Actualizar la entidad visita en la base de datos
-            context.Update(visita);
+            visita.SimpatizanteId = dto.Simpatizante.Id;
 
             try
             {
-                // Guardar los cambios en la base de datos
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -162,10 +147,8 @@ namespace simpatizantes_api.Controllers
                 }
             }
 
-            // Retornar una respuesta de éxito
             return NoContent();
         }
-
 
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)

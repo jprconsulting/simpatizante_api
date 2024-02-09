@@ -9,7 +9,7 @@
         public string NombreCompleto { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public string StrFechaNacimiento { get; set; }
-        public int Sexo { get; set; }
+        public GeneroDTO Genero { get; set; }
         public string Sobrenombre { get; set; }
         public string Foto { get; set; }
         public string Emblema { get; set; }

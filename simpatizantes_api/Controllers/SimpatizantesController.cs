@@ -30,6 +30,7 @@ namespace simpatizantes_api.Controllers
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
                 .Include(p => p.ProgramaSocial)
+                .Include(g => g.Genero)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
             if (simpatizante == null)
@@ -49,6 +50,7 @@ namespace simpatizantes_api.Controllers
                 .Include(e => e.Estado)
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
+                .Include(g => g.Genero)
                 .Where(s => s.Operador.Id == operadorId)
                 .ToListAsync();
 
@@ -69,6 +71,7 @@ namespace simpatizantes_api.Controllers
                 .Include(e => e.Estado)
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
+                .Include(g => g.Genero)
                 .Where(s => s.Operador.Candidato.Id == candidatoId)
                 .ToListAsync();
 
@@ -89,6 +92,7 @@ namespace simpatizantes_api.Controllers
                 .Include(e => e.Estado)
                 .Include(o => o.Operador)
                 .Include(p => p.ProgramaSocial)
+                .Include(g => g.Genero)
                 .ToListAsync();
 
             if (!simpatizantes.Any())
@@ -115,6 +119,8 @@ namespace simpatizantes_api.Controllers
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
             simpatizante.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
+            simpatizante.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
+
 
             if (dto.ProgramaSocial != null)
             {
@@ -171,6 +177,7 @@ namespace simpatizantes_api.Controllers
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
             simpatizante.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
+            simpatizante.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
 
             if (dto.ProgramaSocial != null)
             {

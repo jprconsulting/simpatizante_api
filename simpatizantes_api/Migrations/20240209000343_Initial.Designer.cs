@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240206022014_Initial")]
+    [Migration("20240209000343_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -49,11 +49,11 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Foto")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("GeneroId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
-
-                    b.Property<int>("Sexo")
-                        .HasColumnType("int");
 
                     b.Property<string>("Sobrenombre")
                         .HasColumnType("longtext");
@@ -61,6 +61,8 @@ namespace simpatizantesapi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CargoId");
+
+                    b.HasIndex("GeneroId");
 
                     b.ToTable("Candidatos");
                 });
@@ -130,6 +132,20 @@ namespace simpatizantesapi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Estados");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Genero", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Generos");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Incidencia", b =>
@@ -313,6 +329,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int?>("GeneroId")
+                        .HasColumnType("int");
+
                     b.Property<string>("IDMEX")
                         .HasColumnType("longtext");
 
@@ -337,12 +356,11 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("SeccionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Sexo")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
+
+                    b.HasIndex("GeneroId");
 
                     b.HasIndex("MunicipioId");
 
@@ -482,7 +500,13 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Candidatos")
                         .HasForeignKey("CargoId");
 
+                    b.HasOne("simpatizantes_api.Entities.Genero", "Genero")
+                        .WithMany("Candidato")
+                        .HasForeignKey("GeneroId");
+
                     b.Navigation("Cargo");
+
+                    b.Navigation("Genero");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Claim", b =>
@@ -559,6 +583,10 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Simpatizantes")
                         .HasForeignKey("EstadoId");
 
+                    b.HasOne("simpatizantes_api.Entities.Genero", "Genero")
+                        .WithMany("Simpatizante")
+                        .HasForeignKey("GeneroId");
+
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("MunicipioId");
@@ -576,6 +604,8 @@ namespace simpatizantesapi.Migrations
                         .HasForeignKey("SeccionId");
 
                     b.Navigation("Estado");
+
+                    b.Navigation("Genero");
 
                     b.Navigation("Municipio");
 
@@ -655,6 +685,13 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Municipios");
 
                     b.Navigation("Simpatizantes");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Genero", b =>
+                {
+                    b.Navigation("Candidato");
+
+                    b.Navigation("Simpatizante");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Municipio", b =>

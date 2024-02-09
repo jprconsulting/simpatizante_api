@@ -155,6 +155,7 @@ namespace simpatizantes_api.Controllers
 
             return NoContent();
         }
+
         [HttpPut("actualizar/{id:int}")]
         public async Task<ActionResult> Put(int id, OperadorDTO dto)
         {
@@ -163,17 +164,16 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var Operadores = await context.Operadores.FindAsync(id);
-            Operadores.Candidato = await context.Candidatos.SingleOrDefaultAsync(r => r.Id == dto.Candidato.Id);
+            var operador = await context.Operadores
+                .Include(o => o.OperadorSecciones)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
-            if (Operadores == null)
+            if (operador == null)
             {
                 return NotFound();
             }
 
-            mapper.Map(dto, Operadores);
-            //Operadores.Seccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == dto.Seccion.Id);
-            context.Update(Operadores);
+            operador.CandidatoId = dto.Candidato.Id;
 
             try
             {
@@ -181,7 +181,7 @@ namespace simpatizantes_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IncidenciasExists(id))
+                if (!OperadorExists(id))
                 {
                     return NotFound();
                 }
@@ -193,7 +193,8 @@ namespace simpatizantes_api.Controllers
 
             return NoContent();
         }
-        private bool IncidenciasExists(int id)
+
+        private bool OperadorExists(int id)
         {
             return context.Incidencias.Any(e => e.Id == id);
         }
