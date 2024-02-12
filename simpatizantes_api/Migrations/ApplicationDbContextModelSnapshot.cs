@@ -344,6 +344,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Numerotel")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("OperadorId")
                         .HasColumnType("int");
 

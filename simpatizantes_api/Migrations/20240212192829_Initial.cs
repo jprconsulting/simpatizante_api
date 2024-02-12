@@ -332,6 +332,8 @@ namespace simpatizantesapi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CURP = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Numerotel = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),

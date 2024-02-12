@@ -9,6 +9,7 @@
         public DateTime FechaNacimiento { get; set; }
         public string Domicilio { get; set; }
         public string CURP { get; set; }
+        public string Numerotel { get; set; }
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
