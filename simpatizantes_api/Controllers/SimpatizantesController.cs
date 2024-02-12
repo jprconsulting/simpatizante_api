@@ -22,6 +22,26 @@ namespace simpatizantes_api.Controllers
             this.mapper = mapper;
         }
 
+        private async Task<bool> ValidarSimpatizantePorClaveElector(string claveElector)
+        {
+            return await context.Simpatizantes.AnyAsync(s => s.ClaveElector.Trim().ToLower() == claveElector.Trim().ToLower());
+        }
+
+        [HttpGet("validar-simpatizante-por-clave-elector/{claveElector}")]
+        public async Task<ActionResult> GetValidarSimpatizantePorClaveElector(string claveElector)
+        {
+            var existeSimpatizante = await ValidarSimpatizantePorClaveElector(claveElector);
+
+            if (existeSimpatizante)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<SimpatizanteDTO>> GetById(int id)
         {
@@ -111,7 +131,16 @@ namespace simpatizantes_api.Controllers
                 return BadRequest(ModelState);
             }
 
+            var existeSimpatizante = await ValidarSimpatizantePorClaveElector(dto.ClaveElector);
+
+            if (existeSimpatizante) 
+            {
+                return Conflict();
+            }
+
             int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
+
+            dto.FechaNacimiento = DateTime.Now;
 
             var simpatizante = mapper.Map<Simpatizante>(dto);
 

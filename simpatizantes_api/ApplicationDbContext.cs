@@ -29,7 +29,16 @@ namespace simpatizantes_api
         public DbSet<Voto> Votos { get; set; }
         public DbSet<OperadorSeccion> OperadoresSecciones { get; set; }
 
-      
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Operador>()
+                .HasMany(o => o.OperadorSecciones)
+                .WithOne(os => os.Operador)
+                .HasForeignKey(os => os.OperadorId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
+
 
     }
 }

@@ -237,10 +237,10 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("OperadorId")
+                    b.Property<int>("OperadorId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SeccionId")
+                    b.Property<int>("SeccionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -314,6 +314,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("CURP")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ClaveElector")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Domicilio")
                         .HasColumnType("longtext");
 
@@ -328,9 +331,6 @@ namespace simpatizantesapi.Migrations
 
                     b.Property<int?>("GeneroId")
                         .HasColumnType("int");
-
-                    b.Property<string>("IDMEX")
-                        .HasColumnType("longtext");
 
                     b.Property<decimal>("Latitud")
                         .HasColumnType("decimal(65,30)");
@@ -554,11 +554,15 @@ namespace simpatizantesapi.Migrations
                 {
                     b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
                         .WithMany("OperadorSecciones")
-                        .HasForeignKey("OperadorId");
+                        .HasForeignKey("OperadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("simpatizantes_api.Entities.Seccion", "Seccion")
                         .WithMany("OperadorSecciones")
-                        .HasForeignKey("SeccionId");
+                        .HasForeignKey("SeccionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Operador");
 

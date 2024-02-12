@@ -294,8 +294,8 @@ namespace simpatizantesapi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    OperadorId = table.Column<int>(type: "int", nullable: true),
-                    SeccionId = table.Column<int>(type: "int", nullable: true)
+                    OperadorId = table.Column<int>(type: "int", nullable: false),
+                    SeccionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -304,12 +304,14 @@ namespace simpatizantesapi.Migrations
                         name: "FK_OperadoresSecciones_Operadores_OperadorId",
                         column: x => x.OperadorId,
                         principalTable: "Operadores",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OperadoresSecciones_Secciones_SeccionId",
                         column: x => x.SeccionId,
                         principalTable: "Secciones",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -333,7 +335,7 @@ namespace simpatizantesapi.Migrations
                     Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    IDMEX = table.Column<string>(type: "longtext", nullable: true)
+                    ClaveElector = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     GeneroId = table.Column<int>(type: "int", nullable: true),
                     ProgramaSocialId = table.Column<int>(type: "int", nullable: true),
