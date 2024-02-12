@@ -206,8 +206,18 @@ namespace simpatizantes_api.Controllers
             {
                 return NotFound();
             }
-            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
 
+            // Extraer año, mes y día de la clave del elector
+            string claveElector = dto.ClaveElector;
+            int yearPrefix = int.Parse(claveElector.Substring(6, 2));
+            int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
+            int month = int.Parse(claveElector.Substring(8, 2));
+            int day = int.Parse(claveElector.Substring(10, 2));
+
+            // Construir la fecha de nacimiento
+            dto.FechaNacimiento = new DateTime(year, month, day);
+
+            // Mapear el DTO actualizado al simpatizante
             mapper.Map(dto, simpatizante);
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
@@ -220,6 +230,7 @@ namespace simpatizantes_api.Controllers
                 simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
             }
 
+            // Actualizar el simpatizante en la base de datos
             context.Update(simpatizante);
 
             try
