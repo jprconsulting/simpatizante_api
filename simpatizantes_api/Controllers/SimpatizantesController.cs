@@ -133,14 +133,22 @@ namespace simpatizantes_api.Controllers
 
             var existeSimpatizante = await ValidarSimpatizantePorClaveElector(dto.ClaveElector);
 
-            if (existeSimpatizante) 
+            if (existeSimpatizante)
             {
                 return Conflict();
             }
 
             int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
 
-            dto.FechaNacimiento = DateTime.Now;
+            // Extraer año, mes y día de la clave del elector
+            string claveElector = dto.ClaveElector;
+            int yearPrefix = int.Parse(claveElector.Substring(6, 2));
+            int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
+            int month = int.Parse(claveElector.Substring(8, 2));
+            int day = int.Parse(claveElector.Substring(10, 2));
+
+            // Construir la fecha de nacimiento
+            dto.FechaNacimiento = new DateTime(year, month, day);
 
             var simpatizante = mapper.Map<Simpatizante>(dto);
 
@@ -149,7 +157,6 @@ namespace simpatizantes_api.Controllers
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
             simpatizante.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
             simpatizante.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
-
 
             if (dto.ProgramaSocial != null)
             {
@@ -162,7 +169,7 @@ namespace simpatizantes_api.Controllers
             {
                 await context.SaveChangesAsync();
                 return Ok();
-            }          
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { error = "Error interno del servidor al guardar el Simpatizante.", details = ex.Message });
