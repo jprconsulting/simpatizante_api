@@ -138,8 +138,6 @@ namespace simpatizantes_api.Controllers
             }
         }
 
-
-
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -148,6 +146,14 @@ namespace simpatizantes_api.Controllers
             if (operador == null)
             {
                 return NotFound();
+            }
+
+            // Verificar si hay dependencias
+            var tieneDependencias = await context.OperadoresSecciones.AnyAsync(os => os.OperadorId == id);
+
+            if (tieneDependencias)
+            {
+                return StatusCode(502, new { error = "No se puede eliminar el operador debido a dependencias existentes." });
             }
 
             context.Operadores.Remove(operador);

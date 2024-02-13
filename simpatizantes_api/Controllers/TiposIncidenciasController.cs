@@ -102,6 +102,13 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
+            var tieneDependencias = await context.Incidencias.AnyAsync(s => s.TipoIncidencia.Id == id);
+
+            if (tieneDependencias)
+            {
+                return StatusCode(502, new { error = "No se puede eliminar el tipo de incidencia debido a dependencias existentes." });
+            }
+
             context.TiposIncidencias.Remove(tipoIncidencia);
             await context.SaveChangesAsync();
 

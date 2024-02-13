@@ -186,6 +186,13 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
+            var tieneDependencias = await context.Visitas.AnyAsync(s => s.SimpatizanteId == id);
+
+            if (tieneDependencias)
+            {
+                return StatusCode(502, new { error = "No se puede eliminar el simpatizante debido a dependencias existentes." });
+            }
+
             context.Simpatizantes.Remove(simpatizante);
             await context.SaveChangesAsync();
 
