@@ -225,15 +225,33 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
-            // Extraer año, mes y día de la clave del elector
-            string claveElector = dto.ClaveElector;
-            int yearPrefix = int.Parse(claveElector.Substring(6, 2));
-            int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
-            int month = int.Parse(claveElector.Substring(8, 2));
-            int day = int.Parse(claveElector.Substring(10, 2));
+            // Validar la clave del elector antes de procesar la actualización
+            if (!string.IsNullOrEmpty(dto.ClaveElector))
+            {
+                // Intentar extraer la fecha de la clave del elector
+                try
+                {
+                    // Extraer año, mes y día de la clave del elector
+                    string claveElector = dto.ClaveElector;
+                    int yearPrefix = int.Parse(claveElector.Substring(6, 2));
+                    int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
+                    int month = int.Parse(claveElector.Substring(8, 2));
+                    int day = int.Parse(claveElector.Substring(10, 2));
 
-            // Construir la fecha de nacimiento
-            dto.FechaNacimiento = new DateTime(year, month, day);
+                    // Construir la fecha de nacimiento
+                    dto.FechaNacimiento = new DateTime(year, month, day);
+                }
+                catch (Exception)
+                {
+                    // Si hay un error al extraer la fecha, establecer la fecha de nacimiento como el valor mínimo de DateTime
+                    dto.FechaNacimiento = DateTime.MinValue;
+                }
+            }
+            else
+            {
+                // Si no se proporciona una clave del elector, establecer la fecha de nacimiento como el valor mínimo de DateTime
+                dto.FechaNacimiento = DateTime.MinValue;
+            }
 
             // Mapear el DTO actualizado al simpatizante
             mapper.Map(dto, simpatizante);
