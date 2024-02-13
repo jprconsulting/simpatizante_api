@@ -79,6 +79,13 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
+            var tieneDependencias = await context.Simpatizantes.AnyAsync(s => s.ProgramaSocial.Id == id);
+
+            if (tieneDependencias)
+            {
+                return StatusCode(502, new { error = "No se puede eliminar el programa social debido a dependencias existentes." });
+            }
+
             context.ProgramasSociales.Remove(programa);
             await context.SaveChangesAsync();
 
