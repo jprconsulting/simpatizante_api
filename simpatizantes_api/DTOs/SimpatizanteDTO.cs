@@ -31,6 +31,12 @@ namespace simpatizantes_api.DTOs
             var edad = DateTime.Today.Year - fechaNacimiento.Year;
             if (fechaNacimiento.Date > DateTime.Today.AddYears(-edad))
                 edad--;
+
+            if (edad > 120)
+            {
+                return 0;
+            }
+
             return edad;
         }
     }

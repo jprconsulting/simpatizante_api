@@ -142,13 +142,24 @@ namespace simpatizantes_api.Controllers
 
             // Extraer año, mes y día de la clave del elector
             string claveElector = dto.ClaveElector;
-            int yearPrefix = int.Parse(claveElector.Substring(6, 2));
-            int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
-            int month = int.Parse(claveElector.Substring(8, 2));
-            int day = int.Parse(claveElector.Substring(10, 2));
 
-            // Construir la fecha de nacimiento
-            dto.FechaNacimiento = new DateTime(year, month, day);
+            // Validar el formato de la clave del elector
+            if (claveElector.Length != 18)
+            {
+                // Si la longitud de la clave del elector es incorrecta, establecer la fecha de nacimiento como DateTime.MinValue
+                dto.FechaNacimiento = DateTime.MinValue;
+            }
+            else
+            {
+                // Procesar la clave del elector para extraer año, mes y día
+                int yearPrefix = int.Parse(claveElector.Substring(6, 2));
+                int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
+                int month = int.Parse(claveElector.Substring(8, 2));
+                int day = int.Parse(claveElector.Substring(10, 2));
+
+                // Construir la fecha de nacimiento
+                dto.FechaNacimiento = new DateTime(year, month, day);
+            }
 
             var simpatizante = mapper.Map<Simpatizante>(dto);
 
