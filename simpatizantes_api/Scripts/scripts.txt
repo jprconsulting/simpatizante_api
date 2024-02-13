@@ -136,7 +136,8 @@ INSERT INTO simpatizantes.cargos (nombre)
 VALUES 
 ('Presidente de la Republica'),
 ('Gobernador'),
-('Diputado');
+('Diputado'),
+('Presidente Municipal');
 
 INSERT INTO simpatizantes.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
 VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
@@ -144,42 +145,53 @@ VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
 /* admin */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 1),
+('CanAccessAdministracion', 1, 1),
+('CanAccessDashboard', 1, 1),
 ('CanAccessUsuarios', 1, 1),
+('CanAccessProgramasSociales', 1,1),
+('CanAccessTiposIncidencias', 1,1),
+('CanAccessOperacion', 1,1),
 ('CanAccessCandidatos',1,1),
+('CanAccessOperadores', 1,1),
 ('CanAccessSimpatizantes', 1,1),
 ('CanAccessMapaSimpatizantes', 1,1),
-('CanAccessProgramasSociales', 1,1),
+('CanAccessJornadaElectoral', 1,1),
 ('CanAccessVisitas', 1,1),
-('CanAccessOperadores', 1,1),
 ('CanAccessIncidencias', 1,1),
-('CanAccessTipoIncidencias', 1,1),
 ('CanAccessMapaIncidencias', 1,1),
 ('CanAccessSeguimientoVoto', 1,1),
 ('CanAccessResultados', 1,1),
 ('CanAccessReportes', 1,1),
-('CanAccessNuvePalabras', 1,1),
-('CanAccessDishboard', 1,1);
+('CanAccessNubePalabras', 1,1);
 
 /* operador */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 2),
+('CanAccessOperacion', 1,2),
 ('CanAccessSimpatizantes', 1,2),
 ('CanAccessMapaSimpatizantes', 1,2),
+('CanAccessJornadaElectoral', 1,2),
 ('CanAccessVisitas', 1,2),
 ('CanAccessIncidencias', 1,2),
 ('CanAccessMapaIncidencias', 1,2),
-('CanAccessSeguimientoVoto', 1,2);
+('CanAccessSeguimientoVoto', 1,2),
+('CanAccessNubePalabras', 1,2);
 
 /* candidato */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 3),
+('CanAccessAdministracion', 1, 3),
+('CanAccessDashboard', 1, 3),
+('CanAccessOperacion', 1,3),
+('CanAccessOperadores', 1,3),
 ('CanAccessSimpatizantes', 1,3),
 ('CanAccessMapaSimpatizantes', 1,3),
+('CanAccessJornadaElectoral', 1,3),
 ('CanAccessVisitas', 1,3),
 ('CanAccessIncidencias', 1,3),
 ('CanAccessMapaIncidencias', 1,3),
-('CanAccessOperadores', 1,3),
-('CanAccessSeguimientoVoto', 1,3);
+('CanAccessSeguimientoVoto', 1,3),
+('CanAccessNubePalabras', 1,3);
 
 /* BRIGADISTA */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES

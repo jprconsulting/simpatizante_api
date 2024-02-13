@@ -22,6 +22,26 @@ namespace simpatizantes_api.Controllers
             this.mapper = mapper;
         }
 
+        private async Task<bool> ValidarSimpatizantePorClaveElector(string claveElector)
+        {
+            return await context.Simpatizantes.AnyAsync(s => s.ClaveElector.Trim().ToLower() == claveElector.Trim().ToLower());
+        }
+
+        [HttpGet("validar-simpatizante-por-clave-elector/{claveElector}")]
+        public async Task<ActionResult> GetValidarSimpatizantePorClaveElector(string claveElector)
+        {
+            var existeSimpatizante = await ValidarSimpatizantePorClaveElector(claveElector);
+
+            if (existeSimpatizante)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<SimpatizanteDTO>> GetById(int id)
         {
@@ -111,7 +131,24 @@ namespace simpatizantes_api.Controllers
                 return BadRequest(ModelState);
             }
 
+            var existeSimpatizante = await ValidarSimpatizantePorClaveElector(dto.ClaveElector);
+
+            if (existeSimpatizante)
+            {
+                return Conflict();
+            }
+
             int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
+
+            // Extraer año, mes y día de la clave del elector
+            string claveElector = dto.ClaveElector;
+            int yearPrefix = int.Parse(claveElector.Substring(6, 2));
+            int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
+            int month = int.Parse(claveElector.Substring(8, 2));
+            int day = int.Parse(claveElector.Substring(10, 2));
+
+            // Construir la fecha de nacimiento
+            dto.FechaNacimiento = new DateTime(year, month, day);
 
             var simpatizante = mapper.Map<Simpatizante>(dto);
 
@@ -120,7 +157,6 @@ namespace simpatizantes_api.Controllers
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
             simpatizante.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
             simpatizante.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
-
 
             if (dto.ProgramaSocial != null)
             {
@@ -133,7 +169,7 @@ namespace simpatizantes_api.Controllers
             {
                 await context.SaveChangesAsync();
                 return Ok();
-            }          
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { error = "Error interno del servidor al guardar el Simpatizante.", details = ex.Message });
@@ -170,8 +206,18 @@ namespace simpatizantes_api.Controllers
             {
                 return NotFound();
             }
-            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
 
+            // Extraer año, mes y día de la clave del elector
+            string claveElector = dto.ClaveElector;
+            int yearPrefix = int.Parse(claveElector.Substring(6, 2));
+            int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
+            int month = int.Parse(claveElector.Substring(8, 2));
+            int day = int.Parse(claveElector.Substring(10, 2));
+
+            // Construir la fecha de nacimiento
+            dto.FechaNacimiento = new DateTime(year, month, day);
+
+            // Mapear el DTO actualizado al simpatizante
             mapper.Map(dto, simpatizante);
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
@@ -184,6 +230,7 @@ namespace simpatizantes_api.Controllers
                 simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
             }
 
+            // Actualizar el simpatizante en la base de datos
             context.Update(simpatizante);
 
             try

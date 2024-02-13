@@ -9,10 +9,11 @@
         public DateTime FechaNacimiento { get; set; }
         public string Domicilio { get; set; }
         public string CURP { get; set; }
+        public string Numerotel { get; set; }
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
-        public string IDMEX { get; set; }
+        public string ClaveElector { get; set; }
         public Genero Genero { get; set; }
         public ProgramaSocial ProgramaSocial { get; set; }
         public Seccion Seccion { get; set; }
