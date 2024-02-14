@@ -27,6 +27,8 @@ namespace simpatizantes_api
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Cargo> Cargos { get; set; }
         public DbSet<Voto> Votos { get; set; }
+        public DbSet<Enlace> Enlaces { get; set; }
+
         public DbSet<OperadorSeccion> OperadoresSecciones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

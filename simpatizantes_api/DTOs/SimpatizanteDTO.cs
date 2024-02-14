@@ -20,6 +20,7 @@ namespace simpatizantes_api.DTOs
         public bool Estatus { get; set; }
         public string ClaveElector { get; set; }
         public int Edad => CalcularEdad(FechaNacimiento);
+        public EnlaceDTO Enlace { get; set; }
         public ProgramaSocialDTO ProgramaSocial { get; set; }
         public SeccionDTO Seccion { get; set; }
         public MunicipioDTO Municipio { get; set; }
@@ -31,6 +32,12 @@ namespace simpatizantes_api.DTOs
             var edad = DateTime.Today.Year - fechaNacimiento.Year;
             if (fechaNacimiento.Date > DateTime.Today.AddYears(-edad))
                 edad--;
+
+            if (edad > 120)
+            {
+                return 0;
+            }
+
             return edad;
         }
     }

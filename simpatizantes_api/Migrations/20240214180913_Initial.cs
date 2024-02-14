@@ -48,6 +48,25 @@ namespace simpatizantesapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Enlaces",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombres = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ApellidoPaterno = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ApellidoMaterno = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enlaces", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Estados",
                 columns: table => new
                 {
@@ -248,6 +267,8 @@ namespace simpatizantesapi.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Clave = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nombre = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     MunicipioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -341,6 +362,7 @@ namespace simpatizantesapi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     GeneroId = table.Column<int>(type: "int", nullable: true),
                     ProgramaSocialId = table.Column<int>(type: "int", nullable: true),
+                    EnlaceId = table.Column<int>(type: "int", nullable: true),
                     SeccionId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     EstadoId = table.Column<int>(type: "int", nullable: true),
@@ -349,6 +371,11 @@ namespace simpatizantesapi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Simpatizantes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Simpatizantes_Enlaces_EnlaceId",
+                        column: x => x.EnlaceId,
+                        principalTable: "Enlaces",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Simpatizantes_Estados_EstadoId",
                         column: x => x.EstadoId,
@@ -531,6 +558,11 @@ namespace simpatizantesapi.Migrations
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Simpatizantes_EnlaceId",
+                table: "Simpatizantes",
+                column: "EnlaceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Simpatizantes_EstadoId",
                 table: "Simpatizantes",
                 column: "EstadoId");
@@ -625,6 +657,9 @@ namespace simpatizantesapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rols");
+
+            migrationBuilder.DropTable(
+                name: "Enlaces");
 
             migrationBuilder.DropTable(
                 name: "Operadores");
