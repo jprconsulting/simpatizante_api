@@ -145,6 +145,7 @@ VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
 /* admin */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 1),
+('CanAccessEnlaces', 1, 1),
 ('CanAccessAdministracion', 1, 1),
 ('CanAccessDashboard', 1, 1),
 ('CanAccessUsuarios', 1, 1),
@@ -167,6 +168,7 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 /* operador */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 2),
+('CanAccessEnlaces', 1, 2),
 ('CanAccessOperacion', 1,2),
 ('CanAccessSimpatizantes', 1,2),
 ('CanAccessMapaSimpatizantes', 1,2),
@@ -180,6 +182,7 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 /* candidato */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 3),
+('CanAccessEnlaces', 1, 3),
 ('CanAccessAdministracion', 1, 3),
 ('CanAccessDashboard', 1, 3),
 ('CanAccessOperacion', 1,3),
@@ -200,24 +203,59 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessSimpatizantes', 1,4);
 
 
--- Insertar secciones para Tlaxcala
-INSERT INTO simpatizantes.secciones (clave, municipioId)
+INSERT INTO simpatizantes.secciones (clave, nombre, municipioId)
 VALUES 
-('0435', 33), ('0436', 33), ('0437', 33), ('0438', 33), ('0439', 33), 
-('0440', 33), ('0441', 33), ('0442', 33), ('0443', 33), ('0444', 33), 
-('0445', 33), ('0446', 33), ('0447', 33), ('0448', 33), ('0449', 33), 
-('0450', 33), ('0451', 33), ('0452', 33), ('0454', 33), ('0455', 33), 
-('0456', 33), ('0457', 33), ('0459', 33), ('0460', 33), ('0461', 33), 
-('0462', 33), ('0463', 33), ('0464', 33), ('0465', 33), ('0466', 33), 
-('0467', 33), ('0468', 33), ('0469', 33), ('0612', 33), ('0626', 33), 
-('0627', 33), ('0628', 33), ('0629', 33), ('0630', 33), ('0631', 33);
-
+('0435', 'Tizatlán', 33),
+('0436', 'Tizatlán', 33),
+('0437', 'Tizatlán', 33),
+('0438', 'Ixtulco', 33),
+('0439', 'Ixtulco', 33),
+('0440', 'Atempan', 33),
+('0441', 'Col. Centro', 33),
+('0442', 'Col. Adolfo López Mateos', 33),
+('0443', 'Col. Centro', 33),
+('0444', 'Ocotlán', 33),
+('0445', 'Ocotlán', 33),
+('0446', 'Col. Centro', 33),
+('0447', 'Col. Centro', 33),
+('0448', 'San Hipólito Chimalpa', 33),
+('0449', 'Col. Centro', 33),
+('0450', 'Col. Centro', 33),
+('0451', 'San Gabriel Cuauhtla', 33),
+('0452', 'La Joya', 33),
+('0453', 'Tlacomulco', 33),
+('0454', 'Tlapancalco', 33),
+('0455', 'Tlapancalco', 33),
+('0456', 'Loma Bonita', 33),
+('0457', 'El Sabinal', 33),
+('0458', 'Atlahapa', 33),
+('0459', 'La Joya', 33),
+('0460', 'Col. San Isidro', 33),
+('0461', 'La Loma Xicohténcatl', 33),
+('0462', 'Tepehitec', 33),
+('0463', 'La Loma Xicohténcatl', 33),
+('0464', 'La Loma Xicohténcatl', 33),
+('0465', 'Santa María Acuitlapilco', 33),
+('0466', 'Santa María Acuitlapilco', 33),
+('0467', 'San Diego Metepec', 33),
+('0468', 'San Lucas Cuauhtelulpan', 33),
+('0469', 'San Lucas Cuauhtelulpan', 33),
+('0612', 'Adolfo López Mateos', 33),
+('0626', 'Barrio Miraflores', 33),
+('0627', 'Barrio Miraflores', 33),
+('0628', 'Atlahapa', 33),
+('0629', 'Acuitlapilco', 33),
+('0630', 'Atlahapa', 33),
+('0631', 'La Loma Xicohténcatl', 33);
 
 
 INSERT INTO simpatizantes.generos(nombre) VALUES 
 ('Masculino'),
 ('Femenino'),
 ('No binario');
+
+
+
 
 
 
