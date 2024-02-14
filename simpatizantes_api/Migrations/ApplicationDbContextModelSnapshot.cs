@@ -117,6 +117,26 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("Claims");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Enlace", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApellidoMaterno")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ApellidoPaterno")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nombres")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Enlaces");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
                 {
                     b.Property<int>("Id")
@@ -292,6 +312,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("MunicipioId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MunicipioId");
@@ -319,6 +342,9 @@ namespace simpatizantesapi.Migrations
 
                     b.Property<string>("Domicilio")
                         .HasColumnType("longtext");
+
+                    b.Property<int?>("EnlaceId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("EstadoId")
                         .HasColumnType("int");
@@ -357,6 +383,8 @@ namespace simpatizantesapi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EnlaceId");
 
                     b.HasIndex("EstadoId");
 
@@ -583,6 +611,10 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Simpatizante", b =>
                 {
+                    b.HasOne("simpatizantes_api.Entities.Enlace", "Enlace")
+                        .WithMany("Simpatizantes")
+                        .HasForeignKey("EnlaceId");
+
                     b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("EstadoId");
@@ -606,6 +638,8 @@ namespace simpatizantesapi.Migrations
                     b.HasOne("simpatizantes_api.Entities.Seccion", "Seccion")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("SeccionId");
+
+                    b.Navigation("Enlace");
 
                     b.Navigation("Estado");
 
@@ -682,6 +716,11 @@ namespace simpatizantesapi.Migrations
             modelBuilder.Entity("simpatizantes_api.Entities.Casilla", b =>
                 {
                     b.Navigation("Incidencias");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Enlace", b =>
+                {
+                    b.Navigation("Simpatizantes");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>

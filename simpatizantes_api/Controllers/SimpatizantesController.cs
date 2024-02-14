@@ -174,6 +174,11 @@ namespace simpatizantes_api.Controllers
                 simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
             }
 
+            if (dto.Enlace != null)
+            {
+                simpatizante.Enlace = await context.Enlaces.SingleOrDefaultAsync(e => e.Id == dto.Enlace.Id);
+            }
+
             context.Add(simpatizante);
 
             try
@@ -264,6 +269,11 @@ namespace simpatizantes_api.Controllers
             if (dto.ProgramaSocial != null)
             {
                 simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
+            }
+
+            if (dto.Enlace != null)
+            {
+                simpatizante.Enlace = await context.Enlaces.SingleOrDefaultAsync(e => e.Id == dto.Enlace.Id);
             }
 
             // Actualizar el simpatizante en la base de datos

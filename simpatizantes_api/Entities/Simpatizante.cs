@@ -16,6 +16,7 @@
         public string ClaveElector { get; set; }
         public Genero Genero { get; set; }
         public ProgramaSocial ProgramaSocial { get; set; }
+        public Enlace Enlace { get; set; }
         public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }
         public Estado Estado { get; set; }
