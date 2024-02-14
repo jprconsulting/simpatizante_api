@@ -49,7 +49,9 @@ namespace simpatizantes_api.Controllers
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
+                .Include(n => n.Enlace)
                 .Include(p => p.ProgramaSocial)
+                .Include(c => c.Operador)
                 .Include(g => g.Genero)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
@@ -68,6 +70,7 @@ namespace simpatizantes_api.Controllers
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
+                .Include(n => n.Enlace)
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
                 .Include(g => g.Genero)
