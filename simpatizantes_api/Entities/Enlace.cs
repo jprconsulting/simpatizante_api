@@ -6,6 +6,7 @@
         public string Nombres { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
+        public Operador Operador { get; set; }
         public List<Simpatizante> Simpatizantes { get; set; }
     }
 }

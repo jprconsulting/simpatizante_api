@@ -19,7 +19,8 @@ namespace simpatizantes_api.Utilities
             CreateMap<Rol, RolDTO>();
             CreateMap<RolDTO, Rol>();
 
-            CreateMap<Enlace, EnlaceDTO>();
+            CreateMap<Enlace, EnlaceDTO>()
+            .ForMember(dest => dest.Operador, opt => opt.MapFrom(src => src.Operador));
             CreateMap<EnlaceDTO, Enlace>();
 
             CreateMap<Cargo, CargoDTO>();

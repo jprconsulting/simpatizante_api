@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240214180913_Initial")]
+    [Migration("20240215172044_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -135,7 +135,12 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("OperadorId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OperadorId");
 
                     b.ToTable("Enlaces");
                 });
@@ -551,6 +556,15 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Rol");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Enlace", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
+                        .WithMany("Enlaces")
+                        .HasForeignKey("OperadorId");
+
+                    b.Navigation("Operador");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Incidencia", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Casilla", "Casilla")
@@ -749,6 +763,8 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Operador", b =>
                 {
+                    b.Navigation("Enlaces");
+
                     b.Navigation("OperadorSecciones");
 
                     b.Navigation("Simpatizantes");

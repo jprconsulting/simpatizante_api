@@ -25,7 +25,9 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<EnlaceDTO>>> GetAll()
         {
-            var enlaces = await context.Enlaces.ToListAsync();
+            var enlaces = await context.Enlaces
+                .Include(o => o.Operador)
+                .ToListAsync();
 
             if (!enlaces.Any())
             {
@@ -53,6 +55,7 @@ namespace simpatizantes_api.Controllers
             }
 
             var enlace = mapper.Map<Enlace>(dto);
+            enlace.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
             context.Add(enlace);
 
             try
@@ -106,6 +109,7 @@ namespace simpatizantes_api.Controllers
             }
 
             mapper.Map(dto, enlace);
+            enlace.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
             context.Update(enlace);
 
             try
