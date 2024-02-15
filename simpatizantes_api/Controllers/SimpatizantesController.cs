@@ -95,6 +95,7 @@ namespace simpatizantes_api.Controllers
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
                 .Include(g => g.Genero)
+                .Include(n => n.Enlace)
                 .Where(s => s.Operador.Candidato.Id == candidatoId)
                 .ToListAsync();
 
@@ -114,6 +115,7 @@ namespace simpatizantes_api.Controllers
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
                 .Include(o => o.Operador)
+                .Include(n => n.Enlace)
                 .Include(p => p.ProgramaSocial)
                 .Include(g => g.Genero)
                 .ToListAsync();
