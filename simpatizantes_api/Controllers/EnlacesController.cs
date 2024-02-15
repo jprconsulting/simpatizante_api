@@ -22,6 +22,38 @@ namespace simpatizantes_api.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet("por-operador/{operadorId:int}")]
+        public async Task<ActionResult<List<EnlaceDTO>>> GetByOperadorId(int operadorId)
+        {
+            var enlaces = await context.Enlaces
+                .Include(o => o.Operador)
+                .Where(e => e.Operador.Id == operadorId)
+                .ToListAsync();
+
+            if (!enlaces.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<EnlaceDTO>>(enlaces));
+        }
+
+        [HttpGet("por-candidato/{candidatoId:int}")]
+        public async Task<ActionResult<List<EnlaceDTO>>> GetByCandidatoId(int candidatoId)
+        {
+            var enlaces = await context.Enlaces
+                .Include(o => o.Operador)
+                .Where(e => e.Operador.CandidatoId == candidatoId)
+                .ToListAsync();
+
+            if (!enlaces.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<EnlaceDTO>>(enlaces));
+        }
+
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<EnlaceDTO>>> GetAll()
         {
