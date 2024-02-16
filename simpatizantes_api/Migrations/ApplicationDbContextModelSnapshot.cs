@@ -135,6 +135,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("OperadorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Telefono")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OperadorId");

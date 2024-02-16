@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240215172044_Initial")]
+    [Migration("20240216050240_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -137,6 +137,9 @@ namespace simpatizantesapi.Migrations
 
                     b.Property<int?>("OperadorId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

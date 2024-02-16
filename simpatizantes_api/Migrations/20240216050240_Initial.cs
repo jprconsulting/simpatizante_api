@@ -302,6 +302,8 @@ namespace simpatizantesapi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ApellidoMaterno = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Telefono = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     OperadorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
