@@ -149,7 +149,7 @@ namespace simpatizantes_api.Controllers
             }
 
             // Verificar si hay dependencias
-            var tieneDependencias = await context.OperadoresSecciones.AnyAsync(os => os.OperadorId == id);
+            var tieneDependencias = await context.Simpatizantes.AnyAsync(os => os.OperadorId == id);
 
             if (tieneDependencias)
             {
