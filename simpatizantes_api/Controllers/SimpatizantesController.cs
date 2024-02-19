@@ -79,6 +79,8 @@ namespace simpatizantes_api.Controllers
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
                 .Include(g => g.Genero)
+                .Include(u => u.UsuarioCreacion)
+                .Include(u => u.UsuarioEdicion)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
             if (simpatizante == null)
@@ -100,6 +102,8 @@ namespace simpatizantes_api.Controllers
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
                 .Include(g => g.Genero)
+                .Include(u => u.UsuarioCreacion)
+                .Include(u => u.UsuarioEdicion)
                 .Where(s => s.Operador.Id == operadorId)
                 .ToListAsync();
 
@@ -122,6 +126,8 @@ namespace simpatizantes_api.Controllers
                 .Include(c => c.Operador)
                 .Include(g => g.Genero)
                 .Include(n => n.Promotor)
+                .Include(u => u.UsuarioCreacion)
+                .Include(u => u.UsuarioEdicion)
                 .Where(s => s.Operador.Candidato.Id == candidatoId)
                 .ToListAsync();
 
@@ -144,6 +150,8 @@ namespace simpatizantes_api.Controllers
                 .Include(n => n.Promotor)
                 .Include(p => p.ProgramaSocial)
                 .Include(g => g.Genero)
+                .Include(u => u.UsuarioCreacion)
+                .Include(u => u.UsuarioEdicion)
                 .OrderByDescending(i => i.Id)
                 .ToListAsync();
 
@@ -173,6 +181,9 @@ namespace simpatizantes_api.Controllers
             int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
 
             var simpatizante = mapper.Map<Simpatizante>(dto);
+
+            simpatizante.UsuarioCreacionId = usuarioId; // Establecer el UsuarioCreacionId
+            simpatizante.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
 
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
@@ -239,10 +250,18 @@ namespace simpatizantes_api.Controllers
             if (simpatizante == null)
             {
                 return NotFound();
-            }            
+            }
 
+            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
+            
             // Mapear el DTO actualizado al simpatizante
             mapper.Map(dto, simpatizante);
+
+            simpatizante.UsuarioEdicionId = usuarioId; // Establecer el UsuarioEdicionId
+            simpatizante.FechaHoraEdicion = DateTime.Now; // Establecer la fecha de creación
+
+            simpatizante.UsuarioCreacionId = usuarioId; 
+            simpatizante.FechaHoraCreacion = DateTime.Now; 
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);

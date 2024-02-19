@@ -120,13 +120,19 @@ namespace simpatizantes_api.Controllers
                 return Conflict();
             }
 
+            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value); // Obtener el Id del usuario actual
 
+            // Mapear el DTO a la entidad Promotor
+            var promotor = mapper.Map<Promotor>(dto);
+
+            // Establecer el UsuarioCreacionId y la FechaHoraCreacion
+            promotor.UsuarioCreacionId = usuarioId;
+            promotor.FechaHoraCreacion = DateTime.Now;
 
             using (var transaction = await context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    var promotor = mapper.Map<Promotor>(dto);
                     context.Add(promotor);
 
                     if (await context.SaveChangesAsync() > 0)
@@ -134,7 +140,7 @@ namespace simpatizantes_api.Controllers
                         foreach (var operadorId in dto.OperadoresIds)
                         {
                             var existsOperador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == operadorId);
-                            var existsPromotorOperador = await context.PromotoresOperadores.AnyAsync(po => po.Promotor.Id == dto.Id && po.Operador.Id == operadorId);
+                            var existsPromotorOperador = await context.PromotoresOperadores.AnyAsync(po => po.Promotor.Id == promotor.Id && po.Operador.Id == operadorId);
 
                             if (existsOperador != null && !existsPromotorOperador)
                             {
@@ -164,7 +170,6 @@ namespace simpatizantes_api.Controllers
                 }
             }
         }
-
 
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)

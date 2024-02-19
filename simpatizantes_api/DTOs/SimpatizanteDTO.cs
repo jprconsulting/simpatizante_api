@@ -26,7 +26,10 @@ namespace simpatizantes_api.DTOs
         public MunicipioDTO Municipio { get; set; }
         public EstadoDTO Estado { get; set; }
         public OperadorDTO Operador { get; set; }
-
+        public UsuarioDTO UsuarioCreacion { get; set; }
+        public UsuarioDTO UsuarioEdicion { get; set; }
+        public DateTime? FechaHoraCreacion { get; set; }
+        public DateTime? FechaHoraEdicion { get; set; }
         private int CalcularEdad(DateTime fechaNacimiento)
         {
             var edad = DateTime.Today.Year - fechaNacimiento.Year;

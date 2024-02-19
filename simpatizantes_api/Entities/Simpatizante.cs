@@ -16,6 +16,12 @@
         public string ClaveElector { get; set; }
         public string TercerNivelContacto { get; set; }
         public Genero Genero { get; set; }
+        public int? UsuarioCreacionId { get; set; }
+        public Usuario UsuarioCreacion { get; set; }
+        public DateTime FechaHoraCreacion { get; set; }
+        public int? UsuarioEdicionId { get; set; }
+        public Usuario UsuarioEdicion { get; set; }
+        public DateTime? FechaHoraEdicion { get; set; }
         public ProgramaSocial ProgramaSocial { get; set; }
         public Promotor Promotor { get; set; }
         public Seccion Seccion { get; set; }
