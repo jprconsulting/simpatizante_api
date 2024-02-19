@@ -19,9 +19,8 @@ namespace simpatizantes_api.Utilities
             CreateMap<Rol, RolDTO>();
             CreateMap<RolDTO, Rol>();
 
-            CreateMap<Enlace, EnlaceDTO>()
-            .ForMember(dest => dest.Operador, opt => opt.MapFrom(src => src.Operador));
-            CreateMap<EnlaceDTO, Enlace>();
+            CreateMap<Promotor, PromotorDTO>();
+            CreateMap<PromotorDTO, Promotor>();
 
             CreateMap<Cargo, CargoDTO>();
             CreateMap<CargoDTO, Cargo>();
@@ -79,7 +78,7 @@ namespace simpatizantes_api.Utilities
             CreateMap<Simpatizante, SimpatizanteDTO>()
                 .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => $"{src.Nombres} {src.ApellidoPaterno} {src.ApellidoMaterno}"))
                 .ForMember(dest => dest.ProgramaSocial, opt => opt.MapFrom(src => src.ProgramaSocial))
-                .ForMember(dest => dest.Enlace, opt => opt.MapFrom(src => src.Enlace))
+                .ForMember(dest => dest.Promotor, opt => opt.MapFrom(src => src.Promotor))
                 .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
                 .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio))
                 .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado))

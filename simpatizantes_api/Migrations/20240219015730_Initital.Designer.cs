@@ -11,8 +11,8 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240216050240_Initial")]
-    partial class Initial
+    [Migration("20240219015730_Initital")]
+    partial class Initital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,34 +118,6 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("RolId");
 
                     b.ToTable("Claims");
-                });
-
-            modelBuilder.Entity("simpatizantes_api.Entities.Enlace", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApellidoMaterno")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ApellidoPaterno")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Nombres")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("OperadorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Telefono")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OperadorId");
-
-                    b.ToTable("Enlaces");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
@@ -297,6 +269,50 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("ProgramasSociales");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Promotor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApellidoMaterno")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ApellidoPaterno")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nombres")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Promotores");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.PromotorOperador", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("OperadorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PromotorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperadorId");
+
+                    b.HasIndex("PromotorId");
+
+                    b.ToTable("PromotoresOperadores");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Rol", b =>
                 {
                     b.Property<int>("Id")
@@ -354,9 +370,6 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Domicilio")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("EnlaceId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("EstadoId")
                         .HasColumnType("int");
 
@@ -384,18 +397,22 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Numerotel")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("OperadorId")
+                    b.Property<int>("OperadorId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProgramaSocialId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PromotorId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SeccionId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TercerNivelContacto")
+                        .HasColumnType("longtext");
 
-                    b.HasIndex("EnlaceId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
 
@@ -406,6 +423,8 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("OperadorId");
 
                     b.HasIndex("ProgramaSocialId");
+
+                    b.HasIndex("PromotorId");
 
                     b.HasIndex("SeccionId");
 
@@ -559,15 +578,6 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Rol");
                 });
 
-            modelBuilder.Entity("simpatizantes_api.Entities.Enlace", b =>
-                {
-                    b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
-                        .WithMany("Enlaces")
-                        .HasForeignKey("OperadorId");
-
-                    b.Navigation("Operador");
-                });
-
             modelBuilder.Entity("simpatizantes_api.Entities.Incidencia", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Casilla", "Casilla")
@@ -620,6 +630,25 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Seccion");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.PromotorOperador", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
+                        .WithMany("PromotorOperadores")
+                        .HasForeignKey("OperadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("simpatizantes_api.Entities.Promotor", "Promotor")
+                        .WithMany("PromotorOperadores")
+                        .HasForeignKey("PromotorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Operador");
+
+                    b.Navigation("Promotor");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Seccion", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
@@ -631,10 +660,6 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Simpatizante", b =>
                 {
-                    b.HasOne("simpatizantes_api.Entities.Enlace", "Enlace")
-                        .WithMany("Simpatizantes")
-                        .HasForeignKey("EnlaceId");
-
                     b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("EstadoId");
@@ -649,17 +674,21 @@ namespace simpatizantesapi.Migrations
 
                     b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
                         .WithMany("Simpatizantes")
-                        .HasForeignKey("OperadorId");
+                        .HasForeignKey("OperadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("simpatizantes_api.Entities.ProgramaSocial", "ProgramaSocial")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("ProgramaSocialId");
 
+                    b.HasOne("simpatizantes_api.Entities.Promotor", "Promotor")
+                        .WithMany("Simpatizantes")
+                        .HasForeignKey("PromotorId");
+
                     b.HasOne("simpatizantes_api.Entities.Seccion", "Seccion")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("SeccionId");
-
-                    b.Navigation("Enlace");
 
                     b.Navigation("Estado");
 
@@ -670,6 +699,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Operador");
 
                     b.Navigation("ProgramaSocial");
+
+                    b.Navigation("Promotor");
 
                     b.Navigation("Seccion");
                 });
@@ -738,11 +769,6 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Incidencias");
                 });
 
-            modelBuilder.Entity("simpatizantes_api.Entities.Enlace", b =>
-                {
-                    b.Navigation("Simpatizantes");
-                });
-
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
                 {
                     b.Navigation("Municipios");
@@ -766,9 +792,9 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Operador", b =>
                 {
-                    b.Navigation("Enlaces");
-
                     b.Navigation("OperadorSecciones");
+
+                    b.Navigation("PromotorOperadores");
 
                     b.Navigation("Simpatizantes");
 
@@ -777,6 +803,13 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.ProgramaSocial", b =>
                 {
+                    b.Navigation("Simpatizantes");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Promotor", b =>
+                {
+                    b.Navigation("PromotorOperadores");
+
                     b.Navigation("Simpatizantes");
                 });
 

@@ -18,9 +18,9 @@ namespace simpatizantes_api.DTOs
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
-        public string ClaveElector { get; set; }
+        public string TercerNivelContacto { get; set; }
         public int Edad => CalcularEdad(FechaNacimiento);
-        public EnlaceDTO Enlace { get; set; }
+        public PromotorDTO Promotor { get; set; }
         public ProgramaSocialDTO ProgramaSocial { get; set; }
         public SeccionDTO Seccion { get; set; }
         public MunicipioDTO Municipio { get; set; }
