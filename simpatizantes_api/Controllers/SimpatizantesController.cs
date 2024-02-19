@@ -24,8 +24,14 @@ namespace simpatizantes_api.Controllers
 
         private async Task<bool> ValidarSimpatizantePorCURP(string curp)
         {
+            if (curp == null)
+            {
+                return false;
+            }
+
             return await context.Simpatizantes.AnyAsync(s => s.CURP.Trim().ToLower() == curp.Trim().ToLower());
         }
+
 
         private async Task<bool> ValidarSimpatizantePorClaveElector(string claveElector)
         {
