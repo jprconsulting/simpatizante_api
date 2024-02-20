@@ -330,7 +330,7 @@ namespace simpatizantes_api.Controllers
         }
         private string GetColorFromSimpatiza(bool simpatiza)
         {
-            return simpatiza ? "#00FF00" : "#FF0000";
+            return simpatiza ? "#008f39 " : "#FF0000";
         }
 
         private bool SimpatizanteExists(int id)
