@@ -163,6 +163,35 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
         }
 
+        [HttpGet("mapa")]
+        public async Task<ActionResult<List<SimpatizanteConVisitaDTO>>> GetSimpatizantesConSimpatiza()
+        {
+            var visitas = await context.Visitas.
+                ToListAsync(); 
+
+            var simpatizantes = await context.Simpatizantes
+               .Include(s => s.Seccion)
+               .Include(m => m.Municipio)
+               .Include(e => e.Estado)
+               .Include(o => o.Operador)
+               .Include(n => n.Promotor)
+               .Include(p => p.ProgramaSocial)
+               .Include(g => g.Genero)
+               .Include(u => u.UsuarioCreacion)
+               .Include(u => u.UsuarioEdicion)
+               .OrderByDescending(i => i.Id)
+               .ToListAsync();
+
+            var simpatizantesConVisita = visitas.Select(v => new SimpatizanteConVisitaDTO
+            {
+                Simpatizante = mapper.Map<SimpatizanteDTO>(v.Simpatizante),
+                Simpatiza = v.Simpatiza,
+                Color = GetColorFromSimpatiza(v.Simpatiza)
+            }).ToList();
+
+            return Ok(simpatizantesConVisita);
+        }
+
         [HttpPost("crear")]
         public async Task<ActionResult> Post(SimpatizanteDTO dto)
         {
@@ -298,6 +327,10 @@ namespace simpatizantes_api.Controllers
             }
 
             return NoContent();
+        }
+        private string GetColorFromSimpatiza(bool simpatiza)
+        {
+            return simpatiza ? "verde" : "rojo";
         }
 
         private bool SimpatizanteExists(int id)
