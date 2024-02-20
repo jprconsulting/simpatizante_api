@@ -6,6 +6,7 @@
         public string Servicio { get; set; }
         public string Descripcion { get; set; }
         public string Foto { get; set; }
+        public bool Simpatiza { get; set; }
         public DateTime FechaHoraVisita { get; set; }
         public int? SimpatizanteId { get; set; }
         public Simpatizante Simpatizante { get; set; }
