@@ -25,11 +25,7 @@ namespace simpatizantes_api.DTOs
         public SeccionDTO Seccion { get; set; }
         public MunicipioDTO Municipio { get; set; }
         public EstadoDTO Estado { get; set; }
-        public OperadorDTO Operador { get; set; }
-        public UsuarioDTO UsuarioCreacion { get; set; }
-        public UsuarioDTO UsuarioEdicion { get; set; }
-        public DateTime? FechaHoraCreacion { get; set; }
-        public DateTime? FechaHoraEdicion { get; set; }
+        public OperadorDTO Operador { get; set; }        
         private int CalcularEdad(DateTime? fechaNacimiento)
         {
 

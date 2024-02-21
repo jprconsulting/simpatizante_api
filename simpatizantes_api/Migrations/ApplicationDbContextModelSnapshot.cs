@@ -40,6 +40,12 @@ namespace simpatizantesapi.Migrations
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTime>("FechaHoraCreacion")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("FechaHoraEdicion")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime(6)");
 
@@ -53,6 +59,12 @@ namespace simpatizantesapi.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Sobrenombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioCreacionNombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioEdicionNombre")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -218,10 +230,22 @@ namespace simpatizantesapi.Migrations
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTime>("FechaHoraCreacion")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("FechaHoraEdicion")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Nombres")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioCreacionNombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioEdicionNombre")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -278,7 +302,7 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("ApellidoPaterno")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("FechaHoraCreacion")
+                    b.Property<DateTime>("FechaHoraCreacion")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("FechaHoraEdicion")
@@ -290,17 +314,13 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Telefono")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("UsuarioCreacionId")
-                        .HasColumnType("int");
+                    b.Property<string>("UsuarioCreacionNombre")
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("UsuarioEdicionId")
-                        .HasColumnType("int");
+                    b.Property<string>("UsuarioEdicionNombre")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioCreacionId");
-
-                    b.HasIndex("UsuarioEdicionId");
 
                     b.ToTable("Promotores");
                 });
@@ -431,11 +451,11 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("TercerNivelContacto")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("UsuarioCreacionId")
-                        .HasColumnType("int");
+                    b.Property<string>("UsuarioCreacionNombre")
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("UsuarioEdicionId")
-                        .HasColumnType("int");
+                    b.Property<string>("UsuarioEdicionNombre")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -452,10 +472,6 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("PromotorId");
 
                     b.HasIndex("SeccionId");
-
-                    b.HasIndex("UsuarioCreacionId");
-
-                    b.HasIndex("UsuarioEdicionId");
 
                     b.ToTable("Simpatizantes");
                 });
@@ -662,21 +678,6 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Seccion");
                 });
 
-            modelBuilder.Entity("simpatizantes_api.Entities.Promotor", b =>
-                {
-                    b.HasOne("simpatizantes_api.Entities.Usuario", "UsuarioCreacion")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacionId");
-
-                    b.HasOne("simpatizantes_api.Entities.Usuario", "UsuarioEdicion")
-                        .WithMany()
-                        .HasForeignKey("UsuarioEdicionId");
-
-                    b.Navigation("UsuarioCreacion");
-
-                    b.Navigation("UsuarioEdicion");
-                });
-
             modelBuilder.Entity("simpatizantes_api.Entities.PromotorOperador", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
@@ -737,14 +738,6 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Simpatizantes")
                         .HasForeignKey("SeccionId");
 
-                    b.HasOne("simpatizantes_api.Entities.Usuario", "UsuarioCreacion")
-                        .WithMany()
-                        .HasForeignKey("UsuarioCreacionId");
-
-                    b.HasOne("simpatizantes_api.Entities.Usuario", "UsuarioEdicion")
-                        .WithMany()
-                        .HasForeignKey("UsuarioEdicionId");
-
                     b.Navigation("Estado");
 
                     b.Navigation("Genero");
@@ -758,10 +751,6 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Promotor");
 
                     b.Navigation("Seccion");
-
-                    b.Navigation("UsuarioCreacion");
-
-                    b.Navigation("UsuarioEdicion");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>

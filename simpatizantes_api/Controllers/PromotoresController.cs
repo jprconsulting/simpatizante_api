@@ -120,13 +120,13 @@ namespace simpatizantes_api.Controllers
                 return Conflict();
             }
 
-            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value); // Obtener el Id del usuario actual
+            string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
 
             // Mapear el DTO a la entidad Promotor
             var promotor = mapper.Map<Promotor>(dto);
 
             // Establecer el UsuarioCreacionId y la FechaHoraCreacion
-            promotor.UsuarioCreacionId = usuarioId;
+            promotor.UsuarioCreacionNombre = nombreCompleto;
             promotor.FechaHoraCreacion = DateTime.Now;
 
             using (var transaction = await context.Database.BeginTransactionAsync())

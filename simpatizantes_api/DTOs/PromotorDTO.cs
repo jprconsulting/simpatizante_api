@@ -7,10 +7,6 @@
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
         public string Telefono { get; set; }
-        public UsuarioDTO UsuarioCreacion { get; set; }
-        public UsuarioDTO UsuarioEdicion { get; set; }
-        public DateTime? FechaHoraCreacion { get; set; }
-        public DateTime? FechaHoraEdicion { get; set; }
         public List<int> OperadoresIds { get; set; }
         public List<OperadorDTO> Operadores { get; set; }
 

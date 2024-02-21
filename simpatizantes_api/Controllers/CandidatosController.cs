@@ -84,7 +84,12 @@ namespace simpatizantes_api.Controllers
                  
                     dto.Emblema = await almacenadorImagenes.GuardarImagen(dto.EmblemaBase64, directorioEmblemas);
                 }
+
+                string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
+
                 var candidato = mapper.Map<Candidato>(dto);
+                candidato.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
+                candidato.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
                 candidato.Cargo = await context.Cargos.SingleOrDefaultAsync(b => b.Id == dto.Cargo.Id);
                 candidato.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
 

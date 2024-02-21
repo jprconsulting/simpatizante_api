@@ -104,11 +104,15 @@ namespace simpatizantes_api.Controllers
                 return BadRequest(ModelState);
             }
 
+            string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
+
             using (var transaction = await context.Database.BeginTransactionAsync())
             {
                 try
                 {
                     var operador = mapper.Map<Operador>(dto);
+                    operador.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
+                    operador.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
                     operador.Candidato = await context.Candidatos.SingleOrDefaultAsync(r => r.Id == dto.Candidato.Id);
                     context.Add(operador);
 

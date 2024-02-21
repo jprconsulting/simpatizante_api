@@ -11,6 +11,10 @@
         public string Foto { get; set; }
         public string Emblema { get; set; }
         public bool Estatus { get; set; }
+        public string? UsuarioCreacionNombre { get; set; }
+        public DateTime FechaHoraCreacion { get; set; }
+        public string? UsuarioEdicionNombre { get; set; }
+        public DateTime? FechaHoraEdicion { get; set; }
         public Genero Genero { get; set; }
         public Cargo Cargo { get; set; }
         public List <Operador> Operador { get; set; }
