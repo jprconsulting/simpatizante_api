@@ -253,6 +253,11 @@ namespace simpatizantes_api.Controllers
             }
 
             int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
+
+            if (dto.FechaNacimiento == null)
+            {
+                dto.FechaNacimiento = DateTime.Now;
+            }
             
             // Mapear el DTO actualizado al simpatizante
             mapper.Map(dto, simpatizante);

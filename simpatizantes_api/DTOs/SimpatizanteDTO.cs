@@ -9,7 +9,7 @@ namespace simpatizantes_api.DTOs
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
         public string NombreCompleto { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
         public string StrFechaNacimiento { get; set; }
         public string Domicilio { get; set; }
         public GeneroDTO Genero { get; set; }
@@ -30,18 +30,27 @@ namespace simpatizantes_api.DTOs
         public UsuarioDTO UsuarioEdicion { get; set; }
         public DateTime? FechaHoraCreacion { get; set; }
         public DateTime? FechaHoraEdicion { get; set; }
-        private int CalcularEdad(DateTime fechaNacimiento)
+        private int CalcularEdad(DateTime? fechaNacimiento)
         {
-            var edad = DateTime.Today.Year - fechaNacimiento.Year;
-            if (fechaNacimiento.Date > DateTime.Today.AddYears(-edad))
-                edad--;
 
-            if (edad > 120)
+            if (fechaNacimiento.HasValue) 
+            {
+                var edad = DateTime.Today.Year - fechaNacimiento?.Year;
+                edad = edad.HasValue ? edad : 0;
+                if (fechaNacimiento?.Date > DateTime.Today.AddYears(-(int)edad))
+                    edad--;
+
+                if (edad > 120)
+                {
+                    return 0;
+                }
+
+                return (int)edad;
+            }else
             {
                 return 0;
             }
-
-            return edad;
+           
         }
     }
 }
