@@ -541,6 +541,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Servicio")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("Simpatiza")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int?>("SimpatizanteId")
                         .HasColumnType("int");
 

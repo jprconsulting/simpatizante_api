@@ -21,18 +21,29 @@ namespace simpatizantes_api.Controllers
             this.context = context;
             this.mapper = mapper;
         }
+
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<OperadorDTO>> GetById(int id)
         {
-            var operador = await context.Operadores.FirstOrDefaultAsync(b => b.Id == id);
+            var operador = await context.Operadores
+                .Include(o => o.OperadorSecciones)
+                    .ThenInclude(os => os.Seccion)
+                        .ThenInclude(s => s.Municipio)
+                .FirstOrDefaultAsync(b => b.Id == id);
 
             if (operador == null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<OperadorDTO>(operador));
+            var operadorDTO = mapper.Map<OperadorDTO>(operador);
+
+            var secciones = operador.OperadorSecciones.Select(os => os.Seccion).ToList();
+            operadorDTO.Secciones = mapper.Map<List<SeccionDTO>>(secciones);
+
+            return Ok(operadorDTO);
         }
+
 
         [HttpGet("obtener-operadores-por-candidato-id/{candidatoId:int}")]
         public async Task<ActionResult<List<OperadorDTO>>> GetOperadoresPorCandidatoId(int candidatoId)
@@ -54,7 +65,6 @@ namespace simpatizantes_api.Controllers
 
             return Ok(operadoresDTO);
         }
-
 
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<OperadorDTO>>> GetAll()
