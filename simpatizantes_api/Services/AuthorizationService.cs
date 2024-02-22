@@ -35,7 +35,9 @@ namespace simpatizantes_api.Services
                               select new
                               {
                                   User = u,
-                                  Rol = r
+                                  Rol = r,
+                                  CandidatoId = u.Rol.Id == 3 ? u.CandidatoId : null,
+                                  OperadorId = u.Rol.Id == 2 ? u.OperadorId : null,
                               }).FirstOrDefaultAsync();
 
             if (user != null)
@@ -66,7 +68,9 @@ namespace simpatizantes_api.Services
                     Rol = user.Rol.NombreRol,
                     IsAuthenticated = true,
                     Token = token,
-                    Claims = claims
+                    Claims = claims,
+                    CandidatoId = user.Rol.Id == 3 ? user.CandidatoId : null,
+                    OperadorId = user.Rol.Id == 2 ? user.OperadorId : null,
                 };
             }
 
