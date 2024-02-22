@@ -196,6 +196,13 @@ namespace simpatizantes_api.Controllers
             {
                 return Conflict();
             }
+            var existeSimpatizantern = await context.Simpatizantes.AnyAsync(n => n.Nombres == dto.Nombres &&
+                                                                n.ApellidoPaterno == dto.ApellidoPaterno &&
+                                                                n.ApellidoMaterno == dto.ApellidoMaterno);
+            if (existeSimpatizantern)
+            {
+                return Conflict();
+            }
 
             string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
 

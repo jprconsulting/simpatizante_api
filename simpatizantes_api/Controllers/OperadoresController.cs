@@ -103,7 +103,13 @@ namespace simpatizantes_api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            var existeOperador = await context.Operadores.AnyAsync(n => n.Nombres == dto.Nombres &&
+                                                                  n.ApellidoPaterno == dto.ApellidoPaterno &&
+                                                                  n.ApellidoMaterno == dto.ApellidoMaterno);
+            if (existeOperador)
+            {
+                return Conflict();
+            }
             string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
 
             using (var transaction = await context.Database.BeginTransactionAsync())
