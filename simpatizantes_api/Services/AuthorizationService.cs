@@ -102,7 +102,7 @@ namespace simpatizantes_api.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddHours(24),
                 SigningCredentials = credentials
             };
 
