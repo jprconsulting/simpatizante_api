@@ -493,6 +493,31 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("TiposIncidencias");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.UserSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastAccessTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("UserSessions");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -523,7 +548,7 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("RolId")
+                    b.Property<int?>("RolId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -753,6 +778,13 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Seccion");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.UserSession", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Usuario", null)
+                        .WithMany("Sessions")
+                        .HasForeignKey("UsuarioId");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Candidato", "Candidato")
@@ -765,9 +797,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasOne("simpatizantes_api.Entities.Rol", "Rol")
                         .WithMany("Usuarios")
-                        .HasForeignKey("RolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RolId");
 
                     b.Navigation("Candidato");
 
@@ -889,6 +919,8 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
                 {
+                    b.Navigation("Sessions");
+
                     b.Navigation("Visitas");
                 });
 #pragma warning restore 612, 618

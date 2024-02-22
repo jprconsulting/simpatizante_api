@@ -10,6 +10,7 @@ namespace simpatizantes_api
         {
 
         }
+        public DbSet<UserSession> UserSessions { get; set; }
         public DbSet<Simpatizante> Simpatizantes { get; set; }
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Operador> Operadores { get; set; }
