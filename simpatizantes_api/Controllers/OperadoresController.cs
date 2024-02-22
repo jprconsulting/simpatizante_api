@@ -63,6 +63,18 @@ namespace simpatizantes_api.Controllers
 
             var operadoresDTO = mapper.Map<List<OperadorDTO>>(operadores);
 
+            foreach (var operador in operadoresDTO)
+            {
+                var secciones = await context.OperadoresSecciones
+                    .Include(s => s.Seccion)
+                    .ThenInclude(s => s.Municipio)
+                    .Where(os => os.Operador.Id == operador.Id)
+                    .Select(i => i.Seccion)
+                    .ToListAsync();
+
+                operador.Secciones = mapper.Map<List<SeccionDTO>>(secciones);
+            }
+
             return Ok(operadoresDTO);
         }
 
@@ -204,6 +216,8 @@ namespace simpatizantes_api.Controllers
             operador.Nombres = dto.Nombres;
             operador.ApellidoPaterno = dto.ApellidoPaterno;
             operador.ApellidoMaterno = dto.ApellidoMaterno;
+            operador.FechaNacimiento = dto.FechaNacimiento;
+            operador.Estatus = dto.Estatus;
 
             // Limpiar todas las secciones actuales
             operador.OperadorSecciones.Clear();
