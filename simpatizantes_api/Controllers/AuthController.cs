@@ -41,5 +41,21 @@ namespace simpatizantes_api.Controllers
                 return StatusCode(500, new { ErrorMessage = "Ocurrió un error durante la autenticación del usuario.", Exception = ex.Message });
             }
         }
+
+        [HttpDelete("logout/{userId}")]
+        public async Task<IActionResult> Logout(int userId)
+        {
+            try
+            {
+                await authService.Logout(userId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error durante el cierre de sesión del usuario.");
+                return StatusCode(500, new { ErrorMessage = "Ocurrió un error durante el cierre de sesión del usuario.", Exception = ex.Message });
+            }
+        }
+
     }
 }

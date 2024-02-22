@@ -1,10 +1,17 @@
 ﻿using AutoMapper;
-using simpatizantes_api.DTOs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using simpatizantes_api.DTOs;
+using simpatizantes_api.Entities;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+
 namespace simpatizantes_api.Services
 {
     public class AuthorizationService : IAuthorizationService
@@ -23,62 +30,75 @@ namespace simpatizantes_api.Services
         public async Task<AppUserAuthDTO> ValidateUser(AppUserDTO dto)
         {
             var user = await (from u in context.Usuarios
-                                join r in context.Rols
-                                on u.Rol.Id equals r.Id
-                                where u.Correo == dto.Email && u.Password == dto.Password
-                                select new AppUserAuthDTO
-                                {
-                                    UsuarioId = u.Id,
-                                    NombreCompleto = $"{u.Nombre} {u.ApellidoPaterno} {u.ApellidoMaterno}",
-                                    Email = u.Correo,
-                                    RolId = r.Id,
-                                    Rol = r.NombreRol,
-                                    CandidatoId = u.Rol.Id == 3 ? u.CandidatoId : null,
-                                    OperadorId = u.Rol.Id == 2 ? u.OperadorId : null,
-                                }).FirstOrDefaultAsync();
+                              join r in context.Rols on u.Rol.Id equals r.Id
+                              where u.Correo == dto.Email && u.Password == dto.Password
+                              select new
+                              {
+                                  User = u,
+                                  Rol = r
+                              }).FirstOrDefaultAsync();
 
             if (user != null)
             {
-                user.IsAuthenticated = true;
-                user.Token = GenerateJwtToken(user);
-                user.Claims = await GeRolClaims(user.RolId);
+                // Verificar si el usuario tiene una sesión activa
+                var existingSession = await context.UserSessions.FirstOrDefaultAsync(s => s.UserId == user.User.Id);
+                if (existingSession != null)
+                {
+                    // Si existe una sesión activa, puedes invalidarla o denegar el inicio de sesión adicional
+                    // Puedes invalidarla llamando a algún método de revocación de sesión o simplemente ignorando el inicio de sesión adicional.
+                    return null;
+                }
+
+                var token = GenerateJwtToken(user);
+                var claims = await GetRoleClaims(user.Rol.Id);
+
+                // Guardar la sesión activa en la base de datos
+                var newSession = new UserSession { UserId = user.User.Id, Token = token, LastAccessTime = DateTime.UtcNow };
+                context.UserSessions.Add(newSession);
+                await context.SaveChangesAsync();
+
+                return new AppUserAuthDTO
+                {
+                    UsuarioId = user.User.Id,
+                    NombreCompleto = $"{user.User.Nombre} {user.User.ApellidoPaterno} {user.User.ApellidoMaterno}",
+                    Email = user.User.Correo,
+                    RolId = user.Rol.Id,
+                    Rol = user.Rol.NombreRol,
+                    IsAuthenticated = true,
+                    Token = token,
+                    Claims = claims
+                };
             }
 
-            return user;
+            return null;
         }
 
-
-        private async Task<List<ClaimDTO>> GeRolClaims(int rolId)
+        private async Task<List<ClaimDTO>> GetRoleClaims(int rolId)
         {
             var claims = await context.Claims.Where(c => c.Rol.Id == rolId).ToListAsync();
             return mapper.Map<List<ClaimDTO>>(claims);
         }
 
-        public string GenerateJwtToken(AppUserAuthDTO dto)
+        public string GenerateJwtToken(dynamic user)
         {
             var key = configuration.GetValue<string>("JwtSettings:key");
-            var keyBytes = Encoding.ASCII.GetBytes(key); 
+            var keyBytes = Encoding.ASCII.GetBytes(key);
 
-            // Describe las propiedades del usuario
-            var claims = new List<Claim>
-            {
-                new Claim("usuarioId", dto.UsuarioId.ToString()),
-                new Claim("nombreCompleto", dto.NombreCompleto),
-                new Claim("rolId", dto.RolId.ToString()),
-                new Claim("rol", dto.Rol),
-
-                // Puedes agregar más claims personalizados según tus necesidades
-            };
+            var claims = new List<System.Security.Claims.Claim>
+    {
+        new System.Security.Claims.Claim("usuarioId", user.User.Id.ToString()),
+        new System.Security.Claims.Claim("nombreCompleto", $"{user.User.Nombre} {user.User.ApellidoPaterno} {user.User.ApellidoMaterno}"),
+        new System.Security.Claims.Claim("rolId", user.Rol.Id.ToString()),
+        new System.Security.Claims.Claim("rol", user.Rol.NombreRol),
+    };
 
             var claimsIdentity = new ClaimsIdentity(claims);
 
-            // Encripta la credencial de los tokens en a la clave en bytes 
             var credentials = new SigningCredentials(
                 new SymmetricSecurityKey(keyBytes),
                 SecurityAlgorithms.HmacSha256Signature
-                );
+            );
 
-            // Describe el token en base a la propiedades, expiracion y la credencial
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
@@ -86,17 +106,21 @@ namespace simpatizantes_api.Services
                 SigningCredentials = credentials
             };
 
-            // Se cra un nuevo token a manipular instanciado de Jwt
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenConfig = tokenHandler.CreateToken(tokenDescriptor);
 
-            // Se escribe el nuevo token manipulado en base a las propiedades y su configuracion
             return tokenHandler.WriteToken(tokenConfig);
         }
 
-
-
-
-
+        public async Task Logout(int userId)
+        {
+            // Eliminar la sesión activa del registro de sesiones
+            var sessionToRemove = await context.UserSessions.FirstOrDefaultAsync(s => s.UserId == userId);
+            if (sessionToRemove != null)
+            {
+                context.UserSessions.Remove(sessionToRemove);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

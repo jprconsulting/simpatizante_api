@@ -482,7 +482,7 @@ namespace simpatizantesapi.Migrations
                     Password = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    RolId = table.Column<int>(type: "int", nullable: false),
+                    RolId = table.Column<int>(type: "int", nullable: true),
                     CandidatoId = table.Column<int>(type: "int", nullable: true),
                     OperadorId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -503,8 +503,7 @@ namespace simpatizantesapi.Migrations
                         name: "FK_Usuarios_Rols_RolId",
                         column: x => x.RolId,
                         principalTable: "Rols",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -527,6 +526,29 @@ namespace simpatizantesapi.Migrations
                         name: "FK_Votos_Simpatizantes_SimpatizanteId",
                         column: x => x.SimpatizanteId,
                         principalTable: "Simpatizantes",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UserSessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Token = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastAccessTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserSessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserSessions_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -660,6 +682,11 @@ namespace simpatizantesapi.Migrations
                 column: "SeccionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserSessions_UsuarioId",
+                table: "UserSessions",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_CandidatoId",
                 table: "Usuarios",
                 column: "CandidatoId",
@@ -706,6 +733,9 @@ namespace simpatizantesapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "PromotoresOperadores");
+
+            migrationBuilder.DropTable(
+                name: "UserSessions");
 
             migrationBuilder.DropTable(
                 name: "Visitas");

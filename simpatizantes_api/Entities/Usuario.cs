@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace simpatizantes_api.Entities
 {
@@ -11,12 +11,13 @@ namespace simpatizantes_api.Entities
         public string Correo { get; set; }
         public string Password { get; set; }
         public bool Estatus { get; set; }
-        [Required]
         public Rol Rol { get; set; }
         public int? CandidatoId { get; set; }
         public Candidato? Candidato { get; set; }
         public int? OperadorId { get; set; }
         public Operador? Operador { get; set; }
         public List<Visita> Visitas { get; set; }
+
+        public List<UserSession> Sessions { get; set; }
     }
 }
