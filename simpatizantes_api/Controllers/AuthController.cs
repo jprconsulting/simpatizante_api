@@ -28,16 +28,14 @@ namespace simpatizantes_api.Controllers
             {
                 var result = await authService.ValidateUser(dto);
                 if (result == null)
-                    return Unauthorized();
+                    return StatusCode(405); 
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                // Loguea la excepción para obtener más detalles
                 logger.LogError(ex, "Error durante la autenticación del usuario.");
 
-                // Devuelve una respuesta con detalles del error
                 return StatusCode(500, new { ErrorMessage = "Ocurrió un error durante la autenticación del usuario.", Exception = ex.Message });
             }
         }
