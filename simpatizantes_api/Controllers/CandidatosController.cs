@@ -72,7 +72,13 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(CandidatoDTO dto)
         {
-
+            var existeCandidato = await context.Candidatos.AnyAsync(n => n.Nombres == dto.Nombres &&
+                                                                 n.ApellidoPaterno == dto.ApellidoPaterno &&
+                                                                 n.ApellidoMaterno == dto.ApellidoMaterno);
+            if (existeCandidato)
+            {
+                return Conflict();
+            }
             try
             {
                 if (!string.IsNullOrEmpty(dto.ImagenBase64))
