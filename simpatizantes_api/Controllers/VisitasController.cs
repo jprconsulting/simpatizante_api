@@ -122,6 +122,7 @@ namespace simpatizantes_api.Controllers
 
             visita.Servicio = dto.Servicio;
             visita.Descripcion = dto.Descripcion;
+            visita.Simpatiza = dto.Simpatiza;
 
             // Verificar si se proporciona una nueva imagen
             if (!string.IsNullOrEmpty(dto.ImagenBase64))

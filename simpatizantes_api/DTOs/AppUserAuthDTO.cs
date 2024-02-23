@@ -12,5 +12,8 @@
         public int? CandidatoId { get; set; }
         public int? OperadorId { get; set; }
         public List<ClaimDTO> Claims { get; set; }
+
+        public string CurrentToken { get; set; }
+        public DateTime TokenExpirationDate { get; set; }
     }
 }

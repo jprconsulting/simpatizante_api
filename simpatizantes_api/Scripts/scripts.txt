@@ -145,7 +145,7 @@ VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
 /* admin */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 1),
-('CanAccessEnlaces', 1, 1),
+('CanAccessPromotores', 1, 1),
 ('CanAccessAdministracion', 1, 1),
 ('CanAccessDashboard', 1, 1),
 ('CanAccessUsuarios', 1, 1),
@@ -168,7 +168,7 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 /* operador */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 2),
-('CanAccessEnlaces', 1, 2),
+('CanAccessPromotores', 1, 2),
 ('CanAccessOperacion', 1,2),
 ('CanAccessSimpatizantes', 1,2),
 ('CanAccessMapaSimpatizantes', 1,2),
@@ -182,7 +182,7 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 /* candidato */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessInicio', 1, 3),
-('CanAccessEnlaces', 1, 3),
+('CanAccessPromotores', 1, 3),
 ('CanAccessAdministracion', 1, 3),
 ('CanAccessDashboard', 1, 3),
 ('CanAccessOperacion', 1,3),

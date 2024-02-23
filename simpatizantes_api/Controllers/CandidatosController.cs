@@ -72,7 +72,13 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(CandidatoDTO dto)
         {
-
+            var existeCandidato = await context.Candidatos.AnyAsync(n => n.Nombres == dto.Nombres &&
+                                                                 n.ApellidoPaterno == dto.ApellidoPaterno &&
+                                                                 n.ApellidoMaterno == dto.ApellidoMaterno);
+            if (existeCandidato)
+            {
+                return Conflict();
+            }
             try
             {
                 if (!string.IsNullOrEmpty(dto.ImagenBase64))
@@ -84,7 +90,12 @@ namespace simpatizantes_api.Controllers
                  
                     dto.Emblema = await almacenadorImagenes.GuardarImagen(dto.EmblemaBase64, directorioEmblemas);
                 }
+
+                string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
+
                 var candidato = mapper.Map<Candidato>(dto);
+                candidato.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
+                candidato.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
                 candidato.Cargo = await context.Cargos.SingleOrDefaultAsync(b => b.Id == dto.Cargo.Id);
                 candidato.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
 

@@ -22,6 +22,17 @@ namespace simpatizantes_api.Controllers
             this.mapper = mapper;
         }
 
+        private async Task<bool> ValidarSimpatizantePorCURP(string curp)
+        {
+            if (curp == null)
+            {
+                return false;
+            }
+
+            return await context.Simpatizantes.AnyAsync(s => s.CURP.Trim().ToLower() == curp.Trim().ToLower());
+        }
+
+
         private async Task<bool> ValidarSimpatizantePorClaveElector(string claveElector)
         {
             return await context.Simpatizantes.AnyAsync(s => s.ClaveElector.Trim().ToLower() == claveElector.Trim().ToLower());
@@ -42,6 +53,21 @@ namespace simpatizantes_api.Controllers
             }
         }
 
+        [HttpGet("validar-simpatizante-por-curp/{curp}")]
+        public async Task<ActionResult> GetValidarSimpatizantePorCURP(string curp)
+        {
+            var existeSimpatizante = await ValidarSimpatizantePorCURP(curp);
+
+            if (existeSimpatizante)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<SimpatizanteDTO>> GetById(int id)
         {
@@ -49,7 +75,9 @@ namespace simpatizantes_api.Controllers
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
+                .Include(n => n.Promotor)
                 .Include(p => p.ProgramaSocial)
+                .Include(c => c.Operador)
                 .Include(g => g.Genero)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
@@ -68,6 +96,7 @@ namespace simpatizantes_api.Controllers
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
+                .Include(n => n.Promotor)
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
                 .Include(g => g.Genero)
@@ -92,6 +121,7 @@ namespace simpatizantes_api.Controllers
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
                 .Include(g => g.Genero)
+                .Include(n => n.Promotor)
                 .Where(s => s.Operador.Candidato.Id == candidatoId)
                 .ToListAsync();
 
@@ -111,8 +141,10 @@ namespace simpatizantes_api.Controllers
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
                 .Include(o => o.Operador)
+                .Include(n => n.Promotor)
                 .Include(p => p.ProgramaSocial)
                 .Include(g => g.Genero)
+                .OrderByDescending(i => i.Id)
                 .ToListAsync();
 
             if (!simpatizantes.Any())
@@ -123,6 +155,33 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<List<SimpatizanteDTO>>(simpatizantes));
         }
 
+        [HttpGet("mapa")]
+        public async Task<ActionResult<List<SimpatizanteConVisitaDTO>>> GetSimpatizantesConSimpatiza()
+        {
+            var visitas = await context.Visitas.
+                ToListAsync(); 
+
+            var simpatizantes = await context.Simpatizantes
+               .Include(s => s.Seccion)
+               .Include(m => m.Municipio)
+               .Include(e => e.Estado)
+               .Include(o => o.Operador)
+               .Include(n => n.Promotor)
+               .Include(p => p.ProgramaSocial)
+               .Include(g => g.Genero)
+               .OrderByDescending(i => i.Id)
+               .ToListAsync();
+
+            var simpatizantesConVisita = visitas.Select(v => new SimpatizanteConVisitaDTO
+            {
+                Simpatizante = mapper.Map<SimpatizanteDTO>(v.Simpatizante),
+                Simpatiza = v.Simpatiza,
+                Color = GetColorFromSimpatiza(v.Simpatiza)
+            }).ToList();
+
+            return Ok(simpatizantesConVisita);
+        }
+
         [HttpPost("crear")]
         public async Task<ActionResult> Post(SimpatizanteDTO dto)
         {
@@ -131,37 +190,26 @@ namespace simpatizantes_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existeSimpatizante = await ValidarSimpatizantePorClaveElector(dto.ClaveElector);
+            var existeSimpatizante = await ValidarSimpatizantePorCURP(dto.CURP);
 
             if (existeSimpatizante)
             {
                 return Conflict();
             }
-
-            int usuarioId = int.Parse(User.FindFirst("usuarioId")?.Value);
-
-            // Extraer año, mes y día de la clave del elector
-            string claveElector = dto.ClaveElector;
-
-            // Validar el formato de la clave del elector
-            if (claveElector.Length != 18)
+            var existeSimpatizantern = await context.Simpatizantes.AnyAsync(n => n.Nombres == dto.Nombres &&
+                                                                n.ApellidoPaterno == dto.ApellidoPaterno &&
+                                                                n.ApellidoMaterno == dto.ApellidoMaterno);
+            if (existeSimpatizantern)
             {
-                // Si la longitud de la clave del elector es incorrecta, establecer la fecha de nacimiento como DateTime.MinValue
-                dto.FechaNacimiento = DateTime.MinValue;
+                return Conflict();
             }
-            else
-            {
-                // Procesar la clave del elector para extraer año, mes y día
-                int yearPrefix = int.Parse(claveElector.Substring(6, 2));
-                int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
-                int month = int.Parse(claveElector.Substring(8, 2));
-                int day = int.Parse(claveElector.Substring(10, 2));
 
-                // Construir la fecha de nacimiento
-                dto.FechaNacimiento = new DateTime(year, month, day);
-            }
+            string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
 
             var simpatizante = mapper.Map<Simpatizante>(dto);
+
+            simpatizante.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
+            simpatizante.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
 
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
@@ -174,9 +222,9 @@ namespace simpatizantes_api.Controllers
                 simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
             }
 
-            if (dto.Enlace != null)
+            if (dto.Promotor != null)
             {
-                simpatizante.Enlace = await context.Enlaces.SingleOrDefaultAsync(e => e.Id == dto.Enlace.Id);
+                simpatizante.Promotor = await context.Promotores.SingleOrDefaultAsync(p => p.Id == dto.Promotor.Id);
             }
 
             context.Add(simpatizante);
@@ -230,36 +278,21 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
-            // Validar la clave del elector antes de procesar la actualización
-            if (!string.IsNullOrEmpty(dto.ClaveElector))
-            {
-                // Intentar extraer la fecha de la clave del elector
-                try
-                {
-                    // Extraer año, mes y día de la clave del elector
-                    string claveElector = dto.ClaveElector;
-                    int yearPrefix = int.Parse(claveElector.Substring(6, 2));
-                    int year = yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix;
-                    int month = int.Parse(claveElector.Substring(8, 2));
-                    int day = int.Parse(claveElector.Substring(10, 2));
+            string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
 
-                    // Construir la fecha de nacimiento
-                    dto.FechaNacimiento = new DateTime(year, month, day);
-                }
-                catch (Exception)
-                {
-                    // Si hay un error al extraer la fecha, establecer la fecha de nacimiento como el valor mínimo de DateTime
-                    dto.FechaNacimiento = DateTime.MinValue;
-                }
-            }
-            else
+            if (dto.FechaNacimiento == null)
             {
-                // Si no se proporciona una clave del elector, establecer la fecha de nacimiento como el valor mínimo de DateTime
-                dto.FechaNacimiento = DateTime.MinValue;
+                dto.FechaNacimiento = DateTime.Now;
             }
-
+            
             // Mapear el DTO actualizado al simpatizante
             mapper.Map(dto, simpatizante);
+
+            simpatizante.UsuarioEdicionNombre = nombreCompleto; // Establecer el UsuarioEdicionId
+            simpatizante.FechaHoraEdicion = DateTime.Now; // Establecer la fecha de creación
+
+            simpatizante.UsuarioCreacionNombre = nombreCompleto; 
+            simpatizante.FechaHoraCreacion = DateTime.Now; 
             simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
             simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
@@ -271,9 +304,9 @@ namespace simpatizantes_api.Controllers
                 simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
             }
 
-            if (dto.Enlace != null)
+            if (dto.Promotor != null)
             {
-                simpatizante.Enlace = await context.Enlaces.SingleOrDefaultAsync(e => e.Id == dto.Enlace.Id);
+                simpatizante.Promotor = await context.Promotores.SingleOrDefaultAsync(p => p.Id == dto.Promotor.Id);
             }
 
             // Actualizar el simpatizante en la base de datos
@@ -296,6 +329,10 @@ namespace simpatizantes_api.Controllers
             }
 
             return NoContent();
+        }
+        private string GetColorFromSimpatiza(bool simpatiza)
+        {
+            return simpatiza ? "#008f39 " : "#FF0000";
         }
 
         private bool SimpatizanteExists(int id)

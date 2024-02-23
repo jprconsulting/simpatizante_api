@@ -14,12 +14,18 @@
         public decimal Longitud { get; set; }
         public bool Estatus { get; set; }
         public string ClaveElector { get; set; }
+        public string TercerNivelContacto { get; set; }
         public Genero Genero { get; set; }
+        public string? UsuarioCreacionNombre { get; set; }
+        public DateTime FechaHoraCreacion { get; set; }
+        public string? UsuarioEdicionNombre { get; set; }
+        public DateTime? FechaHoraEdicion { get; set; }
         public ProgramaSocial ProgramaSocial { get; set; }
-        public Enlace Enlace { get; set; }
+        public Promotor Promotor { get; set; }
         public Seccion Seccion { get; set; }
         public Municipio Municipio { get; set; }
         public Estado Estado { get; set; }
+        public int OperadorId { get; set; }
         public Operador Operador { get; set; }
         public List<Visita> Visitas { get; set; }
         public List<Voto> Votos { get; set; }

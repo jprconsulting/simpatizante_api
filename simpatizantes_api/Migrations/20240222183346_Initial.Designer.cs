@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240214180913_Initial")]
+    [Migration("20240222183346_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -43,6 +43,12 @@ namespace simpatizantesapi.Migrations
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTime>("FechaHoraCreacion")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("FechaHoraEdicion")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime(6)");
 
@@ -56,6 +62,12 @@ namespace simpatizantesapi.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Sobrenombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioCreacionNombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioEdicionNombre")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -118,26 +130,6 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("RolId");
 
                     b.ToTable("Claims");
-                });
-
-            modelBuilder.Entity("simpatizantes_api.Entities.Enlace", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApellidoMaterno")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ApellidoPaterno")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Nombres")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Enlaces");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
@@ -241,10 +233,22 @@ namespace simpatizantesapi.Migrations
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTime>("FechaHoraCreacion")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("FechaHoraEdicion")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Nombres")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioCreacionNombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioEdicionNombre")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -287,6 +291,62 @@ namespace simpatizantesapi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProgramasSociales");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Promotor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApellidoMaterno")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ApellidoPaterno")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("FechaHoraCreacion")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("FechaHoraEdicion")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Nombres")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioCreacionNombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioEdicionNombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Promotores");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.PromotorOperador", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("OperadorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PromotorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperadorId");
+
+                    b.HasIndex("PromotorId");
+
+                    b.ToTable("PromotoresOperadores");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Rol", b =>
@@ -346,14 +406,17 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Domicilio")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("EnlaceId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("EstadoId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("FechaHoraCreacion")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("FechaHoraEdicion")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime(6)");
@@ -376,18 +439,28 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Numerotel")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("OperadorId")
+                    b.Property<int>("OperadorId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProgramaSocialId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PromotorId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SeccionId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TercerNivelContacto")
+                        .HasColumnType("longtext");
 
-                    b.HasIndex("EnlaceId");
+                    b.Property<string>("UsuarioCreacionNombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuarioEdicionNombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
 
@@ -398,6 +471,8 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("OperadorId");
 
                     b.HasIndex("ProgramaSocialId");
+
+                    b.HasIndex("PromotorId");
 
                     b.HasIndex("SeccionId");
 
@@ -419,6 +494,31 @@ namespace simpatizantesapi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TiposIncidencias");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.UserSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastAccessTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("UserSessions");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
@@ -451,7 +551,7 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("RolId")
+                    b.Property<int?>("RolId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -484,6 +584,9 @@ namespace simpatizantesapi.Migrations
 
                     b.Property<string>("Servicio")
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("Simpatiza")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("SimpatizanteId")
                         .HasColumnType("int");
@@ -603,6 +706,25 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Seccion");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.PromotorOperador", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
+                        .WithMany("PromotorOperadores")
+                        .HasForeignKey("OperadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("simpatizantes_api.Entities.Promotor", "Promotor")
+                        .WithMany("PromotorOperadores")
+                        .HasForeignKey("PromotorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Operador");
+
+                    b.Navigation("Promotor");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Seccion", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
@@ -614,10 +736,6 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Simpatizante", b =>
                 {
-                    b.HasOne("simpatizantes_api.Entities.Enlace", "Enlace")
-                        .WithMany("Simpatizantes")
-                        .HasForeignKey("EnlaceId");
-
                     b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("EstadoId");
@@ -632,17 +750,21 @@ namespace simpatizantesapi.Migrations
 
                     b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
                         .WithMany("Simpatizantes")
-                        .HasForeignKey("OperadorId");
+                        .HasForeignKey("OperadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("simpatizantes_api.Entities.ProgramaSocial", "ProgramaSocial")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("ProgramaSocialId");
 
+                    b.HasOne("simpatizantes_api.Entities.Promotor", "Promotor")
+                        .WithMany("Simpatizantes")
+                        .HasForeignKey("PromotorId");
+
                     b.HasOne("simpatizantes_api.Entities.Seccion", "Seccion")
                         .WithMany("Simpatizantes")
                         .HasForeignKey("SeccionId");
-
-                    b.Navigation("Enlace");
 
                     b.Navigation("Estado");
 
@@ -654,7 +776,16 @@ namespace simpatizantesapi.Migrations
 
                     b.Navigation("ProgramaSocial");
 
+                    b.Navigation("Promotor");
+
                     b.Navigation("Seccion");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.UserSession", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Usuario", null)
+                        .WithMany("Sessions")
+                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
@@ -669,9 +800,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasOne("simpatizantes_api.Entities.Rol", "Rol")
                         .WithMany("Usuarios")
-                        .HasForeignKey("RolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RolId");
 
                     b.Navigation("Candidato");
 
@@ -721,11 +850,6 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Incidencias");
                 });
 
-            modelBuilder.Entity("simpatizantes_api.Entities.Enlace", b =>
-                {
-                    b.Navigation("Simpatizantes");
-                });
-
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
                 {
                     b.Navigation("Municipios");
@@ -751,6 +875,8 @@ namespace simpatizantesapi.Migrations
                 {
                     b.Navigation("OperadorSecciones");
 
+                    b.Navigation("PromotorOperadores");
+
                     b.Navigation("Simpatizantes");
 
                     b.Navigation("Usuario");
@@ -758,6 +884,13 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.ProgramaSocial", b =>
                 {
+                    b.Navigation("Simpatizantes");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Promotor", b =>
+                {
+                    b.Navigation("PromotorOperadores");
+
                     b.Navigation("Simpatizantes");
                 });
 
@@ -789,6 +922,8 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
                 {
+                    b.Navigation("Sessions");
+
                     b.Navigation("Visitas");
                 });
 #pragma warning restore 612, 618

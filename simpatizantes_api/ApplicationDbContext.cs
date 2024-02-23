@@ -10,6 +10,7 @@ namespace simpatizantes_api
         {
 
         }
+        public DbSet<UserSession> UserSessions { get; set; }
         public DbSet<Simpatizante> Simpatizantes { get; set; }
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Operador> Operadores { get; set; }
@@ -27,9 +28,9 @@ namespace simpatizantes_api
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Cargo> Cargos { get; set; }
         public DbSet<Voto> Votos { get; set; }
-        public DbSet<Enlace> Enlaces { get; set; }
-
+        public DbSet<Promotor> Promotores { get; set; }
         public DbSet<OperadorSeccion> OperadoresSecciones { get; set; }
+        public DbSet<PromotorOperador> PromotoresOperadores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +38,12 @@ namespace simpatizantes_api
                 .HasMany(o => o.OperadorSecciones)
                 .WithOne(os => os.Operador)
                 .HasForeignKey(os => os.OperadorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Promotor>()
+                .HasMany(p => p.PromotorOperadores)
+                .WithOne(po => po.Promotor)
+                .HasForeignKey(os => os.PromotorId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 

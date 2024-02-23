@@ -21,18 +21,29 @@ namespace simpatizantes_api.Controllers
             this.context = context;
             this.mapper = mapper;
         }
+
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<OperadorDTO>> GetById(int id)
         {
-            var operador = await context.Operadores.FirstOrDefaultAsync(b => b.Id == id);
+            var operador = await context.Operadores
+                .Include(o => o.OperadorSecciones)
+                    .ThenInclude(os => os.Seccion)
+                        .ThenInclude(s => s.Municipio)
+                .FirstOrDefaultAsync(b => b.Id == id);
 
             if (operador == null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<OperadorDTO>(operador));
+            var operadorDTO = mapper.Map<OperadorDTO>(operador);
+
+            var secciones = operador.OperadorSecciones.Select(os => os.Seccion).ToList();
+            operadorDTO.Secciones = mapper.Map<List<SeccionDTO>>(secciones);
+
+            return Ok(operadorDTO);
         }
+
 
         [HttpGet("obtener-operadores-por-candidato-id/{candidatoId:int}")]
         public async Task<ActionResult<List<OperadorDTO>>> GetOperadoresPorCandidatoId(int candidatoId)
@@ -52,9 +63,20 @@ namespace simpatizantes_api.Controllers
 
             var operadoresDTO = mapper.Map<List<OperadorDTO>>(operadores);
 
+            foreach (var operador in operadoresDTO)
+            {
+                var secciones = await context.OperadoresSecciones
+                    .Include(s => s.Seccion)
+                    .ThenInclude(s => s.Municipio)
+                    .Where(os => os.Operador.Id == operador.Id)
+                    .Select(i => i.Seccion)
+                    .ToListAsync();
+
+                operador.Secciones = mapper.Map<List<SeccionDTO>>(secciones);
+            }
+
             return Ok(operadoresDTO);
         }
-
 
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<OperadorDTO>>> GetAll()
@@ -93,12 +115,22 @@ namespace simpatizantes_api.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var existeOperador = await context.Operadores.AnyAsync(n => n.Nombres == dto.Nombres &&
+                                                                  n.ApellidoPaterno == dto.ApellidoPaterno &&
+                                                                  n.ApellidoMaterno == dto.ApellidoMaterno);
+            if (existeOperador)
+            {
+                return Conflict();
+            }
+            string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
 
             using (var transaction = await context.Database.BeginTransactionAsync())
             {
                 try
                 {
                     var operador = mapper.Map<Operador>(dto);
+                    operador.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
+                    operador.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
                     operador.Candidato = await context.Candidatos.SingleOrDefaultAsync(r => r.Id == dto.Candidato.Id);
                     context.Add(operador);
 
@@ -149,7 +181,7 @@ namespace simpatizantes_api.Controllers
             }
 
             // Verificar si hay dependencias
-            var tieneDependencias = await context.OperadoresSecciones.AnyAsync(os => os.OperadorId == id);
+            var tieneDependencias = await context.Simpatizantes.AnyAsync(os => os.OperadorId == id);
 
             if (tieneDependencias)
             {
@@ -184,6 +216,8 @@ namespace simpatizantes_api.Controllers
             operador.Nombres = dto.Nombres;
             operador.ApellidoPaterno = dto.ApellidoPaterno;
             operador.ApellidoMaterno = dto.ApellidoMaterno;
+            operador.FechaNacimiento = dto.FechaNacimiento;
+            operador.Estatus = dto.Estatus;
 
             // Limpiar todas las secciones actuales
             operador.OperadorSecciones.Clear();
