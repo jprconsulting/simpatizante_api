@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240222183346_Initial")]
+    [Migration("20240223210727_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -21,6 +21,42 @@ namespace simpatizantesapi.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("simpatizantes_api.Entities.ActaEscrutinio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CasillaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DistritoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MunicipioId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SeccionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoEleccionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CasillaId");
+
+                    b.HasIndex("DistritoId");
+
+                    b.HasIndex("MunicipioId");
+
+                    b.HasIndex("SeccionId");
+
+                    b.HasIndex("TipoEleccionId");
+
+                    b.ToTable("ActasEscrutinios");
+                });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Candidato", b =>
                 {
@@ -79,6 +115,37 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("Candidatos");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Candidatura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Estatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Logo")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Orden")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Partidos")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("TipoAgrupacionPoliticaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TipoAgrupacionPoliticaId");
+
+                    b.ToTable("Candidaturas");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Cargo", b =>
                 {
                     b.Property<int>("Id")
@@ -130,6 +197,120 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("RolId");
 
                     b.ToTable("Claims");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Combinacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CandidaturaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Logo")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Orden")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidaturaId");
+
+                    b.ToTable("Combinacion");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.DistribucionCandidatura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DistritoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MunicipioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("TipoEleccionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistritoId");
+
+                    b.HasIndex("MunicipioId");
+
+                    b.HasIndex("TipoEleccionId");
+
+                    b.ToTable("DistribucionesCandidaturas");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.DistribucionOrdenada", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CandidaturaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CombinacionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DistribucionCandidaturaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InputId")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Logo")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NombreCandidatura")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Orden")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("PadreId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoAgrupacionPoliticaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidaturaId");
+
+                    b.HasIndex("CombinacionId");
+
+                    b.HasIndex("DistribucionCandidaturaId");
+
+                    b.HasIndex("TipoAgrupacionPoliticaId");
+
+                    b.ToTable("DistribucionesOrdenadas");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Distrito", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Distritos");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
@@ -349,6 +530,43 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("PromotoresOperadores");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.ResultadoCandidatura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ActaEscrutinioId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CandidaturaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CombinacionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DistribucionCandidaturaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PadreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VotoPreliminar")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActaEscrutinioId");
+
+                    b.HasIndex("CandidaturaId");
+
+                    b.HasIndex("CombinacionId");
+
+                    b.HasIndex("DistribucionCandidaturaId");
+
+                    b.ToTable("ResultadosCandidaturas");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Rol", b =>
                 {
                     b.Property<int>("Id")
@@ -477,6 +695,34 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("SeccionId");
 
                     b.ToTable("Simpatizantes");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.TipoAgrupacionPolitica", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TipoAgrupacionesPoliticas");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.TipoEleccion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TiposElecciones");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.TipoIncidencia", b =>
@@ -628,6 +874,39 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("Votos");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.ActaEscrutinio", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Casilla", "Casilla")
+                        .WithMany()
+                        .HasForeignKey("CasillaId");
+
+                    b.HasOne("simpatizantes_api.Entities.Distrito", "Distrito")
+                        .WithMany()
+                        .HasForeignKey("DistritoId");
+
+                    b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
+                        .WithMany()
+                        .HasForeignKey("MunicipioId");
+
+                    b.HasOne("simpatizantes_api.Entities.Seccion", "Seccion")
+                        .WithMany()
+                        .HasForeignKey("SeccionId");
+
+                    b.HasOne("simpatizantes_api.Entities.TipoEleccion", "TipoEleccion")
+                        .WithMany()
+                        .HasForeignKey("TipoEleccionId");
+
+                    b.Navigation("Casilla");
+
+                    b.Navigation("Distrito");
+
+                    b.Navigation("Municipio");
+
+                    b.Navigation("Seccion");
+
+                    b.Navigation("TipoEleccion");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Candidato", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Cargo", "Cargo")
@@ -643,6 +922,15 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Genero");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Candidatura", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.TipoAgrupacionPolitica", "TipoAgrupacionPolitica")
+                        .WithMany()
+                        .HasForeignKey("TipoAgrupacionPoliticaId");
+
+                    b.Navigation("TipoAgrupacionPolitica");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Claim", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Rol", "Rol")
@@ -652,6 +940,63 @@ namespace simpatizantesapi.Migrations
                         .IsRequired();
 
                     b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Combinacion", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Candidatura", "Candidatura")
+                        .WithMany()
+                        .HasForeignKey("CandidaturaId");
+
+                    b.Navigation("Candidatura");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.DistribucionCandidatura", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Distrito", "Distrito")
+                        .WithMany()
+                        .HasForeignKey("DistritoId");
+
+                    b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
+                        .WithMany()
+                        .HasForeignKey("MunicipioId");
+
+                    b.HasOne("simpatizantes_api.Entities.TipoEleccion", "TipoEleccion")
+                        .WithMany()
+                        .HasForeignKey("TipoEleccionId");
+
+                    b.Navigation("Distrito");
+
+                    b.Navigation("Municipio");
+
+                    b.Navigation("TipoEleccion");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.DistribucionOrdenada", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Candidatura", "Candidatura")
+                        .WithMany()
+                        .HasForeignKey("CandidaturaId");
+
+                    b.HasOne("simpatizantes_api.Entities.Combinacion", "Combinacion")
+                        .WithMany()
+                        .HasForeignKey("CombinacionId");
+
+                    b.HasOne("simpatizantes_api.Entities.DistribucionCandidatura", "DistribucionCandidatura")
+                        .WithMany()
+                        .HasForeignKey("DistribucionCandidaturaId");
+
+                    b.HasOne("simpatizantes_api.Entities.TipoAgrupacionPolitica", "TipoAgrupacionPolitica")
+                        .WithMany()
+                        .HasForeignKey("TipoAgrupacionPoliticaId");
+
+                    b.Navigation("Candidatura");
+
+                    b.Navigation("Combinacion");
+
+                    b.Navigation("DistribucionCandidatura");
+
+                    b.Navigation("TipoAgrupacionPolitica");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Incidencia", b =>
@@ -723,6 +1068,33 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Operador");
 
                     b.Navigation("Promotor");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.ResultadoCandidatura", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.ActaEscrutinio", "ActaEscrutinio")
+                        .WithMany()
+                        .HasForeignKey("ActaEscrutinioId");
+
+                    b.HasOne("simpatizantes_api.Entities.Candidatura", "Candidatura")
+                        .WithMany()
+                        .HasForeignKey("CandidaturaId");
+
+                    b.HasOne("simpatizantes_api.Entities.Combinacion", "Combinacion")
+                        .WithMany()
+                        .HasForeignKey("CombinacionId");
+
+                    b.HasOne("simpatizantes_api.Entities.DistribucionCandidatura", "DistribucionCandidatura")
+                        .WithMany()
+                        .HasForeignKey("DistribucionCandidaturaId");
+
+                    b.Navigation("ActaEscrutinio");
+
+                    b.Navigation("Candidatura");
+
+                    b.Navigation("Combinacion");
+
+                    b.Navigation("DistribucionCandidatura");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Seccion", b =>
