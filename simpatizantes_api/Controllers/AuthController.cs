@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using simpatizantes_api.Exceptions;
 
 namespace simpatizantes_api.Controllers
 {
@@ -27,15 +28,19 @@ namespace simpatizantes_api.Controllers
             try
             {
                 var result = await authService.ValidateUser(dto);
-                if (result == null)
-                    return StatusCode(405); 
-
                 return Ok(result);
+            }
+            catch (SessionExistsException)
+            {
+                return StatusCode(419); // Sesión existente
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return StatusCode(405); // Contraseña incorrecta
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error durante la autenticación del usuario.");
-
                 return StatusCode(500, new { ErrorMessage = "Ocurrió un error durante la autenticación del usuario.", Exception = ex.Message });
             }
         }

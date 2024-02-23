@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using simpatizantes_api.DTOs;
 using simpatizantes_api.Entities;
+using simpatizantes_api.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -46,9 +47,8 @@ namespace simpatizantes_api.Services
                 var existingSession = await context.UserSessions.FirstOrDefaultAsync(s => s.UserId == user.User.Id);
                 if (existingSession != null)
                 {
-                    // Si existe una sesión activa, puedes invalidarla o denegar el inicio de sesión adicional
-                    // Puedes invalidarla llamando a algún método de revocación de sesión o simplemente ignorando el inicio de sesión adicional.
-                    return null;
+                    // Si existe una sesión activa, lanzar una excepción
+                    throw new SessionExistsException("Sesión existente");
                 }
 
                 var token = GenerateJwtToken(user);
@@ -74,8 +74,10 @@ namespace simpatizantes_api.Services
                 };
             }
 
-            return null;
+            // Si el usuario no fue encontrado, lanzar una excepción 
+            throw new UnauthorizedAccessException("Contraseña incorrecta");
         }
+
 
         private async Task<List<ClaimDTO>> GetRoleClaims(int rolId)
         {
