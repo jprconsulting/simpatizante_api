@@ -79,6 +79,11 @@ namespace simpatizantes_api.Controllers
             {
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioIncidencias);
             }
+            var existeIncidencia = await context.Incidencias.AnyAsync(n => n.Retroalimentacion == dto.Retroalimentacion);
+            if (existeIncidencia)
+            {
+                return Conflict();
+            }
 
             var incidencia = mapper.Map<Incidencia>(dto);
             incidencia.TipoIncidencia = await context.TiposIncidencias.SingleOrDefaultAsync(b => b.Id == dto.TipoIncidencia.Id);
