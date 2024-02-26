@@ -70,6 +70,51 @@ namespace simpatizantes_api.Utilities
             CreateMap<Seccion, SeccionDTO>();
             CreateMap<SeccionDTO, Seccion>();
 
+            CreateMap<Distrito, DistritoDTO>();
+            CreateMap<DistritoDTO, Distrito>();
+
+            CreateMap<TipoEleccion, TipoEleccionDTO>();
+            CreateMap<TipoEleccionDTO, TipoEleccion>();
+
+            CreateMap<TipoAgrupacionPolitica, TipoAgrupacionPoliticaDTO>();
+            CreateMap<TipoAgrupacionPoliticaDTO, TipoAgrupacionPolitica>();
+
+            CreateMap<Candidatura, CandidaturaDTO>()
+            .ForMember(dest => dest.TipoAgrupacionPolitica, opt => opt.MapFrom(src => src.TipoAgrupacionPolitica));
+            CreateMap<CandidaturaDTO, Candidatura>();
+
+            CreateMap<CombinacionDTO, Combinacion>();
+            CreateMap<Combinacion, CombinacionDTO>()
+            .ForMember(dest => dest.Candidatura, opt => opt.MapFrom(src => src.Candidatura));
+
+            CreateMap<ResultadoCandidaturaDTO, ResultadoCandidatura>();
+            CreateMap<ResultadoCandidatura, ResultadoCandidaturaDTO>()
+            .ForMember(dest => dest.ActaEscrutinio, opt => opt.MapFrom(src => src.ActaEscrutinio))
+            .ForMember(dest => dest.DistribucionCandidatura, opt => opt.MapFrom(src => src.DistribucionCandidatura))
+            .ForMember(dest => dest.Candidatura, opt => opt.MapFrom(src => src.Candidatura))
+            .ForMember(dest => dest.Combinacion, opt => opt.MapFrom(src => src.Combinacion));
+
+            CreateMap<DistribucionOrdenadaDTO, DistribucionOrdenada>();
+            CreateMap<DistribucionOrdenada, DistribucionOrdenadaDTO>()
+            .ForMember(dest => dest.DistribucionCandidatura, opt => opt.MapFrom(src => src.DistribucionCandidatura))
+            .ForMember(dest => dest.TipoAgrupacionPolitica, opt => opt.MapFrom(src => src.TipoAgrupacionPolitica))
+            .ForMember(dest => dest.Candidatura, opt => opt.MapFrom(src => src.Candidatura))
+            .ForMember(dest => dest.Combinacion, opt => opt.MapFrom(src => src.Combinacion));
+
+            CreateMap<DistribucionCandidaturaDTO, DistribucionCandidatura>();
+            CreateMap<DistribucionCandidatura, DistribucionCandidaturaDTO>()
+            .ForMember(dest => dest.TipoEleccion, opt => opt.MapFrom(src => src.TipoEleccion))
+            .ForMember(dest => dest.Distrito, opt => opt.MapFrom(src => src.Distrito))
+            .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio));
+
+            CreateMap<ActaEscrutinioDTO, ActaEscrutinio>();
+            CreateMap<ActaEscrutinio, ActaEscrutinioDTO>()
+            .ForMember(dest => dest.Distrito, opt => opt.MapFrom(src => src.Distrito))
+            .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio))
+            .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
+            .ForMember(dest => dest.Casilla, opt => opt.MapFrom(src => src.Casilla))
+            .ForMember(dest => dest.TipoEleccion, opt => opt.MapFrom(src => src.TipoEleccion));
+
             CreateMap<VotoDTO, Voto>();
             CreateMap<Voto, VotoDTO>()
             .ForMember(dest => dest.Simpatizante, opt => opt.MapFrom(src => src.Simpatizante));

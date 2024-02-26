@@ -2,7 +2,7 @@
 {
     public class DistribucionOrdenada
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string InputId { get; set; }
         public bool Orden { get; set; }
         public DistribucionCandidatura DistribucionCandidatura { get; set; }
