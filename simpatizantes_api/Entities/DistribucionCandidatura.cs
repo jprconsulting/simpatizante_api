@@ -7,5 +7,8 @@
         public Distrito Distrito { get; set; }
         public Municipio Municipio { get; set; }
         public string Nombre { get; set; }
+        public List<DistribucionOrdenada> DistribucionesOrdenadas { get; set; }
+        public List<ResultadoCandidatura> ResultadosCandidaturas { get; set; }
+
     }
 }

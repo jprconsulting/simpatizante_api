@@ -8,6 +8,7 @@
         public Seccion Seccion { get; set; }
         public Casilla Casilla { get; set; }
         public TipoEleccion TipoEleccion { get; set; }
+        public List<ResultadoCandidatura> ResultadosCandidaturas{ get; set; }
 
     }
 }

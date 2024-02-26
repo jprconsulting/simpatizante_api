@@ -10,6 +10,15 @@ namespace simpatizantes_api
         {
 
         }
+        public DbSet<Distrito> Distritos { get; set; }
+        public DbSet<ActaEscrutinio> ActasEscrutinios { get; set; }
+        public DbSet<Candidatura> Candidaturas { get; set; }
+        public DbSet<TipoEleccion> TiposElecciones { get; set; }
+        public DbSet<TipoAgrupacionPolitica> TiposAgrupacionesPoliticas { get; set; }
+        public DbSet<Combinacion> Combinaciones { get; set; }
+        public DbSet<DistribucionCandidatura> DistribucionesCandidaturas { get; set; }
+        public DbSet<DistribucionOrdenada> DistribucionesOrdenadas { get; set; }
+        public DbSet<ResultadoCandidatura> ResultadosCandidaturas { get; set; }
         public DbSet<UserSession> UserSessions { get; set; }
         public DbSet<Simpatizante> Simpatizantes { get; set; }
         public DbSet<Genero> Generos { get; set; }
