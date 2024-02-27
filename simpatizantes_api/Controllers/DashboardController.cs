@@ -34,29 +34,31 @@ namespace simpatizantes_api.Controllers
                 GeneralWordCloud = CreateModel(wordCount)
             };
 
-            var municipios = await context.Municipios.ToListAsync();
+            var secciones = await context.Secciones.ToListAsync();
 
-            foreach (var municipio in municipios)
+            foreach (var seccion in secciones)
             {
-                var visitasPorMunicipio = await context.Visitas
-                 .Include(v => v.Simpatizante)
+                var visitasPorseccion = await context.Visitas
+                    .Include(v => v.Simpatizante)
                     .ThenInclude(b => b.Municipio)
-                 .Where(v => v.Simpatizante.Municipio.Id == municipio.Id)
-                 .ToListAsync();
+                    .Where(v => v.Simpatizante.Seccion.Id == seccion.Id) // Filtrar por sección
+                    .ToListAsync();
 
-                var commentsByMunicipio = visitasPorMunicipio.Select(v => v.Servicio).ToList();
-                var wordCountByMunicipio = CountWords(commentsByMunicipio);
-                var municipioWordCloud = new MunicipioWordCloudDTO
+                var commentsByseccion = visitasPorseccion.Select(v => v.Servicio).ToList();
+                var wordCountByseccion = CountWords(commentsByseccion);
+                var seccionWordCloud = new MunicipioWordCloudDTO
                 {
-                    Id = municipio.Id,
-                    Nombre = municipio.Nombre,
-                    WordCloud = CreateModel(wordCountByMunicipio)
+                    Id = seccion.Id,
+                    Clave = seccion.Clave,
+                    Nombre = seccion.Nombre,
+                    WordCloud = CreateModel(wordCountByseccion)
                 };
-                generalWordCloud.WordCloudPorMunicipios.Add(municipioWordCloud);
+                generalWordCloud.WordCloudPorMunicipios.Add(seccionWordCloud);
             }
 
             return Ok(generalWordCloud);
         }
+
 
         static Dictionary<string, int> CountWords(List<string> comments)
         {
