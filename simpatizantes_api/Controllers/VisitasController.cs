@@ -84,8 +84,12 @@ namespace simpatizantes_api.Controllers
 
         [HttpPost("crear")]
         public async Task<ActionResult> Post(VisitaDTO dto)
-        {          
-
+        {
+            var existevicita = await context.Visitas.AnyAsync(n => n.Simpatizante.Id == dto.Simpatizante.Id);
+            if (existevicita)
+            {
+                return Conflict();
+            }
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVisitas);
