@@ -192,36 +192,44 @@ namespace simpatizantes_api.Controllers
             }
         }
 
-        //[HttpGet("total-Simpatizantes-por-genero")]
-        //public async Task<ActionResult<List<SimpatizantesEstadisticaGeneroDTO>>> TotalSimpatizantesPorGenero()
-        //{
-        //    var simpatizantes = await context.Simpatizantes.ToListAsync();
-        //    var totalSimpatizantes = simpatizantes.Count;
+[HttpGet("total-Simpatizantes-por-genero")]
+public async Task<ActionResult<List<SimpatizantesEstadisticaGeneroDTO>>> TotalSimpatizantesPorGenero()
+{
+    var simpatizantes = await context.Simpatizantes.Include(s => s.Genero).ToListAsync();
+    var totalSimpatizantes = simpatizantes.Count;
 
-        //    if (totalSimpatizantes == 0)
-        //    {
-        //        return Ok(new List<SimpatizantesEstadisticaGeneroDTO>());
-        //    }
+    if (totalSimpatizantes == 0)
+    {
+        return Ok(new List<SimpatizantesEstadisticaGeneroDTO>());
+    }
 
-        //    // Agrupa los simpatizantes por género
-        //    var estadisticas = simpatizantes
-        //        .GroupBy(s => s.Genero)
-        //        .Select(g => new SimpatizantesEstadisticaGeneroDTO
-        //        {
-        //            Id = g.Key, 
-        //            Nombre = Genero.Nombre, 
-        //            TotalSinpatizantes = g.Count(),
-        //            Porcentaje = (decimal)g.Count() * 100 / totalSimpatizantes
-        //        })
-        //        .ToList();
+    var generos = await context.Generos.ToListAsync();
 
-        //    return Ok(estadisticas);
-        //}
-
-        private string ObtenerNombreGenero(int idGenero)
+    var estadisticas = generos
+        .Select(genero => new SimpatizantesEstadisticaGeneroDTO
         {
-            return idGenero == 1 ? "Masculino" : "Femenino";
-        }
+            Id = genero.Id, // Mantener el ID si es necesario
+            Nombre = ObtenerNombreGenero(genero.Id),
+            TotalSinpatizantes = simpatizantes.Count(s => s.Genero.Id == genero.Id),
+            Porcentaje = (decimal)simpatizantes.Count(s => s.Genero.Id == genero.Id) * 100 / totalSimpatizantes
+        })
+        .ToList();
+
+    return Ok(estadisticas);
+}
+
+private string ObtenerNombreGenero(int idGenero)
+{
+    var genderNames = new Dictionary<int, string>
+    {
+        { 1, "Masculino" },
+        { 2, "Femenino" },
+        { 3, "No binario" },
+    };
+
+    return genderNames.TryGetValue(idGenero, out var name) ? name : "Desconocido";
+}
+
 
         [HttpGet("total-general")]
         public async Task<ActionResult<TotalGeneralDTO>> TotalGeneral()
