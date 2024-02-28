@@ -43,6 +43,22 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<CandidaturaDTO>(candidatura));
         }
 
+        [HttpGet("obtener-por-tipo-agrupacion-partido")]
+        public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoAgrupacion(int tipoAgrupacionPoliticaId)
+        {
+            var candidaturas = await context.Candidaturas
+                .Include(u => u.TipoAgrupacionPolitica)
+                .Where(c => c.TipoAgrupacionPolitica.Id == 1)
+                .OrderBy(c => c.Id)
+                .ToListAsync();
+
+            if (!candidaturas.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<CandidaturaDTO>>(candidaturas));
+        }
 
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetAll()
@@ -67,7 +83,6 @@ namespace simpatizantes_api.Controllers
             {
                 dto.Logo = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCandidaturas);
             }
-
             try
             {
                 if (!ModelState.IsValid)
@@ -77,7 +92,24 @@ namespace simpatizantes_api.Controllers
 
                 var candidatura = mapper.Map<Candidatura>(dto);
                 candidatura.TipoAgrupacionPolitica = await context.TiposAgrupacionesPoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
-               
+
+                // Verifica si el tipo de agrupación política es 1 o 4 (Partido Político o Candidatura Independiente)
+                if (candidatura.TipoAgrupacionPolitica.Id == 1 || candidatura.TipoAgrupacionPolitica.Id == 4)
+                {
+                    // No se requiere realizar ninguna acción adicional para estos tipos de agrupación
+                }
+                else
+                {
+                    // Si el tipo de agrupación política es 2 o 3, verificamos si se han proporcionado partidos
+                    if (dto.Partidos == null || dto.Partidos.Count == 0)
+                    {
+                        return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");
+                    }
+
+                    // Convierte los objetos CandidaturaDTO a entidades Candidatura y añádelos a la lista de Partidos en la entidad Candidatura
+                    candidatura.Partidos = dto.Partidos.Select(p => mapper.Map<Candidatura>(p)).ToList();
+                }
+
                 context.Add(candidatura);
                 await context.SaveChangesAsync();
                 return Ok();

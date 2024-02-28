@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240228183847_Initial")]
+    [Migration("20240228200248_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -124,6 +124,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Acronimo")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("CandidaturaId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
 
@@ -136,13 +139,12 @@ namespace simpatizantesapi.Migrations
                     b.Property<int>("Orden")
                         .HasColumnType("int");
 
-                    b.Property<string>("Partidos")
-                        .HasColumnType("longtext");
-
                     b.Property<int?>("TipoAgrupacionPoliticaId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CandidaturaId");
 
                     b.HasIndex("TipoAgrupacionPoliticaId");
 
@@ -927,6 +929,10 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Candidatura", b =>
                 {
+                    b.HasOne("simpatizantes_api.Entities.Candidatura", null)
+                        .WithMany("Partidos")
+                        .HasForeignKey("CandidaturaId");
+
                     b.HasOne("simpatizantes_api.Entities.TipoAgrupacionPolitica", "TipoAgrupacionPolitica")
                         .WithMany("Candidaturas")
                         .HasForeignKey("TipoAgrupacionPoliticaId");
@@ -1225,6 +1231,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Combinaciones");
 
                     b.Navigation("DistribucionesOrdenadas");
+
+                    b.Navigation("Partidos");
 
                     b.Navigation("ResultadosCandidaturas");
                 });

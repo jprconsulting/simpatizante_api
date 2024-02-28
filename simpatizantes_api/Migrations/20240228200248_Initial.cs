@@ -299,13 +299,17 @@ namespace simpatizantesapi.Migrations
                     Acronimo = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Partidos = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Orden = table.Column<int>(type: "int", nullable: false)
+                    Orden = table.Column<int>(type: "int", nullable: false),
+                    CandidaturaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Candidaturas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Candidaturas_Candidaturas_CandidaturaId",
+                        column: x => x.CandidaturaId,
+                        principalTable: "Candidaturas",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Candidaturas_TiposAgrupacionesPoliticas_TipoAgrupacionPoliti~",
                         column: x => x.TipoAgrupacionPoliticaId,
@@ -878,6 +882,11 @@ namespace simpatizantesapi.Migrations
                 name: "IX_Candidatos_GeneroId",
                 table: "Candidatos",
                 column: "GeneroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Candidaturas_CandidaturaId",
+                table: "Candidaturas",
+                column: "CandidaturaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Candidaturas_TipoAgrupacionPoliticaId",
