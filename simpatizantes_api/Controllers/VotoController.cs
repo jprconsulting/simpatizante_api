@@ -100,12 +100,6 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var existeVoto = await context.Votos.AnyAsync(n => n.Simpatizante.Id == dto.Simpatizante.Id);
-            if (existeVoto)
-            {
-                return Conflict();
-            }
-
             var voto = await context.Votos.FindAsync(id);
 
             if (voto == null)

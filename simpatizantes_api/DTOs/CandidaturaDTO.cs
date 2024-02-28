@@ -8,6 +8,8 @@ namespace simpatizantes_api.DTOs
         public TipoAgrupacionPoliticaDTO TipoAgrupacionPolitica { get; set; }
         public string Nombre { get; set; }
         public string Logo { get; set; }
+        public string ImagenBase64 { get; set; }
+        public string Acronimo { get; set; }
         public bool Estatus { get; set; }
         public string Partidos { get; set; }
         public int Orden { get; set; }

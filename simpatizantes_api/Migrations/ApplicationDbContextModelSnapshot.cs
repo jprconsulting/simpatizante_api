@@ -52,7 +52,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("TipoEleccionId");
 
-                    b.ToTable("ActasEscrutinio");
+                    b.ToTable("ActasEscrutinios");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Candidato", b =>
@@ -117,6 +117,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Acronimo")
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");

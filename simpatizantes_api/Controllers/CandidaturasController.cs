@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
@@ -14,11 +15,17 @@ namespace simpatizantes_api.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+        private readonly IAlmacenadorImagenes almacenadorImagenes;
+        private readonly string directorioCandidaturas = "candidaturas";
 
-        public CandidaturasController (ApplicationDbContext context, IMapper mapper)
+        public CandidaturasController (
+            ApplicationDbContext context, 
+            IMapper mapper,
+            IAlmacenadorImagenes almacenadorImagenes)
         {
             this.context = context;
             this.mapper = mapper;
+            this.almacenadorImagenes = almacenadorImagenes;
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
@@ -56,6 +63,11 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(CandidaturaDTO dto)
         {
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
+            {
+                dto.Logo = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCandidaturas);
+            }
+
             try
             {
                 if (!ModelState.IsValid)
@@ -107,6 +119,15 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
+            {
+
+                dto.Logo = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCandidaturas);
+            }
+            else
+            {
+                dto.Logo = candidatura.Logo;
+            }
             // Mapea los datos del DTO al usuario existente
             mapper.Map(dto, candidatura);
             candidatura.TipoAgrupacionPolitica = await context.TiposAgrupacionesPoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);

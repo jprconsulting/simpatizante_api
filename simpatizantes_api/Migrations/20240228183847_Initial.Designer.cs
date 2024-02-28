@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240226174747_Initial")]
+    [Migration("20240228183847_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -55,7 +55,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("TipoEleccionId");
 
-                    b.ToTable("ActasEscrutinio");
+                    b.ToTable("ActasEscrutinios");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Candidato", b =>
@@ -120,6 +120,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Acronimo")
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
