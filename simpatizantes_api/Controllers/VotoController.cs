@@ -75,6 +75,12 @@ namespace simpatizantes_api.Controllers
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVotos);
             }
 
+            var existeVoto = await context.Votos.AnyAsync(n => n.Simpatizante.Id == dto.Simpatizante.Id);
+            if (existeVoto)
+                {
+                return Conflict();                                 
+                }
+
             var voto = mapper.Map<Voto>(dto);
             voto.FechaHoraVot = DateTime.Now;
             voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
