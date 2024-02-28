@@ -94,25 +94,23 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var visita = await context.Votos.FindAsync(id);
+            var voto = await context.Votos.FindAsync(id);
 
-            if (visita == null)
+            if (voto == null)
             {
                 return NotFound();
             }
-
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(c => c.Id == dto.Simpatizante.Id);
-
 
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVotos);
             }
 
-            mapper.Map(dto, visita);
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
+            mapper.Map(dto, voto);
+            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
+            voto.FechaHoraVot = DateTime.Now;
 
-            context.Update(visita);
+            context.Update(voto);
 
             try
             {
