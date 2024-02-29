@@ -44,7 +44,7 @@ namespace simpatizantes_api.Controllers
         }
 
         [HttpGet("obtener-por-tipo-agrupacion-partido")]
-        public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoAgrupacion(int tipoAgrupacionPoliticaId)
+        public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoAgrupacion()
         {
             var candidaturas = await context.Candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
