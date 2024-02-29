@@ -9,10 +9,10 @@
         public string Acronimo { get; set; }
         public bool Estatus { get; set; }
         public int Orden { get; set; }
+        public string Partidos { get; set; }
         public List<Combinacion> Combinaciones { get; set; }
         public List<DistribucionOrdenada> DistribucionesOrdenadas { get; set; }
         public List<ResultadoCandidatura> ResultadosCandidaturas { get; set; }
-        public List<Candidatura> Partidos { get; set; }
 
     }
 }

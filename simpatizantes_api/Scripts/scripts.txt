@@ -265,3 +265,10 @@ VALUES
 ('Candidatura Común'),
 ('Coalición'),
 ('Candidatura Independiente');
+
+INSERT INTO simpatizantes.tiposelecciones (nombre)
+VALUES 
+('Presidente de la Republica'),
+('Gobernador'),
+('Diputado'),
+('Presidente Municipal');

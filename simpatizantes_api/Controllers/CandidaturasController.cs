@@ -93,21 +93,21 @@ namespace simpatizantes_api.Controllers
                 var candidatura = mapper.Map<Candidatura>(dto);
                 candidatura.TipoAgrupacionPolitica = await context.TiposAgrupacionesPoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
 
-                // Verifica si el tipo de agrupación política es 1 o 4 (Partido Político o Candidatura Independiente)
-                if (candidatura.TipoAgrupacionPolitica.Id == 1 || candidatura.TipoAgrupacionPolitica.Id == 4)
+                // Verifica si el tipo de agrupación política es 1, 3 O 4 (Partido Político, Candidatura Común o Candidatura Independiente)
+                if (candidatura.TipoAgrupacionPolitica.Id == 1 || candidatura.TipoAgrupacionPolitica.Id == 3 || candidatura.TipoAgrupacionPolitica.Id == 4)
                 {
                     // No se requiere realizar ninguna acción adicional para estos tipos de agrupación
                 }
                 else
                 {
-                    // Si el tipo de agrupación política es 2 o 3, verificamos si se han proporcionado partidos
+                    // Si el tipo de agrupación política es 3, verificamos si se han proporcionado partidos
                     if (dto.Partidos == null || dto.Partidos.Count == 0)
                     {
                         return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");
                     }
 
                     // Convierte los objetos CandidaturaDTO a entidades Candidatura y añádelos a la lista de Partidos en la entidad Candidatura
-                    candidatura.Partidos = dto.Partidos.Select(p => mapper.Map<Candidatura>(p)).ToList();
+                    candidatura.Partidos = string.Join(",", dto.Partidos);
                 }
 
                 context.Add(candidatura);

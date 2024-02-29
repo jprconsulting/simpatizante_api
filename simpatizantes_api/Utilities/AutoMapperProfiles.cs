@@ -6,6 +6,18 @@ namespace simpatizantes_api.Utilities
 {
     public class AutoMapperProfiles: Profile
     {
+        private string[] SplitPartidos(string partidos)
+        {
+            if (!string.IsNullOrEmpty(partidos))
+            {
+                return partidos.Split(',');
+            }
+            else
+            {
+                return new string[0]; 
+            }
+        }
+
         public AutoMapperProfiles()
         {
             // source, destination
@@ -80,8 +92,10 @@ namespace simpatizantes_api.Utilities
             CreateMap<TipoAgrupacionPoliticaDTO, TipoAgrupacionPolitica>();
 
             CreateMap<Candidatura, CandidaturaDTO>()
-            .ForMember(dest => dest.TipoAgrupacionPolitica, opt => opt.MapFrom(src => src.TipoAgrupacionPolitica));
-            CreateMap<CandidaturaDTO, Candidatura>();
+                .ForMember(dest => dest.TipoAgrupacionPolitica, opt => opt.MapFrom(src => src.TipoAgrupacionPolitica))
+                .ForMember(dest => dest.Partidos, opt => opt.MapFrom(src => SplitPartidos(src.Partidos)));
+            CreateMap<CandidaturaDTO, Candidatura>()
+                .ForMember(dest => dest.Partidos, opt => opt.MapFrom(src => string.Join(",", src.Partidos)));
 
             CreateMap<CombinacionDTO, Combinacion>();
             CreateMap<Combinacion, CombinacionDTO>()
