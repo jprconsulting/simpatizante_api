@@ -6,8 +6,8 @@ namespace simpatizantes_api.DTOs
     {
         public int? Id { get; set; }
         public TipoEleccionDTO TipoEleccion { get; set; }
-        public DistritoDTO Distrito { get; set; }
         public MunicipioDTO Municipio { get; set; }
+        public CandidaturaDTO Candidatura { get; set; } 
         public string Nombre { get; set; }
     }
 }

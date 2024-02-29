@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240229161834_Initial")]
+    [Migration("20240229192231_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -233,21 +233,18 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("DistritoId")
+                    b.Property<int?>("CandidaturaId")
                         .HasColumnType("int");
 
                     b.Property<int?>("MunicipioId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("longtext");
 
                     b.Property<int?>("TipoEleccionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DistritoId");
+                    b.HasIndex("CandidaturaId");
 
                     b.HasIndex("MunicipioId");
 
@@ -956,9 +953,9 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.DistribucionCandidatura", b =>
                 {
-                    b.HasOne("simpatizantes_api.Entities.Distrito", "Distrito")
+                    b.HasOne("simpatizantes_api.Entities.Candidatura", "Candidatura")
                         .WithMany("DistribucionesCandidaturas")
-                        .HasForeignKey("DistritoId");
+                        .HasForeignKey("CandidaturaId");
 
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
                         .WithMany("DistribucionesCandidaturas")
@@ -968,7 +965,7 @@ namespace simpatizantesapi.Migrations
                         .WithMany("DistribucionesCandidaturas")
                         .HasForeignKey("TipoEleccionId");
 
-                    b.Navigation("Distrito");
+                    b.Navigation("Candidatura");
 
                     b.Navigation("Municipio");
 
@@ -1224,6 +1221,8 @@ namespace simpatizantesapi.Migrations
                 {
                     b.Navigation("Combinaciones");
 
+                    b.Navigation("DistribucionesCandidaturas");
+
                     b.Navigation("DistribucionesOrdenadas");
 
                     b.Navigation("ResultadosCandidaturas");
@@ -1258,8 +1257,6 @@ namespace simpatizantesapi.Migrations
             modelBuilder.Entity("simpatizantes_api.Entities.Distrito", b =>
                 {
                     b.Navigation("ActasEscrutinios");
-
-                    b.Navigation("DistribucionesCandidaturas");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>

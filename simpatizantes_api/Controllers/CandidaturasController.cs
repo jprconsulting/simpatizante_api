@@ -49,7 +49,7 @@ namespace simpatizantes_api.Controllers
             var candidaturas = await context.Candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
                 .Where(c => c.TipoAgrupacionPolitica.Id == 1)
-                .OrderBy(c => c.Id)
+                .OrderBy(c => c.Orden)
                 .ToListAsync();
 
             if (!candidaturas.Any())
@@ -66,7 +66,7 @@ namespace simpatizantes_api.Controllers
             var candidaturas = await context.Candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
                 .Where(c => c.TipoAgrupacionPolitica.Id == 3)
-                .OrderBy(c => c.Id)
+                .OrderBy(c => c.Orden)
                 .ToListAsync();
 
             if (!candidaturas.Any())
@@ -83,7 +83,7 @@ namespace simpatizantes_api.Controllers
             var candidaturas = await context.Candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
                 .Where(c => c.TipoAgrupacionPolitica.Id == 4)
-                .OrderBy(c => c.Id)
+                .OrderBy(c => c.Orden)
                 .ToListAsync();
 
             if (!candidaturas.Any())
@@ -99,7 +99,7 @@ namespace simpatizantes_api.Controllers
         {
             var candidatura = await context.Candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
-                .OrderBy(u => u.Id)
+                .OrderBy(u => u.Orden)
                 .ToListAsync();
 
             if (!candidatura.Any())

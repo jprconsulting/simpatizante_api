@@ -26,8 +26,8 @@ namespace simpatizantes_api.Controllers
         {
             var distribucionCandidatura = await context.DistribucionesCandidaturas
                 .Include(u => u.TipoEleccion)
-                .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
+                .Include(u => u.Candidatura)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (distribucionCandidatura == null)
@@ -44,8 +44,8 @@ namespace simpatizantes_api.Controllers
         {
             var distribucionCandidatura = await context.DistribucionesCandidaturas
                 .Include(u => u.TipoEleccion)
-                .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
+                .Include(u => u.Candidatura)
                 .OrderBy(u => u.Id)
                 .ToListAsync();
 
@@ -69,7 +69,7 @@ namespace simpatizantes_api.Controllers
 
                 var distribucionCandidatura = mapper.Map<DistribucionCandidatura>(dto);
                 distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
-                distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(r => r.Id == dto.Distrito.Id);
+                distribucionCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
                 distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
 
                 context.Add(distribucionCandidatura);
@@ -115,7 +115,7 @@ namespace simpatizantes_api.Controllers
 
             mapper.Map(dto, distribucionCandidatura);
             distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
-            distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(r => r.Id == dto.Distrito.Id);
+            distribucionCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
             distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
             context.Update(distribucionCandidatura);
 
