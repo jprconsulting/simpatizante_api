@@ -60,6 +60,40 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<List<CandidaturaDTO>>(candidaturas));
         }
 
+        [HttpGet("obtener-por-tipo-coalicion")]
+        public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoCoalicion()
+        {
+            var candidaturas = await context.Candidaturas
+                .Include(u => u.TipoAgrupacionPolitica)
+                .Where(c => c.TipoAgrupacionPolitica.Id == 3)
+                .OrderBy(c => c.Id)
+                .ToListAsync();
+
+            if (!candidaturas.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<CandidaturaDTO>>(candidaturas));
+        }
+
+        [HttpGet("obtener-por-tipo-independiente")]
+        public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoIndependiente()
+        {
+            var candidaturas = await context.Candidaturas
+                .Include(u => u.TipoAgrupacionPolitica)
+                .Where(c => c.TipoAgrupacionPolitica.Id == 4)
+                .OrderBy(c => c.Id)
+                .ToListAsync();
+
+            if (!candidaturas.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<CandidaturaDTO>>(candidaturas));
+        }
+
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetAll()
         {
