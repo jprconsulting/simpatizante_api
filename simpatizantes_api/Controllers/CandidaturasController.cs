@@ -128,7 +128,7 @@ namespace simpatizantes_api.Controllers
                 candidatura.TipoAgrupacionPolitica = await context.TiposAgrupacionesPoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
 
                 // Verifica si el tipo de agrupación política es 1, 3 O 4 (Partido Político, Candidatura Común o Candidatura Independiente)
-                if (candidatura.TipoAgrupacionPolitica.Id == 1 || candidatura.TipoAgrupacionPolitica.Id == 3 || candidatura.TipoAgrupacionPolitica.Id == 4)
+                if (candidatura.TipoAgrupacionPolitica.Id == 1 || candidatura.TipoAgrupacionPolitica.Id == 2 || candidatura.TipoAgrupacionPolitica.Id == 4)
                 {
                     // No se requiere realizar ninguna acción adicional para estos tipos de agrupación
                 }
