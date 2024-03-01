@@ -111,7 +111,10 @@ namespace simpatizantes_api.Controllers
             {
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVotos);
             }
-
+            else
+            {
+                dto.Foto = voto.Foto;
+            }
             mapper.Map(dto, voto);
             voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
             voto.FechaHoraVot = DateTime.Now;
