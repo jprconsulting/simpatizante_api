@@ -113,6 +113,14 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(CandidaturaDTO dto)
         {
+            var existeCandidatura = await context.Candidaturas.AnyAsync(n => n.Nombre == dto.Nombre &&
+                                                     n.Acronimo == dto.Acronimo &&
+                                                     n.Orden == dto.Orden);
+            if (existeCandidatura)
+            {
+                return Conflict();
+            }
+
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
                 dto.Logo = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCandidaturas);
