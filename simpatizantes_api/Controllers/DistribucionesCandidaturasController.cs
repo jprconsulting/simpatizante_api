@@ -70,7 +70,25 @@ namespace simpatizantes_api.Controllers
                 var distribucionCandidatura = mapper.Map<DistribucionCandidatura>(dto);
                 distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
                 distribucionCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
-                distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
+
+                if (dto.Estado != null)
+                {
+                    distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(p => p.Id == dto.Estado.Id);
+                }
+
+                if (dto.Distrito != null)
+                {
+                    distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(p => p.Id == dto.Distrito.Id);
+                }
+                if (dto.Municipio != null)
+                {
+                    distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(p => p.Id == dto.Municipio.Id);
+                }
+
+                if (dto.Comunidad != null)
+                {
+                    distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(p => p.Id == dto.Comunidad.Id);
+                }
 
                 context.Add(distribucionCandidatura);
                 await context.SaveChangesAsync();
@@ -116,7 +134,24 @@ namespace simpatizantes_api.Controllers
             mapper.Map(dto, distribucionCandidatura);
             distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
             distribucionCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
-            distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
+            if (dto.Estado != null)
+            {
+                distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(p => p.Id == dto.Estado.Id);
+            }
+
+            if (dto.Distrito != null)
+            {
+                distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(p => p.Id == dto.Distrito.Id);
+            }
+            if (dto.Municipio != null)
+            {
+                distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(p => p.Id == dto.Municipio.Id);
+            }
+
+            if (dto.Comunidad != null)
+            {
+                distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(p => p.Id == dto.Comunidad.Id);
+            }
             context.Update(distribucionCandidatura);
 
             try

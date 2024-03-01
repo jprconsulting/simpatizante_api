@@ -10,6 +10,7 @@ namespace simpatizantes_api
         {
 
         }
+        public DbSet<Comunidad> Comunidades { get; set; }
         public DbSet<Distrito> Distritos { get; set; }
         public DbSet<ActaEscrutinio> ActasEscrutinios { get; set; }
         public DbSet<Candidatura> Candidaturas { get; set; }
@@ -40,7 +41,7 @@ namespace simpatizantes_api
         public DbSet<Promotor> Promotores { get; set; }
         public DbSet<OperadorSeccion> OperadoresSecciones { get; set; }
         public DbSet<PromotorOperador> PromotoresOperadores { get; set; }
-
+        public DbSet<Pais> Paises { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Operador>()

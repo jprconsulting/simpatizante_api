@@ -12,31 +12,30 @@ using System.Threading.Tasks;
 
 namespace simpatizantes_api.Controllers
 {
-    [Route("api/distritos")]
+    [Route("api/paises")]
     [ApiController]
-    public class DistritosController : ControllerBase
+    public class PaisesController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
 
-        public DistritosController(ApplicationDbContext context, IMapper mapper)
+        public PaisesController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
         }
 
         [HttpGet("obtener-todos")]
-        public async Task<ActionResult<List<MunicipioDTO>>> GetAll()
+        public async Task<ActionResult<List<PaisDTO>>> GetAll()
         {
-            var distritos = await context.Distritos
-            .Include(u => u.Municipios)
+            var distritos = await context.Paises
             .ToListAsync();
             if (!distritos.Any())
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<DistritoDTO>>(distritos));
+            return Ok(mapper.Map<List<PaisDTO>>(distritos));
         }
 
     }

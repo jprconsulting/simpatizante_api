@@ -7,26 +7,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace simpatizantes_api.Controllers
 {
-    [Authorize]
-    [Route("api/estados")]
+    [Route("api/comunidades")]
     [ApiController]
-    public class EstadosController : ControllerBase
+    public class ComunidadesController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
 
-        public EstadosController(ApplicationDbContext context, IMapper mapper)
+        public ComunidadesController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
         }
 
         [HttpGet("obtener-todos")]
-        public async Task<ActionResult<List<EstadoDTO>>> GetAll()
+        public async Task<ActionResult<List<ComunidadDTO>>> GetAll()
         {
             string userName = User.FindFirst("NombreCompleto")?.Value;
-            var estados = await context.Estados
-                .Include(u => u.Pais)
+            var estados = await context.Comunidades
+                .Include(u => u.Municipio)
                 .ToListAsync();
 
             if (!estados.Any())
@@ -34,7 +33,7 @@ namespace simpatizantes_api.Controllers
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<EstadoDTO>>(estados));
+            return Ok(mapper.Map<List<ComunidadDTO>>(estados));
         }
 
     }

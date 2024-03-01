@@ -1,36 +1,39 @@
-INSERT INTO simpatizantes.estados(nombre) VALUES 
-('Aguascalientes'),
-('Baja California'),
-('Baja California Sur'),
-('Campeche'),
-('Chiapas'),
-('Chihuahua'),
-('Ciudad de México'),
-('Coahuila'),
-('Colima'),
-('Durango'),
-('Estado de México'),
-('Guanajuato'),
-('Guerrero'),
-('Hidalgo'),
-('Jalisco'),
-('Michoacán'),
-('Morelos'),
-('Nayarit'),
-('Nuevo León'),
-('Oaxaca'),
-('Puebla'),
-('Querétaro'),
-('Quintana Roo'),
-('San Luis Potosí'),
-('Sinaloa'),
-('Sonora'),
-('Tabasco'),
-('Tamaulipas'),
-('Tlaxcala'),
-('Veracruz'),
-('Yucatán'),
-('Zacatecas');
+INSERT INTO simpatizantes.paises(nombre) VALUES
+('México');
+
+INSERT INTO simpatizantes.estados(nombre, paisId) VALUES 
+('Aguascalientes',1),
+('Baja California',1),
+('Baja California Sur',1),
+('Campeche',1),
+('Chiapas',1),
+('Chihuahua',1),
+('Ciudad de México',1),
+('Coahuila',1),
+('Colima',1),
+('Durango',1),
+('Estado de México',1),
+('Guanajuato',1),
+('Guerrero',1),
+('Hidalgo',1),
+('Jalisco',1),
+('Michoacán',1),
+('Morelos',1),
+('Nayarit',1),
+('Nuevo León',1),
+('Oaxaca',1),
+('Puebla',1),
+('Querétaro',1),
+('Quintana Roo',1),
+('San Luis Potosí',1),
+('Sinaloa',1),
+('Sonora',1),
+('Tabasco',1),
+('Tamaulipas',1),
+('Tlaxcala',1),
+('Veracruz',1),
+('Yucatán',1),
+('Zacatecas',1);
 
 INSERT INTO simpatizantes.municipios (nombre, estadoId) VALUES 
 ('Amaxac de Guerrero', 29),
@@ -144,6 +147,7 @@ VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
 
 /* admin */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessCandidaturas', 1,1),
 ('CanAccessInicio', 1, 1),
 ('CanAccessPromotores', 1, 1),
 ('CanAccessAdministracion', 1, 1),
@@ -163,8 +167,7 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessSeguimientoVoto', 1,1),
 ('CanAccessResultados', 1,1),
 ('CanAccessReportes', 1,1),
-('CanAccessNubePalabras', 1,1),
-('CanAccessCandidaturas', 1,1);
+('CanAccessNubePalabras', 1,1);
 
 /* operador */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
@@ -255,10 +258,10 @@ INSERT INTO simpatizantes.generos(nombre) VALUES
 ('Femenino'),
 ('No binario');
 
-INSERT INTO simpatizantes.distritos (nombre) VALUES 
-('Distrito 01'),
-('Distrito 02'),
-('Distrito 03');
+INSERT INTO simpatizantes.distritos (nombre, estadoId) VALUES 
+('Distrito 01',29),
+('Distrito 02',29),
+('Distrito 03',29);
 
 INSERT INTO simpatizantes.tiposagrupacionespoliticas (Nombre)
 VALUES 
@@ -267,9 +270,28 @@ VALUES
 ('Coalición'),
 ('Candidatura Independiente');
 
-INSERT INTO simpatizantes.tiposelecciones (nombre)
+INSERT INTO simpatizantes.comunidades (nombre, municipioId)
 VALUES 
-('Presidente de la Republica'),
-('Gobernador'),
-('Diputado'),
-('Presidente Municipal');
+('Tizatlán', 33),
+('Ixtulco', 33),
+('Atempan', 33),
+('Col. Centro', 33),
+('Col. Adolfo López Mateos', 33),
+('Ocotlán', 33),
+('San Hipólito Chimalpa', 33),
+('San Gabriel Cuauhtla', 33),
+('La Joya', 33),
+('Tlacomulco', 33),
+('Tlapancalco', 33),
+('Loma Bonita', 33),
+('El Sabinal', 33),
+('Atlahapa', 33),
+('Col. San Isidro', 33),
+('La Loma Xicohténcatl', 33),
+('Tepehitec', 33),
+('Santa María Acuitlapilco', 33),
+('San Diego Metepec', 33),
+('San Lucas Cuauhtelulpan', 33),
+('Adolfo López Mateos', 33),
+('Barrio Miraflores', 33),
+('Acuitlapilco', 33);

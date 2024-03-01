@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240229192231_Initial")]
+    [Migration("20240301215120_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -227,6 +227,25 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("Combinaciones");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Comunidad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MunicipioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MunicipioId");
+
+                    b.ToTable("Comunidades");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.DistribucionCandidatura", b =>
                 {
                     b.Property<int>("Id")
@@ -236,7 +255,19 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("CandidaturaId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ComunidadId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DistritoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstadoId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MunicipioId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaisId")
                         .HasColumnType("int");
 
                     b.Property<int?>("TipoEleccionId")
@@ -246,7 +277,15 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("CandidaturaId");
 
+                    b.HasIndex("ComunidadId");
+
+                    b.HasIndex("DistritoId");
+
+                    b.HasIndex("EstadoId");
+
                     b.HasIndex("MunicipioId");
+
+                    b.HasIndex("PaisId");
 
                     b.HasIndex("TipoEleccionId");
 
@@ -305,10 +344,15 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("EstadoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EstadoId");
 
                     b.ToTable("Distritos");
                 });
@@ -322,7 +366,12 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("PaisId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PaisId");
 
                     b.ToTable("Estados");
                 });
@@ -383,6 +432,9 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("DistritoId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("EstadoId")
                         .HasColumnType("int");
 
@@ -390,6 +442,8 @@ namespace simpatizantesapi.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DistritoId");
 
                     b.HasIndex("EstadoId");
 
@@ -458,6 +512,20 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("SeccionId");
 
                     b.ToTable("OperadoresSecciones");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Pais", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Paises");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.ProgramaSocial", b =>
@@ -951,15 +1019,42 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Candidatura");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Comunidad", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
+                        .WithMany()
+                        .HasForeignKey("MunicipioId");
+
+                    b.Navigation("Municipio");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.DistribucionCandidatura", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Candidatura", "Candidatura")
                         .WithMany("DistribucionesCandidaturas")
                         .HasForeignKey("CandidaturaId");
 
+                    b.HasOne("simpatizantes_api.Entities.Comunidad", "Comunidad")
+                        .WithMany()
+                        .HasForeignKey("ComunidadId");
+
+                    b.HasOne("simpatizantes_api.Entities.Distrito", "Distrito")
+                        .WithMany()
+                        .HasForeignKey("DistritoId");
+
+                    b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId");
+
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
                         .WithMany("DistribucionesCandidaturas")
                         .HasForeignKey("MunicipioId");
+
+                    b.HasOne("simpatizantes_api.Entities.Pais", "Pais")
+                        .WithMany()
+                        .HasForeignKey("PaisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("simpatizantes_api.Entities.TipoEleccion", "TipoEleccion")
                         .WithMany("DistribucionesCandidaturas")
@@ -967,7 +1062,15 @@ namespace simpatizantesapi.Migrations
 
                     b.Navigation("Candidatura");
 
+                    b.Navigation("Comunidad");
+
+                    b.Navigation("Distrito");
+
+                    b.Navigation("Estado");
+
                     b.Navigation("Municipio");
+
+                    b.Navigation("Pais");
 
                     b.Navigation("TipoEleccion");
                 });
@@ -999,6 +1102,24 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("TipoAgrupacionPolitica");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.Distrito", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
+                        .WithMany("Distritos")
+                        .HasForeignKey("EstadoId");
+
+                    b.Navigation("Estado");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Pais", "Pais")
+                        .WithMany("Estados")
+                        .HasForeignKey("PaisId");
+
+                    b.Navigation("Pais");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Incidencia", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Casilla", "Casilla")
@@ -1016,8 +1137,12 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Municipio", b =>
                 {
-                    b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
+                    b.HasOne("simpatizantes_api.Entities.Distrito", null)
                         .WithMany("Municipios")
+                        .HasForeignKey("DistritoId");
+
+                    b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
+                        .WithMany()
                         .HasForeignKey("EstadoId");
 
                     b.Navigation("Estado");
@@ -1257,11 +1382,13 @@ namespace simpatizantesapi.Migrations
             modelBuilder.Entity("simpatizantes_api.Entities.Distrito", b =>
                 {
                     b.Navigation("ActasEscrutinios");
+
+                    b.Navigation("Municipios");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
                 {
-                    b.Navigation("Municipios");
+                    b.Navigation("Distritos");
 
                     b.Navigation("Simpatizantes");
                 });
@@ -1293,6 +1420,11 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Simpatizantes");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Pais", b =>
+                {
+                    b.Navigation("Estados");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.ProgramaSocial", b =>
