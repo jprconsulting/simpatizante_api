@@ -26,7 +26,11 @@ namespace simpatizantes_api.Controllers
         {
             var distribucionCandidatura = await context.DistribucionesCandidaturas
                 .Include(u => u.TipoEleccion)
+                .Include(u => u.Pais)
+                .Include(u => u.Estado)
+                .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
+                .Include(u => u.Comunidad)
                 .Include(u => u.Candidatura)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -44,7 +48,11 @@ namespace simpatizantes_api.Controllers
         {
             var distribucionCandidatura = await context.DistribucionesCandidaturas
                 .Include(u => u.TipoEleccion)
+                .Include(u => u.Pais)
+                .Include(u => u.Estado)
+                .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
+                .Include(u => u.Comunidad)
                 .Include(u => u.Candidatura)
                 .OrderBy(u => u.Id)
                 .ToListAsync();

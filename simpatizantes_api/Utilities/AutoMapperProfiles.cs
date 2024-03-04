@@ -125,6 +125,7 @@ namespace simpatizantes_api.Utilities
             CreateMap<DistribucionCandidatura, DistribucionCandidaturaDTO>()
             .ForMember(dest => dest.TipoEleccion, opt => opt.MapFrom(src => src.TipoEleccion))
             .ForMember(dest => dest.Candidatura, opt => opt.MapFrom(src => src.Candidatura))
+            .ForMember(dest => dest.Pais, opt => opt.MapFrom(src => src.Pais))
             .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado))
             .ForMember(dest => dest.Distrito, opt => opt.MapFrom(src => src.Distrito))
             .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio))

@@ -29,7 +29,7 @@ namespace simpatizantes_api.Controllers
         public async Task<ActionResult<List<MunicipioDTO>>> GetAll()
         {
             var distritos = await context.Distritos
-            .Include(u => u.Municipios)
+            .Include(u => u.Estado)
             .ToListAsync();
             if (!distritos.Any())
             {
