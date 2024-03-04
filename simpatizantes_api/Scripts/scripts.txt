@@ -147,6 +147,7 @@ VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
 
 /* admin */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessDistribucionCandidaturas' , 1, 1),
 ('CanAccessCandidaturas', 1,1),
 ('CanAccessInicio', 1, 1),
 ('CanAccessPromotores', 1, 1),
@@ -295,3 +296,11 @@ VALUES
 ('Adolfo López Mateos', 33),
 ('Barrio Miraflores', 33),
 ('Acuitlapilco', 33);
+
+INSERT INTO simpatizantes.tiposelecciones (Nombre)
+VALUES 
+('Presidente de la Republica'),
+('Gobernador'),
+('Diputado'),
+('Presidente Municipal'),
+('Presidente de Comunidad');
