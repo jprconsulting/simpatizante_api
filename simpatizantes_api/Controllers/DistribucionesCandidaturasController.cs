@@ -70,6 +70,7 @@ namespace simpatizantes_api.Controllers
                 var distribucionCandidatura = mapper.Map<DistribucionCandidatura>(dto);
                 distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
                 distribucionCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
+                distribucionCandidatura.Pais = await context.Paises.SingleOrDefaultAsync(r => r.Id == dto.Pais.Id);
 
                 if (dto.Estado != null)
                 {

@@ -11,6 +11,6 @@ namespace simpatizantes_api.DTOs
         public DistritoDTO Distrito { get; set; }
         public MunicipioDTO Municipio { get; set; }
         public ComunidadDTO Comunidad { get; set; }
-        public Candidatura Candidatura { get; set; }
+        public CandidaturaDTO Candidatura { get; set; }
     } 
 }
