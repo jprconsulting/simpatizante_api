@@ -40,6 +40,21 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<List<SeccionDTO>>(secciones));
         }
 
+        [HttpGet("obtener-por-id/{id:int}")]
+        public async Task<ActionResult<SeccionDTO>> GetById(int id)
+        {
+            var usuario = await context.Secciones
+                .Include(u => u.Municipio)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<SeccionDTO>(usuario));
+        }
+
         [HttpGet("por-municipio/{municipioId}")]
         public async Task<ActionResult<List<SeccionDTO>>> GetByMunicipio(int municipioId)
         {
