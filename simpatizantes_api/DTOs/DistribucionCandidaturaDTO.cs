@@ -6,8 +6,6 @@ namespace simpatizantes_api.DTOs
     {
         public int? Id { get; set; }
         public TipoEleccionDTO TipoEleccion { get; set; }
-        public PaisDTO Pais { get; set; }
-        public EstadoDTO Estado { get; set; }
         public DistritoDTO Distrito { get; set; }
         public MunicipioDTO Municipio { get; set; }
         public ComunidadDTO Comunidad { get; set; }

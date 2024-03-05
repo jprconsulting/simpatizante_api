@@ -26,7 +26,6 @@ namespace simpatizantes_api.Controllers
         {
             string userName = User.FindFirst("NombreCompleto")?.Value;
             var estados = await context.Estados
-                .Include(u => u.Pais)
                 .ToListAsync();
 
             if (!estados.Any())
