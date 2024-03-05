@@ -60,6 +60,23 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<List<CandidaturaDTO>>(candidaturas));
         }
 
+        [HttpGet("obtener-por-tipo-comun")]
+        public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoComun() 
+        {
+            var candidaturas = await context.Candidaturas
+                .Include(u => u.TipoAgrupacionPolitica)
+                .Where(c => c.TipoAgrupacionPolitica.Id == 2)
+                .OrderBy(c => c.Orden)
+                .ToListAsync();
+
+            if (!candidaturas.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<CandidaturaDTO>>(candidaturas));
+        }
+
         [HttpGet("obtener-por-tipo-coalicion")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoCoalicion()
         {
