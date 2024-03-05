@@ -10,7 +10,7 @@
         public Municipio? Municipio { get; set; }
         public int? ComunidadId { get; set; }
         public Comunidad? Comunidad { get; set; }
-        public Candidatura Candidatura { get; set; }
+        public string Partidos { get; set; }
         public List<DistribucionOrdenada> DistribucionesOrdenadas { get; set; }
         public List<ResultadoCandidatura> ResultadosCandidaturas { get; set; }
 

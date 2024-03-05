@@ -296,8 +296,7 @@ VALUES
 
 INSERT INTO simpatizantes.tiposelecciones (Nombre)
 VALUES 
-('Presidente de la Republica'),
-('Gobernador'),
-('Diputado'),
+('Gobernatura'),
+('Diputado Local'),
 ('Presidente Municipal'),
 ('Presidente de Comunidad');

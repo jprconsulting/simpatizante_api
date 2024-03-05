@@ -24,7 +24,22 @@ namespace simpatizantes_api.Controllers
         {
             this.context = context;
             this.mapper = mapper;
-        }       
+        }
+
+        [HttpGet("obtener-por-id/{id:int}")]
+        public async Task<ActionResult<MunicipioDTO>> GetById(int id)
+        {
+            var municipios = await context.Municipios
+                .Include(u => u.Estado)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (municipios == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<MunicipioDTO>(municipios));
+        }
 
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<MunicipioDTO>>> GetAll()

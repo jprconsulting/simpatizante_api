@@ -29,7 +29,6 @@ namespace simpatizantes_api.Controllers
                 .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
                 .Include(u => u.Comunidad)
-                .Include(u => u.Candidatura)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (distribucionCandidatura == null)
@@ -49,7 +48,6 @@ namespace simpatizantes_api.Controllers
                 .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
                 .Include(u => u.Comunidad)
-                .Include(u => u.Candidatura)
                 .ToListAsync();
 
             if (!distribucionCandidatura.Any())
@@ -71,7 +69,6 @@ namespace simpatizantes_api.Controllers
                 }
 
                 var distribucionCandidatura = mapper.Map<DistribucionCandidatura>(dto);
-                distribucionCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
                 distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
                 distribucionCandidatura.DistritoId = null;
                 distribucionCandidatura.MunicipioId = null;
@@ -79,7 +76,6 @@ namespace simpatizantes_api.Controllers
                 distribucionCandidatura.Distrito = null;
                 distribucionCandidatura.Municipio = null;
                 distribucionCandidatura.Comunidad = null;
-
                 // Si es  Gubernatura
                 if (dto.TipoEleccion.Id == 1)
                 {
@@ -102,6 +98,17 @@ namespace simpatizantes_api.Controllers
                 if (dto.TipoEleccion.Id == 4)
                 {
                     distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
+                }
+                else
+                {
+                    // Si el tipo de agrupación política es 3, verificamos si se han proporcionado partidos
+                    if (dto.Partidos == null || dto.Partidos.Count == 0)
+                    {
+                        return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");
+                    }
+
+                    // Convierte los objetos CandidaturaDTO a entidades Candidatura y añádelos a la lista de Partidos en la entidad Candidatura
+                    distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
                 }
                 context.Add(distribucionCandidatura);
                 await context.SaveChangesAsync();
@@ -151,7 +158,6 @@ namespace simpatizantes_api.Controllers
             // Mapea los datos del DTO al usuario existente
             mapper.Map(dto, distribucionCandidatura);
             distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
-            distribucionCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
 
             distribucionCandidatura.Distrito = null;
             distribucionCandidatura.DistritoId = null;

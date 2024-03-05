@@ -539,6 +539,8 @@ namespace simpatizantesapi.Migrations
                     DistritoId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     ComunidadId = table.Column<int>(type: "int", nullable: true),
+                    Partidos = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CandidaturaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
