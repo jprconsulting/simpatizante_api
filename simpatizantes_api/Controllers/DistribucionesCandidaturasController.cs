@@ -94,14 +94,16 @@ namespace simpatizantes_api.Controllers
                     distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
                 }
 
-                // Si es  Comunidad
+                // Si es Comunidad
                 if (dto.TipoEleccion.Id == 4)
                 {
                     distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
+
+                    distribucionCandidatura.Partidos = string.Join(",", dto.Partidos.Select(p => p.ToString()));
                 }
+
                 else
                 {
-                    // Si el tipo de agrupación política es 3, verificamos si se han proporcionado partidos
                     if (dto.Partidos == null || dto.Partidos.Count == 0)
                     {
                         return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");

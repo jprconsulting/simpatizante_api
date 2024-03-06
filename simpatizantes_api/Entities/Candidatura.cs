@@ -13,7 +13,6 @@
         public List<Combinacion> Combinaciones { get; set; }
         public List<DistribucionOrdenada> DistribucionesOrdenadas { get; set; }
         public List<ResultadoCandidatura> ResultadosCandidaturas { get; set; } 
-        public List<DistribucionCandidatura> DistribucionesCandidaturas { get; set; }
 
     }
 }
