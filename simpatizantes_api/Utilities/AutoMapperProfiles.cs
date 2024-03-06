@@ -100,9 +100,13 @@ namespace simpatizantes_api.Utilities
             CreateMap<CandidaturaDTO, Candidatura>()
                 .ForMember(dest => dest.Partidos, opt => opt.MapFrom(src => string.Join(",", src.Partidos)));
 
-            CreateMap<CombinacionDTO, Combinacion>();
+            CreateMap<CombinacionDTO, Combinacion>()
+                .ForMember(dest => dest.Candidatura, opt => opt.MapFrom(src => src.Candidatura))
+                .ForMember(dest => dest.Partidos, opt => opt.MapFrom(src => string.Join(",", src.Partidos))); 
+
             CreateMap<Combinacion, CombinacionDTO>()
-            .ForMember(dest => dest.Candidatura, opt => opt.MapFrom(src => src.Candidatura));
+                .ForMember(dest => dest.Candidatura, opt => opt.MapFrom(src => src.Candidatura))
+                .ForMember(dest => dest.Partidos, opt => opt.MapFrom(src => SplitPartidos(src.Partidos)));
 
             CreateMap<ResultadoCandidaturaDTO, ResultadoCandidatura>();
             CreateMap<ResultadoCandidatura, ResultadoCandidaturaDTO>()
