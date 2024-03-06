@@ -214,8 +214,8 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Orden")
-                        .HasColumnType("int");
+                    b.Property<string>("Partidos")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

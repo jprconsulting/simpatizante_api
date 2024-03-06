@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
@@ -13,6 +14,8 @@ namespace simpatizantes_api.Controllers
     public class CombinacionesController : ControllerBase
     {
         private readonly ApplicationDbContext context;
+        private readonly IAlmacenadorImagenes almacenadorImagenes;
+        private readonly string directorioCombinaciones = "combinaciones";
         private readonly IMapper mapper;
 
         public CombinacionesController (ApplicationDbContext context, IMapper mapper)
@@ -56,6 +59,10 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(CombinacionDTO dto)
         {
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
+            {
+                dto.Logo = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCombinaciones);
+            }
             try
             {
                 if (!ModelState.IsValid)
@@ -65,6 +72,13 @@ namespace simpatizantes_api.Controllers
 
                 var combinacion = mapper.Map<Combinacion>(dto);
                 combinacion.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
+                if (dto.Partidos == null || dto.Partidos.Count == 0)
+                {
+                    return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");
+                }
+
+                // Convierte los objetos CandidaturaDTO a entidades Candidatura y añádelos a la lista de Partidos en la entidad Candidatura
+                combinacion.Partidos = string.Join(",", dto.Partidos);
 
                 context.Add(combinacion);
                 await context.SaveChangesAsync();

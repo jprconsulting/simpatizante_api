@@ -11,8 +11,8 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240305184552_Initial")]
-    partial class Initial
+    [Migration("20240306195916_COMBINACION")]
+    partial class COMBINACION
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,8 +217,8 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Orden")
-                        .HasColumnType("int");
+                    b.Property<string>("Partidos")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
