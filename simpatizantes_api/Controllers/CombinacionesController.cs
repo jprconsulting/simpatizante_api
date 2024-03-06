@@ -18,10 +18,14 @@ namespace simpatizantes_api.Controllers
         private readonly string directorioCombinaciones = "combinaciones";
         private readonly IMapper mapper;
 
-        public CombinacionesController (ApplicationDbContext context, IMapper mapper)
+        public CombinacionesController(
+            ApplicationDbContext context,
+            IMapper mapper,
+            IAlmacenadorImagenes almacenadorImagenes)
         {
             this.context = context;
             this.mapper = mapper;
+            this.almacenadorImagenes = almacenadorImagenes;
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
