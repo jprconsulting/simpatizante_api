@@ -28,6 +28,19 @@ namespace simpatizantes_api.Controllers
             this.almacenadorImagenes = almacenadorImagenes;
         }
 
+        [HttpGet("obtener-logo-por-nombre")]
+        public async Task<ActionResult<object>> GetLogoByNombre([FromQuery] string nombre)
+        {
+            var candidatura = await context.Candidaturas.FirstOrDefaultAsync(c => c.Nombre == nombre);
+
+            if (candidatura == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { logoUrl = candidatura.Logo });
+        }
+
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<CandidaturaDTO>> GetById(int id)
         {
