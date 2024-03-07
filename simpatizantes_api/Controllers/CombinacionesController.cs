@@ -124,7 +124,19 @@ namespace simpatizantes_api.Controllers
             {
                 return NotFound();
             }
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
+            {
 
+                dto.Logo = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCombinaciones);
+                combinacion.Partidos = string.Join(",", dto.Partidos);
+            }
+            else
+            {
+                dto.Logo = combinacion.Logo;
+                combinacion.Partidos = string.Join(",", dto.Partidos);
+            }
+
+            
             mapper.Map(dto, combinacion);
             combinacion.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
 

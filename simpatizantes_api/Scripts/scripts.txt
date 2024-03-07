@@ -165,6 +165,7 @@ INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
 ('CanAccessSeguimientoVoto', 1,1),
 ('CanAccessResultados', 1,1),
 ('CanAccessReportes', 1,1),
+('CanAccessCombinaciones', 1,1),
 ('CanAccessNubePalabras', 1,1);
 
 /* operador */
