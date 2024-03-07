@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using simpatizantes_api.Services;
+using simpatizantesapi.Migrations;
 
 namespace simpatizantes_api.Controllers
 {
@@ -113,6 +114,10 @@ namespace simpatizantes_api.Controllers
             if (!string.IsNullOrEmpty(dto.ImagenBase64))
             {
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioIncidencias);
+            }
+            else
+            {
+                dto.Foto = incidencia.Foto;
             }
 
             mapper.Map(dto, incidencia);
