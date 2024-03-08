@@ -2,7 +2,7 @@
 {
     public class PropagandaElectoralDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Folio { get; set; }
         public string Comentarios { get; set; }
         public decimal Latitud { get; set; }
