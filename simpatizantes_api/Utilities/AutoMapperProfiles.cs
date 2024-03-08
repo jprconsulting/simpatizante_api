@@ -159,6 +159,10 @@ namespace simpatizantes_api.Utilities
                   .ForMember(dest => dest.StrFechaHoraVisita, opt => opt.MapFrom(src => $"{src.FechaHoraVisita:dd/MM/yyyy}"))
                   .ForMember(dest => dest.Simpatizante, opt => opt.MapFrom(src => src.Simpatizante));
 
+            CreateMap<PropagandaElectoralDTO, PropagandaElectoral>();
+            CreateMap<PropagandaElectoral, PropagandaElectoralDTO>()
+                  .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio));
+
             CreateMap<Claim, ClaimDTO>()
                 .ForMember(dest => dest.RolId, opt => opt.MapFrom(src => src.Rol.Id))
                 .IncludeMembers(src => src.Rol);

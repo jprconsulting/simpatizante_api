@@ -9,7 +9,6 @@
         public List<Simpatizante> Simpatizantes { get; set; }
         public List<ActaEscrutinio> ActasEscrutinios { get; set; }
         public List<DistribucionCandidatura> DistribucionesCandidaturas { get; set; }
-
-
+        public List <Municipio> Municipios { get; set; }
     }
 }

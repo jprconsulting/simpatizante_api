@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using simpatizantes_api.Services;
-using simpatizantesapi.Migrations;
 
 namespace simpatizantes_api.Controllers
 {

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace simpatizantesapi.Migrations
 {
     /// <inheritdoc />
-    public partial class COMBINACION : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -341,7 +341,8 @@ namespace simpatizantesapi.Migrations
                     Nombre = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EstadoId = table.Column<int>(type: "int", nullable: true),
-                    DistritoId = table.Column<int>(type: "int", nullable: true)
+                    DistritoId = table.Column<int>(type: "int", nullable: true),
+                    MunicipioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -355,6 +356,11 @@ namespace simpatizantesapi.Migrations
                         name: "FK_Municipios_Estados_EstadoId",
                         column: x => x.EstadoId,
                         principalTable: "Estados",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Municipios_Municipios_MunicipioId",
+                        column: x => x.MunicipioId,
+                        principalTable: "Municipios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -432,6 +438,37 @@ namespace simpatizantesapi.Migrations
                     table.PrimaryKey("PK_Comunidades", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Comunidades_Municipios_MunicipioId",
+                        column: x => x.MunicipioId,
+                        principalTable: "Municipios",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "PropagandasElectorales",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Folio = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Comentarios = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Ubicacion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Dimensiones = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Foto = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MunicipioId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropagandasElectorales", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PropagandasElectorales_Municipios_MunicipioId",
                         column: x => x.MunicipioId,
                         principalTable: "Municipios",
                         principalColumn: "Id");
@@ -541,17 +578,11 @@ namespace simpatizantesapi.Migrations
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     ComunidadId = table.Column<int>(type: "int", nullable: true),
                     Partidos = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CandidaturaId = table.Column<int>(type: "int", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DistribucionesCandidaturas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DistribucionesCandidaturas_Candidaturas_CandidaturaId",
-                        column: x => x.CandidaturaId,
-                        principalTable: "Candidaturas",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DistribucionesCandidaturas_Comunidades_ComunidadId",
                         column: x => x.ComunidadId,
@@ -946,11 +977,6 @@ namespace simpatizantesapi.Migrations
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesCandidaturas_CandidaturaId",
-                table: "DistribucionesCandidaturas",
-                column: "CandidaturaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DistribucionesCandidaturas_ComunidadId",
                 table: "DistribucionesCandidaturas",
                 column: "ComunidadId");
@@ -1016,6 +1042,11 @@ namespace simpatizantesapi.Migrations
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Municipios_MunicipioId",
+                table: "Municipios",
+                column: "MunicipioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Operadores_CandidatoId",
                 table: "Operadores",
                 column: "CandidatoId");
@@ -1039,6 +1070,11 @@ namespace simpatizantesapi.Migrations
                 name: "IX_PromotoresOperadores_PromotorId",
                 table: "PromotoresOperadores",
                 column: "PromotorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropagandasElectorales_MunicipioId",
+                table: "PropagandasElectorales",
+                column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResultadosCandidaturas_ActaEscrutinioId",
@@ -1155,6 +1191,9 @@ namespace simpatizantesapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "PromotoresOperadores");
+
+            migrationBuilder.DropTable(
+                name: "PropagandasElectorales");
 
             migrationBuilder.DropTable(
                 name: "ResultadosCandidaturas");

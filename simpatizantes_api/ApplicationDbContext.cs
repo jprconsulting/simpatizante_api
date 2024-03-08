@@ -10,6 +10,7 @@ namespace simpatizantes_api
         {
 
         }
+        public DbSet<PropagandaElectoral> PropagandasElectorales { get; set; } 
         public DbSet<Comunidad> Comunidades { get; set; }
         public DbSet<Distrito> Distritos { get; set; }
         public DbSet<ActaEscrutinio> ActasEscrutinios { get; set; }
