@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using simpatizantes_api.Services;
 
 namespace simpatizantes_api.Controllers
 {
@@ -14,11 +15,16 @@ namespace simpatizantes_api.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+        private readonly IAlmacenadorImagenes almacenadorImagenes;
+        private readonly string directorioDistribuciones = "distribuciones";
 
-        public DistribucionesOrdenadasController(ApplicationDbContext context, IMapper mapper)
+        public DistribucionesOrdenadasController(ApplicationDbContext context,
+            IMapper mapper,
+            IAlmacenadorImagenes almacenadorImagenes)
         {
             this.context = context;
             this.mapper = mapper;
+            this.almacenadorImagenes = almacenadorImagenes;
         }
 
         [HttpGet("obtener-por-id/{id:int}")]
@@ -63,6 +69,10 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(DistribucionOrdenadaDTO dto)
         {
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
+            {
+                dto.Logo = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioDistribuciones);
+            }
             try
             {
                 if (!ModelState.IsValid)
@@ -115,6 +125,11 @@ namespace simpatizantes_api.Controllers
             if (distribucionOrdenada == null)
             {
                 return NotFound();
+            }
+
+            if (!string.IsNullOrEmpty(dto.ImagenBase64))
+            {
+                dto.Logo = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioDistribuciones);
             }
 
             mapper.Map(dto, distribucionOrdenada);

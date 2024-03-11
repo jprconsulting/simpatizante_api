@@ -14,5 +14,7 @@ namespace simpatizantes_api.DTOs
         public int PadreId { get; set; }
         public string NombreCandidatura { get; set; }
         public string Logo { get; set; }
+        public string ImagenBase64 { get; set; }
+
     }
 }
