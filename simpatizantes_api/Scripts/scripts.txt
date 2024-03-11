@@ -144,6 +144,7 @@ VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
 
 /* admin */
 INSERT INTO simpatizantes.claims (ClaimType, ClaimValue, RolId) VALUES
+('CanAccessMapaPropaganda' , 1, 1),
 ('CanAccessDistribucionCandidaturas' , 1, 1),
 ('CanAccessCandidaturas', 1,1),
 ('CanAccessInicio', 1, 1),
