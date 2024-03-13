@@ -7,6 +7,7 @@
         public string Clave { get; set; }
         public List<Incidencia> Incidencias { get; set; }
         public List<ActaEscrutinio> ActasEscrutinios { get; set; }
+        public List<ResultadoPreEliminar> ResultadosPreEliminares { get; set; }
 
     }
 }

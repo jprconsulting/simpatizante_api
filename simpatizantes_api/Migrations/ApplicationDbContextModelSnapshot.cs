@@ -1279,27 +1279,27 @@ namespace simpatizantesapi.Migrations
             modelBuilder.Entity("simpatizantes_api.Entities.ResultadoPreEliminar", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Casilla", "Casilla")
-                        .WithMany()
+                        .WithMany("ResultadosPreEliminares")
                         .HasForeignKey("CasillaId");
 
                     b.HasOne("simpatizantes_api.Entities.Comunidad", "Comunidad")
-                        .WithMany()
+                        .WithMany("ResultadosPreEliminares")
                         .HasForeignKey("ComunidadId");
 
                     b.HasOne("simpatizantes_api.Entities.Distrito", "Distrito")
-                        .WithMany()
+                        .WithMany("ResultadosPreEliminares")
                         .HasForeignKey("DistritoId");
 
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
-                        .WithMany()
+                        .WithMany("ResultadosPreEliminares")
                         .HasForeignKey("MunicipioId");
 
                     b.HasOne("simpatizantes_api.Entities.Seccion", "Seccion")
-                        .WithMany()
+                        .WithMany("ResultadosPreEliminares")
                         .HasForeignKey("SeccionId");
 
                     b.HasOne("simpatizantes_api.Entities.TipoEleccion", "TipoEleccion")
-                        .WithMany()
+                        .WithMany("ResultadosPreEliminares")
                         .HasForeignKey("TipoEleccionId");
 
                     b.Navigation("Casilla");
@@ -1454,6 +1454,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("ActasEscrutinios");
 
                     b.Navigation("Incidencias");
+
+                    b.Navigation("ResultadosPreEliminares");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Combinacion", b =>
@@ -1461,6 +1463,11 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("DistribucionesOrdenadas");
 
                     b.Navigation("ResultadosCandidaturas");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.Comunidad", b =>
+                {
+                    b.Navigation("ResultadosPreEliminares");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.DistribucionCandidatura", b =>
@@ -1475,6 +1482,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("ActasEscrutinios");
 
                     b.Navigation("Municipios");
+
+                    b.Navigation("ResultadosPreEliminares");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
@@ -1498,6 +1507,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("DistribucionesCandidaturas");
 
                     b.Navigation("Municipios");
+
+                    b.Navigation("ResultadosPreEliminares");
 
                     b.Navigation("Secciones");
 
@@ -1540,6 +1551,8 @@ namespace simpatizantesapi.Migrations
 
                     b.Navigation("OperadorSecciones");
 
+                    b.Navigation("ResultadosPreEliminares");
+
                     b.Navigation("Simpatizantes");
                 });
 
@@ -1562,6 +1575,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("ActasEscrutinios");
 
                     b.Navigation("DistribucionesCandidaturas");
+
+                    b.Navigation("ResultadosPreEliminares");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.TipoIncidencia", b =>

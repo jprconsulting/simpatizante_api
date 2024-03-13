@@ -4,7 +4,7 @@ namespace simpatizantes_api.DTOs
 {
     public class ResultadoPreEliminarDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public TipoEleccionDTO TipoEleccion { get; set; }
         public DistritoDTO Distrito { get; set; }
         public MunicipioDTO Municipio { get; set; }

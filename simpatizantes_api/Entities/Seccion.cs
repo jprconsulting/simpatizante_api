@@ -9,6 +9,7 @@
         public List<Simpatizante> Simpatizantes { get; set; }
         public List<OperadorSeccion> OperadorSecciones { get; set; }
         public List<ActaEscrutinio> ActasEscrutinios { get; set; }
+        public List<ResultadoPreEliminar> ResultadosPreEliminares { get; set; }
 
     }
 }

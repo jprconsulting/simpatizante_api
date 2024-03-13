@@ -10,5 +10,7 @@
         public List<ActaEscrutinio> ActasEscrutinios { get; set; }
         public List<DistribucionCandidatura> DistribucionesCandidaturas { get; set; }
         public List <Municipio> Municipios { get; set; }
+        public List<ResultadoPreEliminar> ResultadosPreEliminares { get; set; }
+
     }
 }
