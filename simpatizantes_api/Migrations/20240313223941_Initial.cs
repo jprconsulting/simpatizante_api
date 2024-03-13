@@ -677,6 +677,69 @@ namespace simpatizantesapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "ResultadosPreEliminares",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TipoEleccionId = table.Column<int>(type: "int", nullable: true),
+                    DistritoId = table.Column<int>(type: "int", nullable: true),
+                    MunicipioId = table.Column<int>(type: "int", nullable: true),
+                    ComunidadId = table.Column<int>(type: "int", nullable: true),
+                    SeccionId = table.Column<int>(type: "int", nullable: true),
+                    CasillaId = table.Column<int>(type: "int", nullable: true),
+                    BoletasSobrantes = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PersonasVotaron = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    VotosRepresentantes = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Suma = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Partidos = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    VotosUrna = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CasillaInstalado = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResultadosPreEliminares", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ResultadosPreEliminares_Casillas_CasillaId",
+                        column: x => x.CasillaId,
+                        principalTable: "Casillas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ResultadosPreEliminares_Comunidades_ComunidadId",
+                        column: x => x.ComunidadId,
+                        principalTable: "Comunidades",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ResultadosPreEliminares_Distritos_DistritoId",
+                        column: x => x.DistritoId,
+                        principalTable: "Distritos",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ResultadosPreEliminares_Municipios_MunicipioId",
+                        column: x => x.MunicipioId,
+                        principalTable: "Municipios",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ResultadosPreEliminares_Secciones_SeccionId",
+                        column: x => x.SeccionId,
+                        principalTable: "Secciones",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ResultadosPreEliminares_TiposElecciones_TipoEleccionId",
+                        column: x => x.TipoEleccionId,
+                        principalTable: "TiposElecciones",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Simpatizantes",
                 columns: table => new
                 {
@@ -1097,6 +1160,36 @@ namespace simpatizantesapi.Migrations
                 column: "DistribucionCandidaturaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ResultadosPreEliminares_CasillaId",
+                table: "ResultadosPreEliminares",
+                column: "CasillaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResultadosPreEliminares_ComunidadId",
+                table: "ResultadosPreEliminares",
+                column: "ComunidadId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResultadosPreEliminares_DistritoId",
+                table: "ResultadosPreEliminares",
+                column: "DistritoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResultadosPreEliminares_MunicipioId",
+                table: "ResultadosPreEliminares",
+                column: "MunicipioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResultadosPreEliminares_SeccionId",
+                table: "ResultadosPreEliminares",
+                column: "SeccionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResultadosPreEliminares_TipoEleccionId",
+                table: "ResultadosPreEliminares",
+                column: "TipoEleccionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Secciones_MunicipioId",
                 table: "Secciones",
                 column: "MunicipioId");
@@ -1197,6 +1290,9 @@ namespace simpatizantesapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "ResultadosCandidaturas");
+
+            migrationBuilder.DropTable(
+                name: "ResultadosPreEliminares");
 
             migrationBuilder.DropTable(
                 name: "UserSessions");

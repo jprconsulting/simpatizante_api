@@ -130,6 +130,17 @@ namespace simpatizantes_api.Utilities
             .ForMember(dest => dest.Partidos, opt => opt.MapFrom(src => SplitPartidos(src.Partidos)))
             .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad));
 
+            CreateMap<ResultadoPreEliminarDTO, ResultadoPreEliminar>();
+            CreateMap<ResultadoPreEliminar, ResultadoPreEliminarDTO>()
+            .ForMember(dest => dest.TipoEleccion, opt => opt.MapFrom(src => src.TipoEleccion))
+            .ForMember(dest => dest.Distrito, opt => opt.MapFrom(src => src.Distrito))
+            .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio))
+            .ForMember(dest => dest.Partidos, opt => opt.MapFrom(src => SplitPartidos(src.Partidos)))
+            .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad))
+            .ForMember(dest => dest.Seccion, opt => opt.MapFrom(src => src.Seccion))
+            .ForMember(dest => dest.Casilla, opt => opt.MapFrom(src => src.Casilla));
+
+
             CreateMap<ActaEscrutinioDTO, ActaEscrutinio>();
             CreateMap<ActaEscrutinio, ActaEscrutinioDTO>()
             .ForMember(dest => dest.Distrito, opt => opt.MapFrom(src => src.Distrito))

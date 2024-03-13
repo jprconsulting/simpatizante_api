@@ -9,7 +9,8 @@ namespace simpatizantes_api
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
 
-        }
+        } 
+        public DbSet<ResultadoPreEliminar> ResultadosPreEliminares { get; set; }
         public DbSet<PropagandaElectoral> PropagandasElectorales { get; set; } 
         public DbSet<Comunidad> Comunidades { get; set; }
         public DbSet<Distrito> Distritos { get; set; }

@@ -643,6 +643,68 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("ResultadosCandidaturas");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.ResultadoPreEliminar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("BoletasSobrantes")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("CasillaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CasillaInstalado")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("ComunidadId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DistritoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MunicipioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Partidos")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PersonasVotaron")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("SeccionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Suma")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("TipoEleccionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VotosRepresentantes")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("VotosUrna")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CasillaId");
+
+                    b.HasIndex("ComunidadId");
+
+                    b.HasIndex("DistritoId");
+
+                    b.HasIndex("MunicipioId");
+
+                    b.HasIndex("SeccionId");
+
+                    b.HasIndex("TipoEleccionId");
+
+                    b.ToTable("ResultadosPreEliminares");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Rol", b =>
                 {
                     b.Property<int>("Id")
@@ -1212,6 +1274,45 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Combinacion");
 
                     b.Navigation("DistribucionCandidatura");
+                });
+
+            modelBuilder.Entity("simpatizantes_api.Entities.ResultadoPreEliminar", b =>
+                {
+                    b.HasOne("simpatizantes_api.Entities.Casilla", "Casilla")
+                        .WithMany()
+                        .HasForeignKey("CasillaId");
+
+                    b.HasOne("simpatizantes_api.Entities.Comunidad", "Comunidad")
+                        .WithMany()
+                        .HasForeignKey("ComunidadId");
+
+                    b.HasOne("simpatizantes_api.Entities.Distrito", "Distrito")
+                        .WithMany()
+                        .HasForeignKey("DistritoId");
+
+                    b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
+                        .WithMany()
+                        .HasForeignKey("MunicipioId");
+
+                    b.HasOne("simpatizantes_api.Entities.Seccion", "Seccion")
+                        .WithMany()
+                        .HasForeignKey("SeccionId");
+
+                    b.HasOne("simpatizantes_api.Entities.TipoEleccion", "TipoEleccion")
+                        .WithMany()
+                        .HasForeignKey("TipoEleccionId");
+
+                    b.Navigation("Casilla");
+
+                    b.Navigation("Comunidad");
+
+                    b.Navigation("Distrito");
+
+                    b.Navigation("Municipio");
+
+                    b.Navigation("Seccion");
+
+                    b.Navigation("TipoEleccion");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Seccion", b =>
