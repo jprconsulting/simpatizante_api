@@ -17,7 +17,5 @@
         public string VotosRepresentantes { get; set; }
         public string Suma { get; set; }
         public string Partidos { get; set; }
-        public string VotosUrna { get; set; }
-        public string CasillaInstalado { get; set; }
     }
 }
