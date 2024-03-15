@@ -9,7 +9,8 @@ namespace simpatizantes_api
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
 
-        } 
+        }
+        public DbSet <ActiveToken> ActiveTokens { get; set; }
         public DbSet<ResultadoPreEliminar> ResultadosPreEliminares { get; set; }
         public DbSet<PropagandaElectoral> PropagandasElectorales { get; set; } 
         public DbSet<Comunidad> Comunidades { get; set; }
@@ -22,7 +23,6 @@ namespace simpatizantes_api
         public DbSet<DistribucionCandidatura> DistribucionesCandidaturas { get; set; }
         public DbSet<DistribucionOrdenada> DistribucionesOrdenadas { get; set; }
         public DbSet<ResultadoCandidatura> ResultadosCandidaturas { get; set; }
-        public DbSet<UserSession> UserSessions { get; set; }
         public DbSet<Simpatizante> Simpatizantes { get; set; }
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Operador> Operadores { get; set; }

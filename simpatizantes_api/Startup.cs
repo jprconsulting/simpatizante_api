@@ -42,24 +42,20 @@ namespace simpatizantes_api
 
            services.AddScoped<IAuthorizationService, AuthorizationService>();
 
-           var key = Configuration.GetValue<string>("JwtSettings:key");
-           var keyBytes = Encoding.UTF8.GetBytes(key);
-           services.AddAuthentication(options =>
-           {
-               options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-               options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-           }).AddJwtBearer(options =>
-           {
-               options.TokenValidationParameters = new TokenValidationParameters
-               {
-                   ValidateIssuer = false,
-                   ValidateAudience = false,
-                   ValidateLifetime = true,
-                   ValidateIssuerSigningKey = true,
-                   IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
-                   ClockSkew = TimeSpan.Zero
-               };
-           });
+            var key = Encoding.UTF8.GetBytes(Configuration["JwtSettings:key"]);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
             services.AddTransient<IAlmacenadorImagenes, AlmacenadorImagenesLocal>();
             services.AddHttpContextAccessor();
@@ -82,6 +78,7 @@ namespace simpatizantes_api
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

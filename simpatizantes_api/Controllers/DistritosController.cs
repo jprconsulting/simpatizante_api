@@ -9,11 +9,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/distritos")]
     [ApiController]
+    [TokenValidationFilter]
+
     public class DistritosController : ControllerBase
     {
         private readonly ApplicationDbContext context;

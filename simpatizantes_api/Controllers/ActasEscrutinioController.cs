@@ -5,11 +5,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
+    [Authorize]
     [Route("api/actas")]
     [ApiController]
+    [TokenValidationFilter]
+
     public class ActasEscrutinioController : ControllerBase
     {
         private readonly ApplicationDbContext context;

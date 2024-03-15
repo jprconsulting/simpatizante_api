@@ -5,11 +5,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
     [Route("api/tipos-elecciones")]
     [ApiController]
+    [TokenValidationFilter]
+
     public class TiposEleccionesController : ControllerBase
     {
         private readonly ApplicationDbContext context;

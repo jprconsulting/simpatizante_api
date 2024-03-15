@@ -16,6 +16,24 @@ namespace simpatizantesapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "ActiveTokens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TokenId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ExpirationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActiveTokens", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Cargos",
                 columns: table => new
                 {
@@ -822,29 +840,6 @@ namespace simpatizantesapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "UserSessions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Token = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastAccessTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserSessions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserSessions_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "DistribucionesOrdenadas",
                 columns: table => new
                 {
@@ -1230,11 +1225,6 @@ namespace simpatizantesapi.Migrations
                 column: "SeccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSessions_UsuarioId",
-                table: "UserSessions",
-                column: "UsuarioId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_CandidatoId",
                 table: "Usuarios",
                 column: "CandidatoId",
@@ -1271,6 +1261,9 @@ namespace simpatizantesapi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActiveTokens");
+
+            migrationBuilder.DropTable(
                 name: "Claims");
 
             migrationBuilder.DropTable(
@@ -1293,9 +1286,6 @@ namespace simpatizantesapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "ResultadosPreEliminares");
-
-            migrationBuilder.DropTable(
-                name: "UserSessions");
 
             migrationBuilder.DropTable(
                 name: "Visitas");

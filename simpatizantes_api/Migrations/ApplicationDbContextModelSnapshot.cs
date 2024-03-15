@@ -55,6 +55,29 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("ActasEscrutinios");
                 });
 
+            modelBuilder.Entity("simpatizantes_api.Entities.ActiveToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpirationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("TokenId")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActiveTokens");
+                });
+
             modelBuilder.Entity("simpatizantes_api.Entities.Candidato", b =>
                 {
                     b.Property<int>("Id")
@@ -880,31 +903,6 @@ namespace simpatizantesapi.Migrations
                     b.ToTable("TiposIncidencias");
                 });
 
-            modelBuilder.Entity("simpatizantes_api.Entities.UserSession", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("LastAccessTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("UserSessions");
-                });
-
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -1371,13 +1369,6 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Seccion");
                 });
 
-            modelBuilder.Entity("simpatizantes_api.Entities.UserSession", b =>
-                {
-                    b.HasOne("simpatizantes_api.Entities.Usuario", null)
-                        .WithMany("Sessions")
-                        .HasForeignKey("UsuarioId");
-                });
-
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
                 {
                     b.HasOne("simpatizantes_api.Entities.Candidato", "Candidato")
@@ -1586,8 +1577,6 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
                 {
-                    b.Navigation("Sessions");
-
                     b.Navigation("Visitas");
                 });
 #pragma warning restore 612, 618

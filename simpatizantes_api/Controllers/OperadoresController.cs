@@ -6,12 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using Microsoft.AspNetCore.Authorization;
+using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [TokenValidationFilter]
+
     public class OperadoresController : ControllerBase
     {
         private readonly ApplicationDbContext context;

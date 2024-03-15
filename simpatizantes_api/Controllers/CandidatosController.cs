@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using simpatizantes_api.Services;
+using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
     [Authorize]
     [Route("api/candidato")]
     [ApiController]
+    [TokenValidationFilter]
+
     public class CandidatoController : ControllerBase
     {
         private readonly ApplicationDbContext context;

@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
     [Authorize]
     [Route("api/genero")]
     [ApiController]
+    [TokenValidationFilter]
+
     public class GeneroController : ControllerBase
     {
         private readonly ApplicationDbContext context;

@@ -6,6 +6,7 @@ using simpatizantes_api.DTOs;
 using simpatizantes_api.Entities;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
+using simpatizantes_api.Filters;
 
 
 namespace simpatizantes_api.Controllers
@@ -13,6 +14,8 @@ namespace simpatizantes_api.Controllers
     [Authorize]
     [Route("api/dashboard")]
     [ApiController]
+    [TokenValidationFilter]
+
     public class DashboardController : ControllerBase
     {
         private readonly ApplicationDbContext context;

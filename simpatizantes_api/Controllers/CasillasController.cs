@@ -4,12 +4,15 @@ using simpatizantes_api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
     [Authorize]
     [Route("api/casillas")]
     [ApiController]
+    [TokenValidationFilter]
+
     public class CasillasController : ControllerBase
     {
         private readonly ApplicationDbContext context;

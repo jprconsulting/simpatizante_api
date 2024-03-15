@@ -18,6 +18,5 @@ namespace simpatizantes_api.Entities
         public Operador? Operador { get; set; }
         public List<Visita> Visitas { get; set; }
 
-        public List<UserSession> Sessions { get; set; }
     }
 }
