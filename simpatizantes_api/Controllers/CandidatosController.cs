@@ -75,42 +75,72 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(CandidatoDTO dto)
         {
-            var existeCandidato = await context.Candidatos.AnyAsync(n => n.Nombres == dto.Nombres &&
-                                                                 n.ApellidoPaterno == dto.ApellidoPaterno &&
-                                                                 n.ApellidoMaterno == dto.ApellidoMaterno);
-            if (existeCandidato)
-            {
-                return Conflict();
-            }
             try
             {
+                var existeCandidato = await context.Candidatos.AnyAsync(n => n.Nombres == dto.Nombres &&
+                                                                     n.ApellidoPaterno == dto.ApellidoPaterno &&
+                                                                     n.ApellidoMaterno == dto.ApellidoMaterno);
+                if (existeCandidato)
+                {
+                    return Conflict();
+                }
+
                 if (!string.IsNullOrEmpty(dto.ImagenBase64))
-                {                   
+                {
                     dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioCandidatos);
                 }
 
-                if (!string.IsNullOrEmpty(dto.EmblemaBase64))                {
-                 
+                if (!string.IsNullOrEmpty(dto.EmblemaBase64))
+                {
                     dto.Emblema = await almacenadorImagenes.GuardarImagen(dto.EmblemaBase64, directorioEmblemas);
                 }
 
                 string nombreCompleto = User.FindFirst("nombreCompleto")?.Value;
 
-                var candidato = mapper.Map<Candidato>(dto);
-                candidato.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
-                candidato.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
-                candidato.Cargo = await context.Cargos.SingleOrDefaultAsync(b => b.Id == dto.Cargo.Id);
-                candidato.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
+                var distribucionCandidatura = mapper.Map<Candidato>(dto);
+                distribucionCandidatura.Genero = await context.Generos.SingleOrDefaultAsync(r => r.Id == dto.Genero.Id);
+                distribucionCandidatura.Cargo = await context.Cargos.SingleOrDefaultAsync(r => r.Id == dto.Cargo.Id);
+                
+                distribucionCandidatura.EstadoId = null;
+                distribucionCandidatura.DistritoId = null;
+                distribucionCandidatura.MunicipioId = null;
+                distribucionCandidatura.ComunidadId = null;
+                distribucionCandidatura.Distrito = null;
+                distribucionCandidatura.Municipio = null;
+                distribucionCandidatura.Comunidad = null;
+                distribucionCandidatura.Estado = null;
+                // Si es  Gubernatura
+                if (dto.Cargo.Id == 1 || dto.Cargo.Id == 2 || dto.Cargo.Id == 3)
+                {
+                    distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                }
 
-                context.Candidatos.Add(candidato);
+                // Si es  Diputacion Local
+                if (dto.Cargo.Id == 4)
+                {
+                    distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(c => c.Id == dto.Distrito.Id);
+                }
+
+                // Si es  Ayuntamientos
+                if (dto.Cargo.Id == 5)
+                {
+                    distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
+                }
+
+                // Si es Comunidad
+                if (dto.Cargo.Id == 6)
+                {
+                    distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
+
+                }
+
+                context.Add(distribucionCandidatura);
                 await context.SaveChangesAsync();
-
                 return Ok();
-
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(new { error = "Ocurrió un error al procesar la solicitud.", details = ex.InnerException?.Message });
             }
         }
 

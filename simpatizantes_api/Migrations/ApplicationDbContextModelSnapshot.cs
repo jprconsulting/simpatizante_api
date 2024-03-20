@@ -93,8 +93,17 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("CargoId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ComunidadId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DistritoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Emblema")
                         .HasColumnType("longtext");
+
+                    b.Property<int?>("EstadoId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Estatus")
                         .HasColumnType("tinyint(1)");
@@ -114,6 +123,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("GeneroId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("MunicipioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
 
@@ -130,7 +142,15 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("CargoId");
 
+                    b.HasIndex("ComunidadId");
+
+                    b.HasIndex("DistritoId");
+
+                    b.HasIndex("EstadoId");
+
                     b.HasIndex("GeneroId");
+
+                    b.HasIndex("MunicipioId");
 
                     b.ToTable("Candidatos");
                 });
@@ -278,6 +298,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("DistritoId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("EstadoId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MunicipioId")
                         .HasColumnType("int");
 
@@ -292,6 +315,8 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("ComunidadId");
 
                     b.HasIndex("DistritoId");
+
+                    b.HasIndex("EstadoId");
 
                     b.HasIndex("MunicipioId");
 
@@ -1043,13 +1068,37 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Candidatos")
                         .HasForeignKey("CargoId");
 
+                    b.HasOne("simpatizantes_api.Entities.Comunidad", "Comunidad")
+                        .WithMany()
+                        .HasForeignKey("ComunidadId");
+
+                    b.HasOne("simpatizantes_api.Entities.Distrito", "Distrito")
+                        .WithMany()
+                        .HasForeignKey("DistritoId");
+
+                    b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId");
+
                     b.HasOne("simpatizantes_api.Entities.Genero", "Genero")
                         .WithMany("Candidato")
                         .HasForeignKey("GeneroId");
 
+                    b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
+                        .WithMany()
+                        .HasForeignKey("MunicipioId");
+
                     b.Navigation("Cargo");
 
+                    b.Navigation("Comunidad");
+
+                    b.Navigation("Distrito");
+
+                    b.Navigation("Estado");
+
                     b.Navigation("Genero");
+
+                    b.Navigation("Municipio");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Candidatura", b =>
@@ -1100,6 +1149,10 @@ namespace simpatizantesapi.Migrations
                         .WithMany()
                         .HasForeignKey("DistritoId");
 
+                    b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId");
+
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
                         .WithMany("DistribucionesCandidaturas")
                         .HasForeignKey("MunicipioId");
@@ -1111,6 +1164,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Comunidad");
 
                     b.Navigation("Distrito");
+
+                    b.Navigation("Estado");
 
                     b.Navigation("Municipio");
 

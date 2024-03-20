@@ -17,6 +17,14 @@
         public DateTime? FechaHoraEdicion { get; set; }
         public Genero Genero { get; set; }
         public Cargo Cargo { get; set; }
+        public int? EstadoId { get; set; }
+        public Estado? Estado { get; set; } 
+        public int? DistritoId { get; set; }
+        public Distrito? Distrito { get; set; }
+        public int? MunicipioId { get; set; }
+        public Municipio? Municipio { get; set; }
+        public int? ComunidadId { get; set; }
+        public Comunidad? Comunidad { get; set; }
         public List <Operador> Operador { get; set; }
         public Usuario? Usuario { get; set; }
 
