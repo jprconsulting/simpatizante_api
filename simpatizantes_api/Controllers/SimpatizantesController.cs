@@ -102,6 +102,7 @@ namespace simpatizantes_api.Controllers
                 .Include(n => n.Promotor)
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
+                .ThenInclude(c => c.Candidato)
                 .Include(g => g.Genero)
                 .Where(s => s.Operador.Id == operadorId)
                 .ToListAsync();
@@ -123,6 +124,7 @@ namespace simpatizantes_api.Controllers
                 .Include(e => e.Estado)
                 .Include(p => p.ProgramaSocial)
                 .Include(c => c.Operador)
+                .ThenInclude(c => c.Candidato)
                 .Include(g => g.Genero)
                 .Include(n => n.Promotor)
                 .Where(s => s.Operador.Candidato.Id == candidatoId)
@@ -144,6 +146,7 @@ namespace simpatizantes_api.Controllers
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
                 .Include(o => o.Operador)
+                .ThenInclude(c => c.Candidato)
                 .Include(n => n.Promotor)
                 .Include(p => p.ProgramaSocial)
                 .Include(g => g.Genero)
@@ -183,6 +186,60 @@ namespace simpatizantes_api.Controllers
             }).ToList();
 
             return Ok(simpatizantesConVisita);
+        }
+
+        [HttpGet("obtener-simpatizantessimpatiza-por-candidato-id/{candidatoId:int}")]
+        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesConSimpatizaCId(int candidatoId)
+        {
+            var visitas = await context.Visitas.
+               ToListAsync();
+
+            var simpatizantes = await context.Simpatizantes
+                .Include(s => s.Seccion)
+                .Include(m => m.Municipio)
+                .Include(e => e.Estado)
+                .Include(p => p.ProgramaSocial)
+                .Include(c => c.Operador)
+                .Include(g => g.Genero)
+                .Include(n => n.Promotor)
+                .Where(s => s.Operador.Candidato.Id == candidatoId)
+                .ToListAsync();
+
+            var simpatizantesConVisita2 = visitas.Select(v => new SimpatizanteConVisitaDTO
+            {
+                Simpatizante = mapper.Map<SimpatizanteDTO>(v.Simpatizante),
+                Simpatiza = v.Simpatiza,
+                Color = GetColorFromSimpatiza(v.Simpatiza)
+            }).ToList();
+
+            return Ok(simpatizantesConVisita2);            
+        }
+        [HttpGet("obtener-simpatizantes-por-simpatiza-operador-id/{operadorId:int}")]
+        public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorSimpatizaOperadorId(int operadorId)
+        {
+            var visitas = await context.Visitas.
+               ToListAsync();
+            var simpatizantes = await context.Simpatizantes
+                .Include(s => s.Seccion)
+                .Include(m => m.Municipio)
+                .Include(e => e.Estado)
+                .Include(n => n.Promotor)
+                .Include(p => p.ProgramaSocial)
+                .Include(c => c.Operador)
+                .Include(g => g.Genero)
+                .Where(s => s.Operador.Id == operadorId)
+                .ToListAsync();
+
+            var simpatizantesConVisita3 = visitas.Select(v => new SimpatizanteConVisitaDTO
+            {
+                Simpatizante = mapper.Map<SimpatizanteDTO>(v.Simpatizante),
+                Simpatiza = v.Simpatiza,
+                Color = GetColorFromSimpatiza(v.Simpatiza)
+            }).ToList();
+
+            return Ok(simpatizantesConVisita3);
+
+           
         }
 
         [HttpPost("crear")]
