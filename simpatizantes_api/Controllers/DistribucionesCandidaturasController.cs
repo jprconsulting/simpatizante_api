@@ -80,26 +80,21 @@ namespace simpatizantes_api.Controllers
                 distribucionCandidatura.Distrito = null;
                 distribucionCandidatura.Municipio = null;
                 distribucionCandidatura.Comunidad = null;
-                // Si es  Gubernatura
-                if (dto.TipoEleccion.Id == 1)
-                {
-                    distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
-                }
 
                 // Si es  Diputacion Local
-                if (dto.TipoEleccion.Id == 2)
+                if (dto.TipoEleccion.Id == 4)
                 {
                     distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(c => c.Id == dto.Distrito.Id);
                 }
 
                 // Si es  Ayuntamientos
-                if (dto.TipoEleccion.Id == 3)
+                if (dto.TipoEleccion.Id == 5)
                 {
                     distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
                 }
 
                 // Si es Comunidad
-                if (dto.TipoEleccion.Id == 4)
+                if (dto.TipoEleccion.Id == 6)
                 {
                     distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
 

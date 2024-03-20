@@ -134,10 +134,12 @@ INSERT INTO simpatizantes.casillas (nombre, clave) VALUES
 
 INSERT INTO simpatizantes.cargos (nombre)
 VALUES 
-('Presidente de la Republica'),
-('Gobernador'),
-('Diputado'),
-('Presidente Municipal');
+('Gobernatura'),
+('Senador'),
+('Diputado Federal'),
+('Diputado Local'),
+('Presidente de Ayuntamiento'),
+('Presidente de Comunidad');
 
 INSERT INTO simpatizantes.usuarios (Nombre, ApellidoPaterno, ApellidoMaterno, Correo, Password, Estatus, RolId) 
 VALUES ('Eliud', 'Juarez', 'Ortega', 'admin@gmail.com', '123',   true, 1);
@@ -300,6 +302,8 @@ VALUES
 INSERT INTO simpatizantes.tiposelecciones (Nombre)
 VALUES 
 ('Gobernatura'),
+('Senador'),
+('Diputado Federal'),
 ('Diputado Local'),
-('Presidente Municipal'),
+('Presidente de Ayuntamiento'),
 ('Presidente de Comunidad');

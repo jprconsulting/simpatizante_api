@@ -16,6 +16,10 @@
         public string Emblema { get; set; }
         public bool Estatus { get; set; }
         public CargoDTO Cargo { get; set; }
+        public EstadoDTO Estado { get; set; }
+        public DistritoDTO Distrito { get; set; }
+        public MunicipioDTO Municipio { get; set; }
+        public ComunidadDTO Comunidad { get; set; }
         public string ImagenBase64 { get; set; } 
         public string EmblemaBase64 { get; set; }
         public List<SimpatizanteDTO> Simpatizantes { get; set; }
