@@ -172,6 +172,7 @@ namespace simpatizantes_api.Controllers
                .Include(m => m.Municipio)
                .Include(e => e.Estado)
                .Include(o => o.Operador)
+               .ThenInclude(c => c.Candidato)
                .Include(n => n.Promotor)
                .Include(p => p.ProgramaSocial)
                .Include(g => g.Genero)
