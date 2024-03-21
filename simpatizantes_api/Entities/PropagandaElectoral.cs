@@ -11,5 +11,6 @@
         public string Dimensiones { get; set; }
         public string Foto { get; set; }
         public Municipio Municipio { get; set; }
+        public Candidato Candidato { get; set; }
     }
 }

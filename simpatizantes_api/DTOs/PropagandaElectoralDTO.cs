@@ -1,4 +1,6 @@
-﻿namespace simpatizantes_api.DTOs
+﻿using simpatizantes_api.Entities;
+
+namespace simpatizantes_api.DTOs
 {
     public class PropagandaElectoralDTO
     {
@@ -12,5 +14,7 @@
         public string ImagenBase64 { get; set; }
         public string Dimensiones { get; set; }
         public MunicipioDTO Municipio { get; set; }
+        public CandidatoDTO Candidato { get; set; }
+
     }
 }

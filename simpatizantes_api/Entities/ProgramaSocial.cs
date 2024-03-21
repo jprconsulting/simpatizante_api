@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public bool Estatus { get; set; }
         public List<Simpatizante> Simpatizantes { get; set; }
     }
 }

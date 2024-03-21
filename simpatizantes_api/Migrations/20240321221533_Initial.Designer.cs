@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320202818_Initial")]
+    [Migration("20240321221533_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -556,6 +556,9 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<bool>("Estatus")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Nombre")
                         .HasColumnType("longtext");
 
@@ -626,6 +629,9 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("CandidatoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Comentarios")
                         .HasColumnType("longtext");
 
@@ -651,6 +657,8 @@ namespace simpatizantesapi.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CandidatoId");
 
                     b.HasIndex("MunicipioId");
 
@@ -1292,9 +1300,15 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.PropagandaElectoral", b =>
                 {
+                    b.HasOne("simpatizantes_api.Entities.Candidato", "Candidato")
+                        .WithMany()
+                        .HasForeignKey("CandidatoId");
+
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
                         .WithMany()
                         .HasForeignKey("MunicipioId");
+
+                    b.Navigation("Candidato");
 
                     b.Navigation("Municipio");
                 });

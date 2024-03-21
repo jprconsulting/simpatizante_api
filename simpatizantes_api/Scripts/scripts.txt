@@ -110,17 +110,17 @@ VALUES
 ('Grave', '#D84315');
 
 
-INSERT INTO simpatizantes.programassociales (nombre) VALUES
-('Programa de Asistencia Alimentaria'),
-('Becas Educativas'),
-('Subsidios de Vivienda'),
-('Programa de Salud Pública'),
-('Ayuda a Personas Mayores'),
-('Apoyo a Familias Monoparentales'),
-('Programa de Capacitación Laboral'),
-('Subsidios para Discapacitados'),
-('Asistencia Psicológica Comunitaria'),
-('Programa de Desarrollo Rural');
+INSERT INTO simpatizantes.programassociales (nombre,Estatus) VALUES
+('Programa de Asistencia Alimentaria',true),
+('Becas Educativas',true),
+('Subsidios de Vivienda',true),
+('Programa de Salud Pública',true),
+('Ayuda a Personas Mayores',true),
+('Apoyo a Familias Monoparentales',true),
+('Programa de Capacitación Laboral',true),
+('Subsidios para Discapacitados',true),
+('Asistencia Psicológica Comunitaria',true),
+('Programa de Desarrollo Rural',true);
 
 INSERT INTO simpatizantes.casillas (nombre, clave) VALUES 
 ('Básicas 1', '0001'),

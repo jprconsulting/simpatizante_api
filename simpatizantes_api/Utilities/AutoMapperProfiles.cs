@@ -176,7 +176,8 @@ namespace simpatizantes_api.Utilities
 
             CreateMap<PropagandaElectoralDTO, PropagandaElectoral>();
             CreateMap<PropagandaElectoral, PropagandaElectoralDTO>()
-                  .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio));
+                  .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio))
+                  .ForMember(dest => dest.Candidato, opt => opt.MapFrom(src => src.Candidato));
 
             CreateMap<Claim, ClaimDTO>()
                 .ForMember(dest => dest.RolId, opt => opt.MapFrom(src => src.Rol.Id))
