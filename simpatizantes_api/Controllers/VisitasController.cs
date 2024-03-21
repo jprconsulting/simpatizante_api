@@ -9,10 +9,10 @@ using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
-    [Authorize]
+
     [Route("api/visitas")]
     [ApiController]
-    [TokenValidationFilter]
+
 
     public class VisitasController : ControllerBase
     {
@@ -82,6 +82,22 @@ namespace simpatizantes_api.Controllers
             {
                 Console.WriteLine($"Error: {ex.Message}");
                 return StatusCode(500);
+            }
+        }
+
+        [HttpGet("validar-visita-por-simpatizante/{simpatizanteId:int}")]
+        public async Task<ActionResult> GetValidarVisitaPorSimpatizante(int simpatizanteId)
+        {
+            var existeVisita = await context.Visitas
+                .AnyAsync(v => v.SimpatizanteId == simpatizanteId);
+
+            if (existeVisita)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
             }
         }
 
