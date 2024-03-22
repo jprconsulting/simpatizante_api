@@ -73,7 +73,22 @@ namespace simpatizantes_api.Controllers
             }
         }
 
+        [HttpGet("obtener-incdencia-por-tipo-id/{tipoIncidenciaId:int}")]
+        public async Task<ActionResult<List<IncidenciaDTO>>> GetSimpatizantesPorOperadorId(int operadorId)
+        {
+            var incidencias = await context.Incidencias
+                .Include(t => t.TipoIncidencia)
+                .Include(c => c.Casilla)
+                .Where(s => s.TipoIncidencia.Id == operadorId)
+                .ToListAsync();
 
+            if (!incidencias.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<IncidenciaDTO>>(incidencias));
+        }
 
         [HttpPost("crear")]
         public async Task<ActionResult> Post(IncidenciaDTO dto)
