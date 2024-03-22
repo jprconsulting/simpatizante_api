@@ -73,13 +73,14 @@ namespace simpatizantes_api.Controllers
             }
         }
 
-        [HttpGet("obtener-incdencia-por-tipo-id/{tipoIncidenciaId:int}")]
-        public async Task<ActionResult<List<IncidenciaDTO>>> GetSimpatizantesPorOperadorId(int tipoInicidenciaId)
+        [HttpGet("obtener-incidencias-por-tipo-id/{tipoIncidenciaId:int}")]
+        public async Task<ActionResult<List<IncidenciaDTO>>> ObtenerIncidenciasPorTipoId(int tipoIncidenciaId)
+
         {
             var incidencias = await context.Incidencias
                 .Include(t => t.TipoIncidencia)
                 .Include(c => c.Casilla)
-                .Where(s => s.TipoIncidencia.Id == tipoInicidenciaId)
+                .Where(s => s.TipoIncidencia.Id == tipoIncidenciaId)
                 .ToListAsync();
 
             if (!incidencias.Any())
