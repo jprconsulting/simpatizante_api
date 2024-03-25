@@ -58,6 +58,7 @@ namespace simpatizantes_api.Controllers
                     .Include(t => t.Cargo)
                     .Include(t => t.Municipio)
                     .Include(t => t.Comunidad)
+                    .Include(t => t.Estado)
                     .Include(t => t.Distrito)
                     .Include(g => g.Genero)
                     .ToListAsync();
