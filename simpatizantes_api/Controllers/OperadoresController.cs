@@ -53,6 +53,7 @@ namespace simpatizantes_api.Controllers
         {
             var operadores = await context.Operadores
                 .Include(o => o.Candidato)
+                 .ThenInclude(os => os.Municipio)
                 .Include(o => o.OperadorSecciones)
                     .ThenInclude(os => os.Seccion)
                         .ThenInclude(s => s.Municipio)
@@ -86,6 +87,7 @@ namespace simpatizantes_api.Controllers
         {
             var operadores = await context.Operadores
                 .Include(o => o.Candidato)
+                 .ThenInclude(os => os.Municipio)
                 .ToListAsync();
 
             if (!operadores.Any())
