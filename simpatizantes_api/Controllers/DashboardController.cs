@@ -11,10 +11,9 @@ using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
-    [Authorize]
+
     [Route("api/dashboard")]
     [ApiController]
-    [TokenValidationFilter]
 
     public class DashboardController : ControllerBase
     {
@@ -33,35 +32,35 @@ namespace simpatizantes_api.Controllers
 
             var generalWordCloud = new GeneralWordCloudDTO
             {
-                WordCloudPorMunicipios = new List<MunicipioWordCloudDTO>(),
+                WordCloudPorCandidatos = new List<CandidatoWordCloudDTO>(),
                 GeneralWordCloud = CreateModel(wordCount)
             };
 
-            var secciones = await context.Secciones.ToListAsync();
+            var secciones = await context.Candidatos.ToListAsync(); 
 
             foreach (var seccion in secciones)
             {
                 var visitasPorseccion = await context.Visitas
                     .Include(v => v.Simpatizante)
-                    .ThenInclude(b => b.Municipio)
-                    .Where(v => v.Simpatizante.Seccion.Id == seccion.Id) // Filtrar por sección
+                    .ThenInclude(b => b.Operador) 
+                    .Where(v => v.Simpatizante.Operador.CandidatoId == seccion.Id) // Filtrar por sección
                     .ToListAsync();
 
                 var commentsByseccion = visitasPorseccion.Select(v => v.Servicio).ToList();
                 var wordCountByseccion = CountWords(commentsByseccion);
-                var seccionWordCloud = new MunicipioWordCloudDTO
+                var seccionWordCloud = new CandidatoWordCloudDTO
                 {
                     Id = seccion.Id,
-                    Clave = seccion.Clave,
-                    Nombre = seccion.Nombre,
+                    Nombres = seccion.Nombres,
+                    ApellidoMaterno = seccion.ApellidoMaterno,
+                    ApellidoPaterno = seccion.ApellidoPaterno,
                     WordCloud = CreateModel(wordCountByseccion)
                 };
-                generalWordCloud.WordCloudPorMunicipios.Add(seccionWordCloud);
+                generalWordCloud.WordCloudPorCandidatos.Add(seccionWordCloud);
             }
 
             return Ok(generalWordCloud);
         }
-
 
         static Dictionary<string, int> CountWords(List<string> comments)
         {
@@ -91,6 +90,7 @@ namespace simpatizantes_api.Controllers
                 .OrderByDescending(modelo => modelo.Weight)
                 .ToList();
         }
+
         [HttpGet("total-Simpatizantes-por-programa-social")]
         public async Task<ActionResult<List<SimpatizantesEstadisticaDTO>>> TotalSimpatizantesPorProgramaSocial()
         {
