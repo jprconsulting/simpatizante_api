@@ -56,6 +56,9 @@ namespace simpatizantes_api.Controllers
             {
                 var candidatos = await context.Candidatos
                     .Include(t => t.Cargo)
+                    .Include(t => t.Municipio)
+                    .Include(t => t.Comunidad)
+                    .Include(t => t.Distrito)
                     .Include(g => g.Genero)
                     .ToListAsync();
 

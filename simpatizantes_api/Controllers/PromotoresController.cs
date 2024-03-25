@@ -43,6 +43,7 @@ namespace simpatizantes_api.Controllers
             {
                 var operadores = await context.PromotoresOperadores
                     .Include(p => p.Operador)
+                    .ThenInclude(s => s.Candidato)
                     .Where(po => po.Promotor.Id == promotor.Id)
                     .Select(i => i.Operador)
                     .ToListAsync();
