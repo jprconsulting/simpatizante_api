@@ -274,39 +274,6 @@ namespace simpatizantesapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Incidencias",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Retroalimentacion = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Foto = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Direccion = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    TipoIncidenciaId = table.Column<int>(type: "int", nullable: true),
-                    CasillaId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Incidencias", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Incidencias_Casillas_CasillaId",
-                        column: x => x.CasillaId,
-                        principalTable: "Casillas",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Incidencias_TiposIncidencias_TipoIncidenciaId",
-                        column: x => x.TipoIncidenciaId,
-                        principalTable: "TiposIncidencias",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Municipios",
                 columns: table => new
                 {
@@ -620,6 +587,45 @@ namespace simpatizantesapi.Migrations
                         name: "FK_ResultadosPreEliminares_TiposElecciones_TipoEleccionId",
                         column: x => x.TipoEleccionId,
                         principalTable: "TiposElecciones",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Incidencias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Retroalimentacion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Foto = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Direccion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    TipoIncidenciaId = table.Column<int>(type: "int", nullable: true),
+                    CasillaId = table.Column<int>(type: "int", nullable: true),
+                    CandidatoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Incidencias", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Incidencias_Candidatos_CandidatoId",
+                        column: x => x.CandidatoId,
+                        principalTable: "Candidatos",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Incidencias_Casillas_CasillaId",
+                        column: x => x.CasillaId,
+                        principalTable: "Casillas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Incidencias_TiposIncidencias_TipoIncidenciaId",
+                        column: x => x.TipoIncidenciaId,
+                        principalTable: "TiposIncidencias",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1136,6 +1142,11 @@ namespace simpatizantesapi.Migrations
                 name: "IX_Distritos_EstadoId",
                 table: "Distritos",
                 column: "EstadoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Incidencias_CandidatoId",
+                table: "Incidencias",
+                column: "CandidatoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Incidencias_CasillaId",

@@ -45,6 +45,7 @@ namespace simpatizantes_api.Utilities
 
             CreateMap<Incidencia, IncidenciaDTO>()
                 .ForMember(dest => dest.TipoIncidencia, opt => opt.MapFrom(src => src.TipoIncidencia))
+                .ForMember(dest => dest.Candidato, opt => opt.MapFrom(src => src.Candidato))
                 .ForMember(dest => dest.Casilla, opt => opt.MapFrom(src => src.Casilla));
 
             CreateMap<IncidenciaDTO, Incidencia>();

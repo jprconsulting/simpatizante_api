@@ -40,6 +40,7 @@ namespace simpatizantes_api.Controllers
             var incidencia = await context.Incidencias
                 .Include(t => t.TipoIncidencia)
                 .Include(c => c.Casilla)
+                .Include(c => c.Candidato)
                 .FirstOrDefaultAsync(v => v.Id == id);
 
             if (incidencia == null)
@@ -58,6 +59,7 @@ namespace simpatizantes_api.Controllers
                 var incidencias = await context.Incidencias
                     .Include(t => t.TipoIncidencia)
                     .Include(c => c.Casilla)
+                    .Include(c => c.Candidato)
                     .ToListAsync();
 
                 if (!incidencias.Any())
@@ -80,6 +82,7 @@ namespace simpatizantes_api.Controllers
             var incidencias = await context.Incidencias
                 .Include(t => t.TipoIncidencia)
                 .Include(c => c.Casilla)
+                .Include(c => c.Candidato)
                 .Where(s => s.TipoIncidencia.Id == tipoIncidenciaId)
                 .ToListAsync();
 
@@ -107,6 +110,7 @@ namespace simpatizantes_api.Controllers
             var incidencia = mapper.Map<Incidencia>(dto);
             incidencia.TipoIncidencia = await context.TiposIncidencias.SingleOrDefaultAsync(b => b.Id == dto.TipoIncidencia.Id);
             incidencia.Casilla = await context.Casillas.SingleOrDefaultAsync(o => o.Id == dto.Casilla.Id);
+            incidencia.Candidato = await context.Candidatos.SingleOrDefaultAsync(o => o.Id == dto.Candidato.Id);
 
             context.Incidencias.Add(incidencia);
             await context.SaveChangesAsync();
@@ -141,6 +145,7 @@ namespace simpatizantes_api.Controllers
             mapper.Map(dto, incidencia);
             incidencia.TipoIncidencia = await context.TiposIncidencias.SingleOrDefaultAsync(b => b.Id == dto.TipoIncidencia.Id);
             incidencia.Casilla = await context.Casillas.SingleOrDefaultAsync(o => o.Id == dto.Casilla.Id);
+            incidencia.Candidato = await context.Candidatos.SingleOrDefaultAsync(o => o.Id == dto.Candidato.Id);
 
             context.Update(incidencia);
 

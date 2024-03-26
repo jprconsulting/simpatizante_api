@@ -11,5 +11,6 @@
         public decimal Longitud { get; set; }
         public TipoIncidenciaDTO TipoIncidencia { get; set; }
         public CasillaDTO Casilla { get; set; }
+        public CandidatoDTO Candidato { get; set; }
     }
 }

@@ -424,6 +424,9 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("CandidatoId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CasillaId")
                         .HasColumnType("int");
 
@@ -446,6 +449,8 @@ namespace simpatizantesapi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CandidatoId");
 
                     b.HasIndex("CasillaId");
 
@@ -1218,6 +1223,10 @@ namespace simpatizantesapi.Migrations
 
             modelBuilder.Entity("simpatizantes_api.Entities.Incidencia", b =>
                 {
+                    b.HasOne("simpatizantes_api.Entities.Candidato", "Candidato")
+                        .WithMany()
+                        .HasForeignKey("CandidatoId");
+
                     b.HasOne("simpatizantes_api.Entities.Casilla", "Casilla")
                         .WithMany("Incidencias")
                         .HasForeignKey("CasillaId");
@@ -1225,6 +1234,8 @@ namespace simpatizantesapi.Migrations
                     b.HasOne("simpatizantes_api.Entities.TipoIncidencia", "TipoIncidencia")
                         .WithMany("Incidencias")
                         .HasForeignKey("TipoIncidenciaId");
+
+                    b.Navigation("Candidato");
 
                     b.Navigation("Casilla");
 

@@ -9,7 +9,8 @@
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public TipoIncidencia TipoIncidencia { get; set; }
-        public Casilla Casilla { get; set; }
+        public Casilla Casilla { get; set; } 
+        public Candidato Candidato { get; set; }
 
     }
 }
