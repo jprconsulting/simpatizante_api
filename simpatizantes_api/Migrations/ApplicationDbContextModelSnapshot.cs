@@ -292,6 +292,12 @@ namespace simpatizantesapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Coalicion")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Comun")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("ComunidadId")
                         .HasColumnType("int");
 
@@ -300,6 +306,9 @@ namespace simpatizantesapi.Migrations
 
                     b.Property<int?>("EstadoId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Independiente")
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("MunicipioId")
                         .HasColumnType("int");

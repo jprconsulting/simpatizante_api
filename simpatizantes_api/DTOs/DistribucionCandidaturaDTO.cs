@@ -10,5 +10,9 @@ namespace simpatizantes_api.DTOs
         public MunicipioDTO Municipio { get; set; }
         public ComunidadDTO Comunidad { get; set; }
         public List<string> Partidos { get; set; }
+        public List<string> Coalicion { get; set; }
+        public List<string> Comun { get; set; }
+        public List<string> Independiente { get; set; }
+
     }
 }

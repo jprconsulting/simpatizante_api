@@ -456,6 +456,12 @@ namespace simpatizantesapi.Migrations
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     ComunidadId = table.Column<int>(type: "int", nullable: true),
                     Partidos = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Coalicion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Comun = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Independiente = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>

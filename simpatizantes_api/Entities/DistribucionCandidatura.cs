@@ -13,6 +13,10 @@
         public int? ComunidadId { get; set; }
         public Comunidad? Comunidad { get; set; }
         public string Partidos { get; set; }
+        public string Coalicion { get; set; }
+        public string Comun { get; set; }
+        public string Independiente { get; set; }
+
         public List<DistribucionOrdenada> DistribucionesOrdenadas { get; set; }
         public List<ResultadoCandidatura> ResultadosCandidaturas { get; set; }
 

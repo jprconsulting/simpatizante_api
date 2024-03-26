@@ -110,6 +110,9 @@ namespace simpatizantes_api.Controllers
 
                     // Convierte los objetos CandidaturaDTO a entidades Candidatura y añádelos a la lista de Partidos en la entidad Candidatura
                     distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
+                    distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
+                    distribucionCandidatura.Comun = string.Join(",", dto.Comun);
+                    distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
                 }
                 context.Add(distribucionCandidatura);
                 await context.SaveChangesAsync();
