@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using simpatizantes_api.DTOs;
 using simpatizantes_api.Entities;
 
@@ -133,6 +134,10 @@ namespace simpatizantes_api.Utilities
             .ForMember(dest => dest.Distrito, opt => opt.MapFrom(src => src.Distrito))
             .ForMember(dest => dest.Municipio, opt => opt.MapFrom(src => src.Municipio))
             .ForMember(dest => dest.Partidos, opt => opt.MapFrom(src => SplitPartidos(src.Partidos)))
+            .ForMember(dest => dest.Comun, opt => opt.MapFrom(src => SplitPartidos(src.Comun)))
+            .ForMember(dest => dest.Coalicion, opt => opt.MapFrom(src => SplitPartidos(src.Coalicion)))
+            .ForMember(dest => dest.Independiente, opt => opt.MapFrom(src => SplitPartidos(src.Independiente)))
+            .ForMember(dest => dest.lista, opt => opt.MapFrom(src => new List<string> { src.Partidos, src.Comun, src.Coalicion, src.Independiente }))
             .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad));
 
             CreateMap<ResultadoPreEliminarDTO, ResultadoPreEliminar>();

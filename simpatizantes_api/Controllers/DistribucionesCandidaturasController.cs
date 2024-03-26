@@ -30,6 +30,7 @@ namespace simpatizantes_api.Controllers
         {
             var distribucionCandidatura = await context.DistribucionesCandidaturas
                 .Include(u => u.TipoEleccion)
+                .Include(u => u.Estado)
                 .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
                 .Include(u => u.Comunidad)
@@ -49,6 +50,7 @@ namespace simpatizantes_api.Controllers
         {
             var distribucionCandidatura = await context.DistribucionesCandidaturas
                 .Include(u => u.TipoEleccion)
+                .Include(u => u.Estado)
                 .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
                 .Include(u => u.Comunidad)
@@ -80,7 +82,20 @@ namespace simpatizantes_api.Controllers
                 distribucionCandidatura.Distrito = null;
                 distribucionCandidatura.Municipio = null;
                 distribucionCandidatura.Comunidad = null;
-
+                distribucionCandidatura.Estado = null;
+                distribucionCandidatura.EstadoId = null;
+                if (dto.TipoEleccion.Id == 1)
+                {
+                    distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                }
+                if (dto.TipoEleccion.Id == 2)
+                {
+                    distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                }
+                if (dto.TipoEleccion.Id == 3)
+                {
+                    distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                }
                 // Si es  Diputacion Local
                 if (dto.TipoEleccion.Id == 4)
                 {
@@ -97,8 +112,11 @@ namespace simpatizantes_api.Controllers
                 if (dto.TipoEleccion.Id == 6)
                 {
                     distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
+                    distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
+                    distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
+                    distribucionCandidatura.Comun = string.Join(",", dto.Comun);
+                    distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
 
-                    distribucionCandidatura.Partidos = string.Join(",", dto.Partidos.Select(p => p.ToString()));
                 }
 
                 else
@@ -114,6 +132,31 @@ namespace simpatizantes_api.Controllers
                     distribucionCandidatura.Comun = string.Join(",", dto.Comun);
                     distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
                 }
+                string lista = User.FindFirst("lista")?.Value;
+                List<string> listaSeparada = new List<string>();
+
+                if (!string.IsNullOrEmpty(lista))
+                {
+                    string[] partes = lista.Split(',');
+                    if (partes.Length > 1)
+                    {
+                        // Si hay más de 1 elemento separado por comas, agregar cada elemento individualmente a la lista
+                        foreach (string parte in partes)
+                        {
+                            listaSeparada.Add(parte.Trim()); // Añadir cada elemento a la lista después de quitar los espacios en blanco
+                        }
+                    }
+                    else
+                    {
+                        // Si hay 1 o menos elementos, agregar la cadena completa a la lista
+                        listaSeparada.Add(lista);
+                    }
+                }
+                
+
+
+
+
                 context.Add(distribucionCandidatura);
                 await context.SaveChangesAsync();
                 return Ok();
@@ -149,7 +192,7 @@ namespace simpatizantes_api.Controllers
             }
 
             var distribucionCandidatura = await context.DistribucionesCandidaturas.FindAsync(id);
-
+            var currentEstadoId = distribucionCandidatura?.EstadoId;
             var currentDistritoId = distribucionCandidatura?.DistritoId;
             var currentMunicipioId = distribucionCandidatura?.MunicipioId;
             var currentComunidadId = distribucionCandidatura?.ComunidadId;
@@ -169,26 +212,57 @@ namespace simpatizantes_api.Controllers
             distribucionCandidatura.MunicipioId = null;
             distribucionCandidatura.Comunidad = null;
             distribucionCandidatura.ComunidadId = null;
+            distribucionCandidatura.Estado = null;
+            distribucionCandidatura.EstadoId = null;
 
             // Si es  Gubernatura
             if (dto.TipoEleccion.Id == 1)
             {
-                if (currentDistritoId != null && currentDistritoId != dto.Distrito.Id)
+                if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
+                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
 
-                distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
-                distribucionCandidatura.DistritoId = distribucionCandidatura.Distrito.Id;
+                distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                distribucionCandidatura.EstadoId = distribucionCandidatura.Estado.Id;
             }
 
             // Si es  Diputados Locales
             if (dto.TipoEleccion.Id == 2)
             {
+                if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
+                {
+                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    if (existsUserOperador)
+                    {
+                        return Conflict();
+                    }
+                }
+                distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                distribucionCandidatura.EstadoId = distribucionCandidatura.Estado.Id;
+            }
+
+            if (dto.TipoEleccion.Id == 3)
+            {
+                if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
+                {
+                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    if (existsUserOperador)
+                    {
+                        return Conflict();
+                    }
+                }
+                distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                distribucionCandidatura.EstadoId = distribucionCandidatura.Estado.Id;
+            }
+
+            // Si es  Ayuntamientos
+            if (dto.TipoEleccion.Id == 4)
+            {
                 if (currentDistritoId != null && currentDistritoId != dto.Distrito.Id)
                 {
                     var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
@@ -197,12 +271,11 @@ namespace simpatizantes_api.Controllers
                         return Conflict();
                     }
                 }
+                distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
+                distribucionCandidatura.DistritoId = distribucionCandidatura.Distrito.Id;
             }
-            distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
-            distribucionCandidatura.DistritoId = distribucionCandidatura.Distrito.Id;
 
-            // Si es  Ayuntamientos
-            if (dto.TipoEleccion.Id == 3)
+            if (dto.TipoEleccion.Id == 5)
             {
                 if (currentMunicipioId != null && currentMunicipioId != dto.Municipio.Id)
                 {
@@ -212,12 +285,13 @@ namespace simpatizantes_api.Controllers
                         return Conflict();
                     }
                 }
+                distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(o => o.Id == dto.Municipio.Id);
+                distribucionCandidatura.MunicipioId = distribucionCandidatura.Municipio.Id;
             }
-            distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(o => o.Id == dto.Municipio.Id);
-            distribucionCandidatura.MunicipioId = distribucionCandidatura.Municipio.Id;
+
 
             // Si es  Comunidad
-            if (dto.TipoEleccion.Id == 4)
+            if (dto.TipoEleccion.Id == 6)
             {
                 if (currentComunidadId != null && currentComunidadId != dto.Comunidad.Id)
                 {
@@ -226,10 +300,27 @@ namespace simpatizantes_api.Controllers
                     {
                         return Conflict();
                     }
-                }
-            }
-            distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(o => o.Id == dto.Comunidad.Id);
+                }distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(o => o.Id == dto.Comunidad.Id);
             distribucionCandidatura.ComunidadId = distribucionCandidatura.Comunidad.Id;
+                distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
+                distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
+                distribucionCandidatura.Comun = string.Join(",", dto.Comun);
+                distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
+            }
+            else
+            {
+                if (dto.Partidos == null || dto.Partidos.Count == 0)
+                {
+                    return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");
+                }
+
+                // Convierte los objetos CandidaturaDTO a entidades Candidatura y añádelos a la lista de Partidos en la entidad Candidatura
+                distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
+                distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
+                distribucionCandidatura.Comun = string.Join(",", dto.Comun);
+                distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
+            }
+
 
             context.Update(distribucionCandidatura);
 
