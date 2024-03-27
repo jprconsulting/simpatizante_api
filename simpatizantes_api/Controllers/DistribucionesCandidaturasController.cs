@@ -112,27 +112,47 @@ namespace simpatizantes_api.Controllers
                 if (dto.TipoEleccion.Id == 6)
                 {
                     distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
-                    distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
-                    distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
-                    distribucionCandidatura.Comun = string.Join(",", dto.Comun);
-                    distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
+                    if (dto.Partidos != null && dto.Partidos.Count % 1 == 0)
+                    {
+                        distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
+                    }
+                    if (dto.Coalicion != null && dto.Coalicion.Count % 1 == 0)
+                    {
+                        distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
+                    }
+                    if (dto.Comun != null && dto.Comun.Count % 1 == 0)
+                    {
+                        distribucionCandidatura.Comun = string.Join(",", dto.Comun);
+                    }
+                    if (dto.Independiente != null && dto.Independiente.Count % 1 == 0)
+                    {
+                        distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
+                    }
 
                 }
 
                 else
                 {
-                    if (dto.Partidos == null || dto.Partidos.Count == 0)
+                    
+                    if (dto.Partidos != null && dto.Partidos.Count % 1 == 0)
                     {
-                        return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");
+                        distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
                     }
-
-                    // Convierte los objetos CandidaturaDTO a entidades Candidatura y añádelos a la lista de Partidos en la entidad Candidatura
-                    distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
-                    distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
-                    distribucionCandidatura.Comun = string.Join(",", dto.Comun);
-                    distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
+                    if (dto.Coalicion != null && dto.Coalicion.Count % 1 == 0)
+                    {
+                        distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
+                    }
+                    if (dto.Comun != null && dto.Comun.Count % 1 == 0)
+                    {
+                        distribucionCandidatura.Comun = string.Join(",", dto.Comun);
+                    }
+                    if (dto.Independiente != null && dto.Independiente.Count % 1 == 0)
+                    {
+                        distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
+                    }
+                   
                 }
-                string lista = User.FindFirst("lista")?.Value;
+               
                 context.Add(distribucionCandidatura);
                 await context.SaveChangesAsync();
                 return Ok();

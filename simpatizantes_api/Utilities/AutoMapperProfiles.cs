@@ -137,7 +137,7 @@ namespace simpatizantes_api.Utilities
             .ForMember(dest => dest.Comun, opt => opt.MapFrom(src => SplitPartidos(src.Comun)))
             .ForMember(dest => dest.Coalicion, opt => opt.MapFrom(src => SplitPartidos(src.Coalicion)))
             .ForMember(dest => dest.Independiente, opt => opt.MapFrom(src => SplitPartidos(src.Independiente)))
-            .ForMember(dest => dest.lista, opt => opt.MapFrom(src => new List<string> { src.Partidos, src.Comun, src.Coalicion, src.Independiente }))
+           
             .ForMember(dest => dest.Comunidad, opt => opt.MapFrom(src => src.Comunidad));
 
             CreateMap<ResultadoPreEliminarDTO, ResultadoPreEliminar>();
