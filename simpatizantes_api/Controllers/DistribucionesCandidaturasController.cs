@@ -133,30 +133,6 @@ namespace simpatizantes_api.Controllers
                     distribucionCandidatura.Independiente = string.Join(",", dto.Independiente);
                 }
                 string lista = User.FindFirst("lista")?.Value;
-                List<string> listaSeparada = new List<string>();
-
-                if (!string.IsNullOrEmpty(lista))
-                {
-                    string[] partes = lista.Split(',');
-                    if (partes.Length > 1)
-                    {
-                        // Si hay más de 1 elemento separado por comas, agregar cada elemento individualmente a la lista
-                        foreach (string parte in partes)
-                        {
-                            listaSeparada.Add(parte.Trim()); // Añadir cada elemento a la lista después de quitar los espacios en blanco
-                        }
-                    }
-                    else
-                    {
-                        // Si hay 1 o menos elementos, agregar la cadena completa a la lista
-                        listaSeparada.Add(lista);
-                    }
-                }
-                
-
-
-
-
                 context.Add(distribucionCandidatura);
                 await context.SaveChangesAsync();
                 return Ok();
