@@ -16,6 +16,5 @@ namespace simpatizantes_api.DTOs
         public List<string> Independiente { get; set; }
         public List<string> lista { get; set; }
 
-
     }
 }
