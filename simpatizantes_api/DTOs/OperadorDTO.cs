@@ -15,6 +15,7 @@ namespace simpatizantes_api.DTOs
         public int Edad => CalcularEdad(FechaNacimiento);
         public int? CandidatoId { get; set; }
         public CandidatoDTO Candidato { get; set; }
+        public MunicipioDTO Municipio { get; set; }
         public List<int> SeccionesIds { get; set; }
         public List<SeccionDTO> Secciones { get; set; }
 

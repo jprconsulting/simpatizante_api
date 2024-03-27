@@ -14,6 +14,8 @@
         public DateTime? FechaHoraEdicion { get; set; }
         public int? CandidatoId { get; set; }
         public Candidato Candidato { get; set; }
+        public int? MunicipioId { get; set; } 
+        public Municipio Municipio { get; set; }
         public List<Simpatizante> Simpatizantes { get; set; }
         public List<OperadorSeccion> OperadorSecciones { get; set; }
         public List<PromotorOperador> PromotorOperadores { get; set; }

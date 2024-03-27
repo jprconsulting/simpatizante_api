@@ -11,6 +11,7 @@
         public List<DistribucionCandidatura> DistribucionesCandidaturas { get; set; }
         public List <Municipio> Municipios { get; set; }
         public List<ResultadoPreEliminar> ResultadosPreEliminares { get; set; }
+        public List<Operador> Operador { get; set; } 
 
     }
 }

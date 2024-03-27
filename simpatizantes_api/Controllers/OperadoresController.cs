@@ -57,6 +57,7 @@ namespace simpatizantes_api.Controllers
                 .Include(o => o.OperadorSecciones)
                     .ThenInclude(os => os.Seccion)
                         .ThenInclude(s => s.Municipio)
+                .Include(o => o.Municipio)
                 .Where(o => o.Candidato.Id == candidatoId)
                 .ToListAsync();
 
@@ -87,7 +88,9 @@ namespace simpatizantes_api.Controllers
         {
             var operadores = await context.Operadores
                 .Include(o => o.Candidato)
-                 .ThenInclude(os => os.Municipio)
+                .ThenInclude(os => os.Municipio)
+                .Include(o => o.Municipio)
+                 
                 .ToListAsync();
 
             if (!operadores.Any())
@@ -137,6 +140,7 @@ namespace simpatizantes_api.Controllers
                     operador.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
                     operador.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
                     operador.Candidato = await context.Candidatos.SingleOrDefaultAsync(r => r.Id == dto.Candidato.Id);
+                    operador.Municipio = await context.Municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
                     context.Add(operador);
 
                     if (await context.SaveChangesAsync() > 0)
@@ -223,6 +227,7 @@ namespace simpatizantes_api.Controllers
             operador.ApellidoMaterno = dto.ApellidoMaterno;
             operador.FechaNacimiento = dto.FechaNacimiento;
             operador.Estatus = dto.Estatus;
+            operador.MunicipioId = dto.Municipio.Id;
 
             // Limpiar todas las secciones actuales
             operador.OperadorSecciones.Clear();

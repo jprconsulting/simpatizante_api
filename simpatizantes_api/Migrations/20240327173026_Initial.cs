@@ -656,7 +656,8 @@ namespace simpatizantesapi.Migrations
                     UsuarioEdicionNombre = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaHoraEdicion = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CandidatoId = table.Column<int>(type: "int", nullable: true)
+                    CandidatoId = table.Column<int>(type: "int", nullable: true),
+                    MunicipioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -665,6 +666,11 @@ namespace simpatizantesapi.Migrations
                         name: "FK_Operadores_Candidatos_CandidatoId",
                         column: x => x.CandidatoId,
                         principalTable: "Candidatos",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Operadores_Municipios_MunicipioId",
+                        column: x => x.MunicipioId,
+                        principalTable: "Municipios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1183,6 +1189,11 @@ namespace simpatizantesapi.Migrations
                 name: "IX_Operadores_CandidatoId",
                 table: "Operadores",
                 column: "CandidatoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Operadores_MunicipioId",
+                table: "Operadores",
+                column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OperadoresSecciones_OperadorId",

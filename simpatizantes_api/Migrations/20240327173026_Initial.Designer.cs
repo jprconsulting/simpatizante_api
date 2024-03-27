@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240326175245_Initial")]
+    [Migration("20240327173026_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -527,6 +527,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int?>("MunicipioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombres")
                         .HasColumnType("longtext");
 
@@ -539,6 +542,8 @@ namespace simpatizantesapi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CandidatoId");
+
+                    b.HasIndex("MunicipioId");
 
                     b.ToTable("Operadores");
                 });
@@ -1277,7 +1282,13 @@ namespace simpatizantesapi.Migrations
                         .WithMany("Operador")
                         .HasForeignKey("CandidatoId");
 
+                    b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
+                        .WithMany("Operador")
+                        .HasForeignKey("MunicipioId");
+
                     b.Navigation("Candidato");
+
+                    b.Navigation("Municipio");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.OperadorSeccion", b =>
@@ -1584,6 +1595,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("DistribucionesCandidaturas");
 
                     b.Navigation("Municipios");
+
+                    b.Navigation("Operador");
 
                     b.Navigation("ResultadosPreEliminares");
 
