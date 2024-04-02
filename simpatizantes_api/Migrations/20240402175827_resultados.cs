@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace simpatizantesapi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class resultados : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -545,6 +545,7 @@ namespace simpatizantesapi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TipoEleccionId = table.Column<int>(type: "int", nullable: true),
+                    EstadoId = table.Column<int>(type: "int", nullable: true),
                     DistritoId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     ComunidadId = table.Column<int>(type: "int", nullable: true),
@@ -578,6 +579,11 @@ namespace simpatizantesapi.Migrations
                         name: "FK_ResultadosPreEliminares_Distritos_DistritoId",
                         column: x => x.DistritoId,
                         principalTable: "Distritos",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ResultadosPreEliminares_Estados_EstadoId",
+                        column: x => x.EstadoId,
+                        principalTable: "Estados",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ResultadosPreEliminares_Municipios_MunicipioId",
@@ -1259,6 +1265,11 @@ namespace simpatizantesapi.Migrations
                 name: "IX_ResultadosPreEliminares_DistritoId",
                 table: "ResultadosPreEliminares",
                 column: "DistritoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResultadosPreEliminares_EstadoId",
+                table: "ResultadosPreEliminares",
+                column: "EstadoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResultadosPreEliminares_MunicipioId",

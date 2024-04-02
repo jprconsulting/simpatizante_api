@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
         public TipoEleccion TipoEleccion { get; set; }
+        public int? EstadoId { get; set; }
+        public Estado? Estado { get; set; }
         public int? DistritoId { get; set; }
         public Distrito? Distrito { get; set; }
         public int? MunicipioId { get; set; }

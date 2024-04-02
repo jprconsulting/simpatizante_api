@@ -7,6 +7,7 @@ using simpatizantes_api.Entities;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using simpatizantes_api.Filters;
+using static System.Collections.Specialized.BitVector32;
 
 
 namespace simpatizantes_api.Controllers
@@ -60,14 +61,14 @@ namespace simpatizantes_api.Controllers
                 };
                 generalWordCloud.WordCloudPorCandidatos.Add(seccionWordCloud);
             }
-            var municipios = await context.Municipios.ToListAsync();
+            var municipios = await context.Secciones.ToListAsync();
 
             foreach (var municipio in municipios)
             {
                 var visitasPorseccion = await context.Visitas
                     .Include(v => v.Simpatizante)
                     .ThenInclude(b => b.Municipio)
-                    .Where(v => v.Simpatizante.Municipio.Id == municipio.Id)
+                    .Where(v => v.Simpatizante.Seccion.Id == municipio.Id)
                     .ToListAsync();
 
                 var commentsBymunicipio = visitasPorseccion.Select(v => v.Servicio).ToList();
@@ -75,6 +76,7 @@ namespace simpatizantes_api.Controllers
                 var seccionWordCloud2 = new MunicipioWordCloudDTO
                 {
                     Id = municipio.Id,
+                    Clave = municipio.Clave,
                     Nombre = municipio.Nombre,
                     WordCloud = CreateModel(wordCountBymunicipio)
                 };

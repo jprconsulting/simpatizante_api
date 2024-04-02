@@ -30,6 +30,7 @@ namespace simpatizantes_api.Controllers
         {
             var resultadoPreEliminar = await context.ResultadosPreEliminares
                 .Include(u => u.TipoEleccion)
+                .Include(u => u.Estado)
                 .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
                 .Include(u => u.Comunidad)
@@ -51,6 +52,7 @@ namespace simpatizantes_api.Controllers
         {
             var resultadoPreEliminar = await context.ResultadosPreEliminares
                 .Include(u => u.TipoEleccion)
+                .Include(u => u.Estado)
                 .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
                 .Include(u => u.Comunidad)

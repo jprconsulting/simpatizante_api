@@ -11,8 +11,8 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240327173026_Initial")]
-    partial class Initial
+    [Migration("20240402175827_resultados")]
+    partial class resultados
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -739,6 +739,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("DistritoId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("EstadoId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MunicipioId")
                         .HasColumnType("int");
 
@@ -767,6 +770,8 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("ComunidadId");
 
                     b.HasIndex("DistritoId");
+
+                    b.HasIndex("EstadoId");
 
                     b.HasIndex("MunicipioId");
 
@@ -1385,6 +1390,10 @@ namespace simpatizantesapi.Migrations
                         .WithMany("ResultadosPreEliminares")
                         .HasForeignKey("DistritoId");
 
+                    b.HasOne("simpatizantes_api.Entities.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId");
+
                     b.HasOne("simpatizantes_api.Entities.Municipio", "Municipio")
                         .WithMany("ResultadosPreEliminares")
                         .HasForeignKey("MunicipioId");
@@ -1402,6 +1411,8 @@ namespace simpatizantesapi.Migrations
                     b.Navigation("Comunidad");
 
                     b.Navigation("Distrito");
+
+                    b.Navigation("Estado");
 
                     b.Navigation("Municipio");
 
