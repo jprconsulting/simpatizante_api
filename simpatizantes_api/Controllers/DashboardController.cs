@@ -33,6 +33,8 @@ namespace simpatizantes_api.Controllers
             var generalWordCloud = new GeneralWordCloudDTO
             {
                 WordCloudPorCandidatos = new List<CandidatoWordCloudDTO>(),
+                WordCloudPorMunicipios = new List<MunicipioWordCloudDTO>(),
+
                 GeneralWordCloud = CreateModel(wordCount)
             };
 
@@ -43,7 +45,7 @@ namespace simpatizantes_api.Controllers
                 var visitasPorseccion = await context.Visitas
                     .Include(v => v.Simpatizante)
                     .ThenInclude(b => b.Operador) 
-                    .Where(v => v.Simpatizante.Operador.CandidatoId == seccion.Id) // Filtrar por sección
+                    .Where(v => v.Simpatizante.Operador.CandidatoId == seccion.Id) 
                     .ToListAsync();
 
                 var commentsByseccion = visitasPorseccion.Select(v => v.Servicio).ToList();
@@ -58,6 +60,27 @@ namespace simpatizantes_api.Controllers
                 };
                 generalWordCloud.WordCloudPorCandidatos.Add(seccionWordCloud);
             }
+            var municipios = await context.Municipios.ToListAsync();
+
+            foreach (var municipio in municipios)
+            {
+                var visitasPorseccion = await context.Visitas
+                    .Include(v => v.Simpatizante)
+                    .ThenInclude(b => b.Municipio)
+                    .Where(v => v.Simpatizante.Municipio.Id == municipio.Id)
+                    .ToListAsync();
+
+                var commentsBymunicipio = visitasPorseccion.Select(v => v.Servicio).ToList();
+                var wordCountBymunicipio = CountWords(commentsBymunicipio);
+                var seccionWordCloud2 = new MunicipioWordCloudDTO
+                {
+                    Id = municipio.Id,
+                    Nombre = municipio.Nombre,
+                    WordCloud = CreateModel(wordCountBymunicipio)
+                };
+                generalWordCloud.WordCloudPorMunicipios.Add(seccionWordCloud2);
+            }
+
 
             return Ok(generalWordCloud);
         }
