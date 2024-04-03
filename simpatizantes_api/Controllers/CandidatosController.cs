@@ -135,6 +135,7 @@ namespace simpatizantes_api.Controllers
                 if (dto.Cargo.Id == 6)
                 {
                     distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
+                    distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
 
                 }
 
