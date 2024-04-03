@@ -669,6 +669,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("MunicipioId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SeccionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Ubicacion")
                         .HasColumnType("longtext");
 
@@ -677,6 +680,8 @@ namespace simpatizantesapi.Migrations
                     b.HasIndex("CandidatoId");
 
                     b.HasIndex("MunicipioId");
+
+                    b.HasIndex("SeccionId");
 
                     b.ToTable("PropagandasElectorales");
                 });
@@ -1341,9 +1346,15 @@ namespace simpatizantesapi.Migrations
                         .WithMany()
                         .HasForeignKey("MunicipioId");
 
+                    b.HasOne("simpatizantes_api.Entities.Seccion", "Seccion")
+                        .WithMany()
+                        .HasForeignKey("SeccionId");
+
                     b.Navigation("Candidato");
 
                     b.Navigation("Municipio");
+
+                    b.Navigation("Seccion");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.ResultadoCandidatura", b =>

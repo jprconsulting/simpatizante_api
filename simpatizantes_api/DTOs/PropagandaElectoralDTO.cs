@@ -14,6 +14,7 @@ namespace simpatizantes_api.DTOs
         public string ImagenBase64 { get; set; }
         public string Dimensiones { get; set; }
         public MunicipioDTO Municipio { get; set; }
+        public SeccionDTO Seccion { get; set; }
         public CandidatoDTO Candidato { get; set; }
 
     }

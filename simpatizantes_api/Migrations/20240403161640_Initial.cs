@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace simpatizantesapi.Migrations
 {
     /// <inheritdoc />
-    public partial class resultados : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -700,6 +700,7 @@ namespace simpatizantesapi.Migrations
                     Foto = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
+                    SeccionId = table.Column<int>(type: "int", nullable: true),
                     CandidatoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -714,6 +715,11 @@ namespace simpatizantesapi.Migrations
                         name: "FK_PropagandasElectorales_Municipios_MunicipioId",
                         column: x => x.MunicipioId,
                         principalTable: "Municipios",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PropagandasElectorales_Secciones_SeccionId",
+                        column: x => x.SeccionId,
+                        principalTable: "Secciones",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1230,6 +1236,11 @@ namespace simpatizantesapi.Migrations
                 name: "IX_PropagandasElectorales_MunicipioId",
                 table: "PropagandasElectorales",
                 column: "MunicipioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropagandasElectorales_SeccionId",
+                table: "PropagandasElectorales",
+                column: "SeccionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResultadosCandidaturas_ActaEscrutinioId",

@@ -36,6 +36,7 @@ namespace simpatizantes_api.Controllers
         {
             var propaganda = await context.PropagandasElectorales
                 .Include(b => b.Municipio)
+                .Include(s => s.Seccion)
                 .Include(c => c.Candidato)
                 .FirstOrDefaultAsync(v => v.Id == id);
 
@@ -54,6 +55,7 @@ namespace simpatizantes_api.Controllers
             {
                 var propaganda = await context.PropagandasElectorales
                     .Include(v => v.Municipio)
+                    .Include(s => s.Seccion)
                     .Include(c => c.Candidato)
                     .ToListAsync();
 
@@ -84,6 +86,7 @@ namespace simpatizantes_api.Controllers
 
             var propaganda = mapper.Map<PropagandaElectoral>(dto);
             propaganda.Municipio = await context.Municipios.SingleOrDefaultAsync(s => s.Id == dto.Municipio.Id);
+            propaganda.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             propaganda.Candidato = await context.Candidatos.SingleOrDefaultAsync(s => s.Id == dto.Candidato.Id);
 
             context.PropagandasElectorales.Add(propaganda);
@@ -133,6 +136,7 @@ namespace simpatizantes_api.Controllers
 
             mapper.Map(dto, propaganda);
             propaganda.Municipio = await context.Municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
+            propaganda.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
             propaganda.Candidato = await context.Candidatos.SingleOrDefaultAsync(s => s.Id == dto.Candidato.Id);
 
             context.Update(propaganda);
