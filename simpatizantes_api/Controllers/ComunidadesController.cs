@@ -39,6 +39,21 @@ namespace simpatizantes_api.Controllers
 
             return Ok(mapper.Map<List<ComunidadDTO>>(estados));
         }
+        [HttpGet("por-municipio/{municipioId}")]
+        public async Task<ActionResult<List<ComunidadDTO>>> GetByMunicipio(int municipioId)
+        {
+            var secciones = await context.Comunidades
+                .Include(u => u.Municipio)
+                .Where(s => s.Municipio.Id == municipioId)
+                .ToListAsync();
+
+            if (!secciones.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<ComunidadDTO>>(secciones));
+        }
 
     }
 }
