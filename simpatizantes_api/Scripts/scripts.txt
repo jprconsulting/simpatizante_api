@@ -261,7 +261,143 @@ VALUES
 ('Presidente de Ayuntamiento'),
 ('Presidente de Comunidad');
 
+INSERT INTO simpatizantes.secciones (clave, nombre, municipioId)
+VALUES
+('0001', 'Seccion 1 Amaxac de Guerrero', 1),
+('0002', 'Seccion 2 Amaxac de Guerrero', 1),
+('0003', 'Seccion 3 Amaxac de Guerrero', 1),
 
+('0004', 'Seccion 1 Apetatitlán de Antonio Carvajal', 2),
+('0005', 'Seccion 2 Apetatitlán de Antonio Carvajal', 2),
+('0006', 'Seccion 3 Apetatitlán de Antonio Carvajal', 2),
+
+('0007', 'Seccion 1 Atlangatepec', 3),
+('0008', 'Seccion 2 Atlangatepec', 3),
+('0009', 'Seccion 3 Atlangatepec', 3),
+
+('0010', 'Seccion 1 Atltzayanca', 4),
+('0011', 'Seccion 2 Atltzayanca', 4),
+('0012', 'Seccion 3 Atltzayanca', 4),
+
+('0013', 'Seccion 1 Apizaco', 5),
+('0014', 'Seccion 2 Apizaco', 5),
+('0015', 'Seccion 3 Apizaco', 5),
+
+('0016', 'Seccion 1 Calpulalpan', 6),
+('0017', 'Seccion 2 Calpulalpan', 6),
+('0018', 'Seccion 3 Calpulalpan', 6),
+
+('0019', 'Seccion 1 El Carmen Tequexquitla', 7),
+('0020', 'Seccion 2 El Carmen Tequexquitla', 7),
+('0021', 'Seccion 3 El Carmen Tequexquitla', 7),
+
+('0022', 'Seccion 1 Cuapiaxtla', 8),
+('0023', 'Seccion 2 Cuapiaxtla', 8),
+('0024', 'Seccion 3 Cuapiaxtla', 8),
+
+('0025', 'Seccion 1 Cuaxomulco', 9),
+('0026', 'Seccion 2 Cuaxomulco', 9),
+('0027', 'Seccion 3 Cuaxomulco', 9),
+
+('0028', 'Seccion 1 Chiautempan', 10),
+('0029', 'Seccion 2 Chiautempan', 10),
+('0030', 'Seccion 3 Chiautempan', 10),
+
+('0031', 'Seccion 1 Muñoz de Domingo Arenas', 11),
+('0032', 'Seccion 2 Muñoz de Domingo Arenas', 11),
+('0033', 'Seccion 3 Muñoz de Domingo Arenas', 11),
+
+('0034', 'Seccion 1 Españita', 12),
+('0035', 'Seccion 2 Españita', 12),
+('0036', 'Seccion 3 Españita', 12),
+
+('0037', 'Seccion 1 Huamantla', 13),
+('0038', 'Seccion 2 Huamantla', 13),
+('0039', 'Seccion 3 Huamantla', 13),
+
+('0040', 'Seccion 1 Hueyotlipan', 14),
+('0041', 'Seccion 2 Hueyotlipan', 14),
+('0042', 'Seccion 3 Hueyotlipan', 14),
+
+('0043', 'Seccion 1 Ixtacuixtla de Mariano Matamoros', 15),
+('0044', 'Seccion 2 Ixtacuixtla de Mariano Matamoros', 15),
+('0045', 'Seccion 3 Ixtacuixtla de Mariano Matamoros', 15),
+
+('0046', 'Seccion 1 Ixtenco', 16),
+('0047', 'Seccion 2 Ixtenco', 16),
+('0048', 'Seccion 3 Ixtenco', 16),
+
+('0049', 'Seccion 1 Mazatecochco de José María Morelos', 17),
+('0050', 'Seccion 2 Mazatecochco de José María Morelos', 17),
+('0051', 'Seccion 3 Mazatecochco de José María Morelos', 17),
+
+('0052', 'Seccion 1 Contla de Juan Cuamatzi', 18),
+('0053', 'Seccion 2 Contla de Juan Cuamatzi', 18),
+('0054', 'Seccion 3 Contla de Juan Cuamatzi', 18),
+
+('0055', 'Seccion 1 Tepetitla de Lardizábal', 19),
+('0056', 'Seccion 2 Tepetitla de Lardizábal', 19),
+('0057', 'Seccion 3 Tepetitla de Lardizábal', 19),
+
+('0058', 'Seccion 1 Sanctórum de Lázaro Cárdenas', 20),
+('0059', 'Seccion 2 Sanctórum de Lázaro Cárdenas', 20),
+('0060', 'Seccion 3 Sanctórum de Lázaro Cárdenas', 20),
+
+('0061', 'Seccion 1 Nanacamilpa de Mariano Arista', 21),
+('0062', 'Seccion 2 Nanacamilpa de Mariano Arista', 21),
+('0063', 'Seccion 3 Nanacamilpa de Mariano Arista', 21),
+
+('0064', 'Seccion 1 Acuamanala de Miguel Hidalgo', 22),
+('0065', 'Seccion 2 Acuamanala de Miguel Hidalgo', 22),
+('0066', 'Seccion 3 Acuamanala de Miguel Hidalgo', 22),
+
+('0067', 'Seccion 1 Natívitas', 23),
+('0068', 'Seccion 2 Natívitas', 23),
+('0069', 'Seccion 3 Natívitas', 23),
+
+('0070', 'Seccion 1 Panotla', 24),
+('0071', 'Seccion 2 Panotla', 24),
+('0072', 'Seccion 3 Panotla', 24),
+
+('0073', 'Seccion 1 San Pablo del Monte', 25),
+('0074', 'Seccion 2 San Pablo del Monte', 25),
+('0075', 'Seccion 3 San Pablo del Monte', 25),
+
+('0076', 'Seccion 1 Santa Cruz Tlaxcala', 26),
+('0077', 'Seccion 2 Santa Cruz Tlaxcala', 26),
+('0078', 'Seccion 3 Santa Cruz Tlaxcala', 26),
+
+('0079', 'Seccion 1 Tenancingo', 27),
+('0080', 'Seccion 2 Tenancingo', 27),
+('0081', 'Seccion 3 Tenancingo', 27),
+
+('0082', 'Seccion 1 Teolocholco', 28),
+('0083', 'Seccion 2 Teolocholco', 28),
+('0084', 'Seccion 3 Teolocholco', 28),
+
+('0085', 'Seccion 1 Tepeyanco', 29),
+('0086', 'Seccion 2 Tepeyanco', 29),
+('0087', 'Seccion 3 Tepeyanco', 29),
+
+('0088', 'Seccion 1 Terrenate', 30),
+('0089', 'Seccion 2 Terrenate', 30),
+('0090', 'Seccion 3 Terrenate', 30),
+
+('0091', 'Seccion 1 Tetla de la Solidaridad', 31),
+('0092', 'Seccion 2 Tetla de la Solidaridad', 31),
+('0093', 'Seccion 3 Tetla de la Solidaridad', 31),
+
+('0094', 'Seccion 1 Tetlatlahuca', 32),
+('0095', 'Seccion 2 Tetlatlahuca', 32),
+('0096', 'Seccion 3 Tetlatlahuca', 32),
+
+('0097', 'Seccion 1 Tlaxcala', 33),
+('0098', 'Seccion 2 Tlaxcala', 33),
+('0099', 'Seccion 3 Tlaxcala', 33),
+
+('0100', 'Seccion 1 Tlaxco', 34),
+('0101', 'Seccion 2 Tlaxco', 34),
+('0102', 'Seccion 3 Tlaxco', 34),
 
 ('0103', 'Seccion 1 Tocatlán', 35),
 ('0104', 'Seccion 2 Tocatlán', 35),
@@ -366,5 +502,4 @@ VALUES
 ('0178', 'Seccion 1 Santa Isabel Xiloxoxtla', 60),
 ('0179', 'Seccion 2 Santa Isabel Xiloxoxtla', 60),
 ('0180', 'Seccion 3 Santa Isabel Xiloxoxtla', 60);
-
 
