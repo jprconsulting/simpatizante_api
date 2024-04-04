@@ -36,6 +36,7 @@ namespace simpatizantes_api.Controllers
         {
             var voto = await context.Votos
                  .Include(b => b.Simpatizante)
+                .ThenInclude(b => b.Operador)
                  .FirstOrDefaultAsync(v => v.Id == id);
 
             if (voto == null)
@@ -54,6 +55,7 @@ namespace simpatizantes_api.Controllers
                 var votos = await context.Votos
                 .Include(v => v.Simpatizante)
                 .ThenInclude(b => b.Municipio)
+                .ThenInclude(b => b.Operador)
                 .ToListAsync();
 
                 if (!votos.Any())
