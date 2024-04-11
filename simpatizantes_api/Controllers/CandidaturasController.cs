@@ -60,6 +60,26 @@ namespace simpatizantes_api.Controllers
             return Ok(mapper.Map<CandidaturaDTO>(candidatura));
         }
 
+        [HttpGet("obtener-por-nombre/{nombre}")]
+        public async Task<ActionResult<CandidaturaDTO>> GetByNombre(string nombre)
+        {
+            var candidatura = await context.Candidaturas.FirstOrDefaultAsync(c => c.Nombre == nombre);
+
+            if (candidatura == null)
+            {
+                return NotFound();
+            }
+
+            // Crear un DTO que contenga solo el logo y el nombre
+            var candidaturaDTO = new CandidaturaDTO
+            {
+                Nombre = candidatura.Nombre,
+                Logo = candidatura.Logo
+            };
+
+            return Ok(candidaturaDTO);
+        }
+
         [HttpGet("obtener-por-tipo-agrupacion-partido")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoAgrupacion()
         {
