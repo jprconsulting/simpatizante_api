@@ -19,5 +19,7 @@
         public string VotosRepresentantes { get; set; }
         public string Suma { get; set; }
         public string Partidos { get; set; }
+        public string NoRegistrado { get; set; }
+        public string VotosNulos { get; set; }
     }
 }

@@ -210,7 +210,7 @@ namespace simpatizantes_api.Controllers
             var currentDistritoId = resultadoPreEliminar?.DistritoId;
             var currentMunicipioId = resultadoPreEliminar?.MunicipioId;
             var currentComunidadId = resultadoPreEliminar?.ComunidadId;
-
+            var currentEstadoId = resultadoPreEliminar?.EstadoId;
             if (resultadoPreEliminar == null)
             {
                 return NotFound();
@@ -222,6 +222,8 @@ namespace simpatizantes_api.Controllers
             resultadoPreEliminar.Seccion = await context.Secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
             resultadoPreEliminar.Casilla = await context.Casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
 
+            resultadoPreEliminar.Estado = null;
+            resultadoPreEliminar.EstadoId = null;
             resultadoPreEliminar.Distrito = null;
             resultadoPreEliminar.DistritoId = null;
             resultadoPreEliminar.Municipio = null;
@@ -232,21 +234,50 @@ namespace simpatizantes_api.Controllers
             // Si es  Gubernatura
             if (dto.TipoEleccion.Id == 1)
             {
-                if (currentDistritoId != null && currentDistritoId != dto.Distrito.Id)
+                if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
+                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
 
-                resultadoPreEliminar.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
-                resultadoPreEliminar.DistritoId = resultadoPreEliminar.Distrito.Id;
+                resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                resultadoPreEliminar.EstadoId = resultadoPreEliminar.Estado.Id;
             }
 
             // Si es  Diputados Locales
             if (dto.TipoEleccion.Id == 2)
+            {
+                if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
+                {
+                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    if (existsUserOperador)
+                    {
+                        return Conflict();
+                    }
+                }
+                resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                resultadoPreEliminar.EstadoId = resultadoPreEliminar.Estado.Id;
+            }
+
+            if (dto.TipoEleccion.Id == 3)
+            {
+                if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
+                {
+                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    if (existsUserOperador)
+                    {
+                        return Conflict();
+                    }
+                }
+                resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                resultadoPreEliminar.EstadoId = resultadoPreEliminar.Estado.Id;
+            }
+
+            // Si es  Ayuntamientos
+            if (dto.TipoEleccion.Id == 4)
             {
                 if (currentDistritoId != null && currentDistritoId != dto.Distrito.Id)
                 {
@@ -256,12 +287,11 @@ namespace simpatizantes_api.Controllers
                         return Conflict();
                     }
                 }
+                resultadoPreEliminar.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
+                resultadoPreEliminar.DistritoId = resultadoPreEliminar.Distrito.Id;
             }
-            resultadoPreEliminar.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
-            resultadoPreEliminar.DistritoId = resultadoPreEliminar.Distrito.Id;
 
-            // Si es  Ayuntamientos
-            if (dto.TipoEleccion.Id == 3)
+            if (dto.TipoEleccion.Id == 5)
             {
                 if (currentMunicipioId != null && currentMunicipioId != dto.Municipio.Id)
                 {
@@ -271,12 +301,13 @@ namespace simpatizantes_api.Controllers
                         return Conflict();
                     }
                 }
+                resultadoPreEliminar.Municipio = await context.Municipios.SingleOrDefaultAsync(o => o.Id == dto.Municipio.Id);
+                resultadoPreEliminar.MunicipioId = resultadoPreEliminar.Municipio.Id;
             }
-            resultadoPreEliminar.Municipio = await context.Municipios.SingleOrDefaultAsync(o => o.Id == dto.Municipio.Id);
-            resultadoPreEliminar.MunicipioId = resultadoPreEliminar.Municipio.Id;
+
 
             // Si es  Comunidad
-            if (dto.TipoEleccion.Id == 4)
+            if (dto.TipoEleccion.Id == 6)
             {
                 if (currentComunidadId != null && currentComunidadId != dto.Comunidad.Id)
                 {
@@ -286,9 +317,22 @@ namespace simpatizantes_api.Controllers
                         return Conflict();
                     }
                 }
+
+                resultadoPreEliminar.Comunidad = await context.Comunidades.SingleOrDefaultAsync(o => o.Id == dto.Comunidad.Id);
+                resultadoPreEliminar.ComunidadId = resultadoPreEliminar.Comunidad.Id;
             }
-            resultadoPreEliminar.Comunidad = await context.Comunidades.SingleOrDefaultAsync(o => o.Id == dto.Comunidad.Id);
-            resultadoPreEliminar.ComunidadId = resultadoPreEliminar.Comunidad.Id;
+
+            else
+            {
+                if (dto.Partidos == null || dto.Partidos.Count == 0)
+                {
+                    return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");
+                }
+
+                // Convierte los objetos CandidaturaDTO a entidades Candidatura y añádelos a la lista de Partidos en la entidad Candidatura
+                resultadoPreEliminar.Partidos = string.Join(",", dto.Partidos);
+                
+            }
 
             context.Update(resultadoPreEliminar);
 

@@ -16,6 +16,8 @@ namespace simpatizantes_api.DTOs
         public string PersonasVotaron { get; set; }
         public string VotosRepresentantes { get; set; }
         public string Suma { get; set; }
+        public string NoRegistrado { get; set; }
+        public string VotosNulos { get; set; }
         public List<string> Partidos { get; set; }
     }
 }

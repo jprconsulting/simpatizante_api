@@ -747,6 +747,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("MunicipioId")
                         .HasColumnType("int");
 
+                    b.Property<string>("NoRegistrado")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Partidos")
                         .HasColumnType("longtext");
 
@@ -761,6 +764,9 @@ namespace simpatizantesapi.Migrations
 
                     b.Property<int?>("TipoEleccionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("VotosNulos")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("VotosRepresentantes")
                         .HasColumnType("longtext");

@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240403161640_Initial")]
+    [Migration("20240410185423_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -750,6 +750,9 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("MunicipioId")
                         .HasColumnType("int");
 
+                    b.Property<string>("NoRegistrado")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Partidos")
                         .HasColumnType("longtext");
 
@@ -764,6 +767,9 @@ namespace simpatizantesapi.Migrations
 
                     b.Property<int?>("TipoEleccionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("VotosNulos")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("VotosRepresentantes")
                         .HasColumnType("longtext");
