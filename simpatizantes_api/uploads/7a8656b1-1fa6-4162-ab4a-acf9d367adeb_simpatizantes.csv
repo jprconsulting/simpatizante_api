@@ -1,0 +1,5 @@
+Nombres,ApellidoPaterno,ApellidoMaterno,FechaNacimiento,Domicilio,CURP,Numerotel,Latitud,Longitud,Estatus,ClaveElector,TercerNivelContacto,ProgramaSocial,Promotor,Seccion,Municipio,Estado,Operador,Genero
+María,García,López,1995-08-25,Avenida 456,MGAL950825HDFRRN02,5559876543,20.6667,-103.3514,true,DEF987654321ABC,Vecino,2,1,8,3,15,2,2
+Carlos,Rodríguez,Sánchez,1988-03-12,Calle Principal 789,CRRS880312HDFRRN03,5552223333,25.6866,-100.3161,true,GHI654321987CBA,Familiar,3,1,12,4,20,1,1
+Laura,Martínez,Hernández,1993-11-30,Paseo de la Colina 456,MLHM931130HDFRRN04,5557778888,19.0502,-98.2192,true,JKL789456123CDE,Amigo,1,1,6,1,5,1,2
+José,López,Pérez,1985-06-03,Boulevard 987,LJLP850603HDFRRN05,5554443333,22.1565,-100.9796,true,MNO987654321ZYX,Familiar,2,1,5,2,10,1,1

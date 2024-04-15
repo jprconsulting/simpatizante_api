@@ -1,0 +1,5 @@
+Nombres,ApellidoPaterno,ApellidoMaterno,FechaNacimiento,Domicilio,CURP,Numerotel,Latitud,Longitud,Estatus,ClaveElector,TercerNivelContacto,ProgramaSocial,Promotor,Seccion,Municipio,Estado,Operador,Genero
+Ana,Hernandez,Garcia,15/10/1990,Calle 789,AHGA901015MDFRRC01,5556667777,21.1619,-86.8515,TRUE,XYZ123456789ABC,Amigo,1,1,7,3,18,1,1
+Pedro,Martinez,Rodriguez,20/04/1982,Colonia 123,PMRR820420MDFRRC02,5558889999,25.6866,-100.3161,TRUE,WXY987654321CBA,Vecino,3,1,11,4,19,1,1
+Isabel,Gonzalez,Fernandez,05/07/1997,Avenida Principal 456,IGZF970705MDFRRC03,5552223333,19.0502,-98.2192,TRUE,VUT456789012DCB,Familiar,1,1,5,1,8,1,1
+Manuel,Diaz,Perez,10/02/1987,Boulevard 987,MDP870210MDFRRC04,5553334444,22.1565,-100.9796,TRUE,TUV345678901CDE,Amigo,2,1,4,2,12,1,1

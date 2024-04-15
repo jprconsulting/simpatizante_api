@@ -20,6 +20,16 @@
         public DateTime FechaHoraCreacion { get; set; }
         public string? UsuarioEdicionNombre { get; set; }
         public DateTime? FechaHoraEdicion { get; set; }
+
+        // Propiedades para almacenar los IDs de las relaciones
+        public int? GeneroId { get; set; }
+        public int? ProgramaSocialId { get; set; }
+        public int? PromotorId { get; set; }
+        public int? SeccionId { get; set; }
+        public int? MunicipioId { get; set; }
+        public int? EstadoId { get; set; }
+
+        // Relaciones de navegación
         public ProgramaSocial ProgramaSocial { get; set; }
         public Promotor Promotor { get; set; }
         public Seccion Seccion { get; set; }
@@ -29,6 +39,5 @@
         public Operador Operador { get; set; }
         public List<Visita> Visitas { get; set; }
         public List<Voto> Votos { get; set; }
-
     }
 }

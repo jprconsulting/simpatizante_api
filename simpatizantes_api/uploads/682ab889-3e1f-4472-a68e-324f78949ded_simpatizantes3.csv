@@ -1,0 +1,5 @@
+Nombres,ApellidoPaterno,ApellidoMaterno,FechaNacimiento,Domicilio,CURP,Numerotel,Latitud,Longitud,Estatus,ClaveElector,TercerNivelContacto,ProgramaSocial,Promotor,Seccion,Municipio,Estado,Operador,Genero
+Maria,Lopez,Ramirez,1995-09-25,Calle 456,MLR950925MDFRRC05,5557778888,20.6764,-103.3475,true,QWE567890123ASD,Vecino,3,1,8,3,15,1,1
+Javier,Ruiz,Sanchez,1980-06-12,Avenida 789,JRS800612MDFRRC06,5559991111,25.6866,-100.3161,true,ZXC678901234DSA,Amigo,1,1,12,4,23,1,1
+Fernanda,Gomez,Jimenez,2002-03-30,Colonia 789,FGJ020330MDFRRC07,5554445555,25.6866,-100.3161,true,ASD789012345FDS,Amigo,1,1,6,2,9,1,1
+Carlos,Torres,Ortega,1998-11-18,Carretera 123,CTO981118MDFRRC08,5552221111,19.4326,-99.1332,true,SDF678901234DSA,Vecino,1,1,10,3,20,1,1

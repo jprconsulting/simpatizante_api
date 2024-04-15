@@ -41,6 +41,7 @@ namespace simpatizantes_api
             services.AddAutoMapper(typeof(Startup));
 
            services.AddScoped<IAuthorizationService, AuthorizationService>();
+           services.AddScoped<ICsvSimpatizanteLoader, CsvSimpatizanteLoader>();
 
             var key = Encoding.UTF8.GetBytes(Configuration["JwtSettings:key"]);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

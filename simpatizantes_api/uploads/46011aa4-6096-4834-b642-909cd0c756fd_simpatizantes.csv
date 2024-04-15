@@ -1,0 +1,2 @@
+Nombres,ApellidoPaterno,ApellidoMaterno,FechaNacimiento,Domicilio,CURP,Numerotel,Latitud,Longitud,Estatus,ClaveElector,TercerNivelContacto,ProgramaSocial,Promotor,Seccion,Municipio,Estado,Operador, Genero
+Juan,Perez,Gomez,2000-05-18,Calle 123,PEPJ900515HDFRRN01,5551234567,19.4326,-99.1332,true,ABC123456789XYZ,Amigo,1,1,4,2,29,1,1

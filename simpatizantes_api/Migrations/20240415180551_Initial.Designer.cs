@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240410185423_Initial")]
+    [Migration("20240415180551_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
