@@ -57,6 +57,7 @@ namespace simpatizantes_api.Services
 
                         var latitud = !string.IsNullOrEmpty(data[7]) ? decimal.Parse(data[7]) : 1.1m;
                         var longitud = !string.IsNullOrEmpty(data[8]) ? decimal.Parse(data[8]) : 1.1m;
+                        var tercerNivelContacto = !string.IsNullOrEmpty(data[10]) ? data[10] : "Sin tercer nivel de contacto";
 
                         var existingSimpatizante = await _context.Simpatizantes.FirstOrDefaultAsync(s =>
                             s.Nombres == nombres &&
@@ -74,7 +75,7 @@ namespace simpatizantes_api.Services
                             existingSimpatizante.Longitud = longitud;
                             existingSimpatizante.Estatus = true;
                             existingSimpatizante.ClaveElector = data[9];
-                            existingSimpatizante.TercerNivelContacto = data[10];
+                            existingSimpatizante.TercerNivelContacto = tercerNivelContacto;
                             existingSimpatizante.ProgramaSocialId = programaSocialId;
                             existingSimpatizante.PromotorId = promotorId;
                             existingSimpatizante.SeccionId = seccionId;
@@ -101,7 +102,7 @@ namespace simpatizantes_api.Services
                                 Longitud = longitud,
                                 Estatus = true,
                                 ClaveElector = data[9],
-                                TercerNivelContacto = data[10],
+                                TercerNivelContacto = tercerNivelContacto,
                                 ProgramaSocialId = programaSocialId,
                                 PromotorId = promotorId,
                                 SeccionId = seccionId,
