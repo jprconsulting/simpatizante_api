@@ -4,6 +4,7 @@ namespace simpatizantes_api.Services
 {
     public interface ICsvSimpatizanteLoader
     {
-        Task<int> LoadFromCsvAsync(string filePath);
+        Task<(int createdCount, int updatedCount)> LoadFromCsvAsync(string filePath);
     }
 }
+

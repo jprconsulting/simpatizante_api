@@ -34,14 +34,15 @@ namespace simpatizantes_api.Controllers
                     await file.CopyToAsync(stream);
                 }
 
-                var count = await _csvSimpatizanteLoader.LoadFromCsvAsync(filePath);
+                var (createdCount, updatedCount) = await _csvSimpatizanteLoader.LoadFromCsvAsync(filePath);
 
-                return Ok($"Se cargaron {count} simpatizantes desde el archivo CSV.");
+                return Ok($"Se crearon {createdCount} simpatizantes y se actualizaron {updatedCount} simpatizantes desde el archivo CSV.");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error al cargar el archivo CSV: {ex.Message}");
             }
         }
+
     }
 }
