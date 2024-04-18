@@ -54,8 +54,9 @@ namespace simpatizantes_api.Controllers
             {
                 var votos = await context.Votos
                 .Include(v => v.Simpatizante)
-                .ThenInclude(b => b.Municipio)
-                .ThenInclude(b => b.Operador)
+                    .ThenInclude(s => s.Municipio)
+                .Include(v => v.Simpatizante)
+                    .ThenInclude(s => s.Operador)
                 .ToListAsync();
 
                 if (!votos.Any())
