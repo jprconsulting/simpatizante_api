@@ -10,39 +10,39 @@ namespace simpatizantes_api
         {
 
         }
-        public DbSet <ActiveToken> ActiveTokens { get; set; }
-        public DbSet<ResultadoPreEliminar> ResultadosPreEliminares { get; set; }
-        public DbSet<PropagandaElectoral> PropagandasElectorales { get; set; } 
-        public DbSet<Comunidad> Comunidades { get; set; }
-        public DbSet<Distrito> Distritos { get; set; }
-        public DbSet<ActaEscrutinio> ActasEscrutinios { get; set; }
-        public DbSet<Candidatura> Candidaturas { get; set; }
-        public DbSet<TipoEleccion> TiposElecciones { get; set; }
-        public DbSet<TipoAgrupacionPolitica> TiposAgrupacionesPoliticas { get; set; }
-        public DbSet<Combinacion> Combinaciones { get; set; }
-        public DbSet<DistribucionCandidatura> DistribucionesCandidaturas { get; set; }
-        public DbSet<DistribucionOrdenada> DistribucionesOrdenadas { get; set; }
-        public DbSet<ResultadoCandidatura> ResultadosCandidaturas { get; set; }
-        public DbSet<Simpatizante> Simpatizantes { get; set; }
-        public DbSet<Genero> Generos { get; set; }
-        public DbSet<Operador> Operadores { get; set; }
-        public DbSet<Candidato> Candidatos { get; set; }
-        public DbSet<Municipio> Municipios { get; set; }
-        public DbSet<Estado> Estados { get; set; }
-        public DbSet<ProgramaSocial> ProgramasSociales { get; set; }
-        public DbSet<Seccion> Secciones { get; set; }
-        public DbSet<Incidencia> Incidencias { get; set; }
-        public DbSet<TipoIncidencia> TiposIncidencias { get; set; }
-        public DbSet<Rol> Rols { get; set; }
-        public DbSet<Casilla> Casillas { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Visita> Visitas { get; set; }
-        public DbSet<Claim> Claims { get; set; }
-        public DbSet<Cargo> Cargos { get; set; }
-        public DbSet<Voto> Votos { get; set; }
-        public DbSet<Promotor> Promotores { get; set; }
-        public DbSet<OperadorSeccion> OperadoresSecciones { get; set; }
-        public DbSet<PromotorOperador> PromotoresOperadores { get; set; }
+        public DbSet <ActiveToken> activetokens { get; set; }
+        public DbSet<ResultadoPreEliminar> resultadospreeliminares { get; set; }
+        public DbSet<PropagandaElectoral> propagandaselectorales { get; set; } 
+        public DbSet<Comunidad> comunidades { get; set; } 
+        public DbSet<Distrito> distritos { get; set; }
+        public DbSet<ActaEscrutinio> actasescrutinios { get; set; }
+        public DbSet<Candidatura> candidaturas { get; set; }
+        public DbSet<TipoEleccion> tiposelecciones { get; set; }
+        public DbSet<TipoAgrupacionPolitica> tiposagrupacionespoliticas { get; set; }
+        public DbSet<Combinacion> combinaciones { get; set; }
+        public DbSet<DistribucionCandidatura> distribucionescandidaturas { get; set; }
+        public DbSet<DistribucionOrdenada> distribucionesordenadas { get; set; }
+        public DbSet<ResultadoCandidatura> resultadoscandidaturas { get; set; }
+        public DbSet<Simpatizante> simpatizantes { get; set; }
+        public DbSet<Genero> generos { get; set; } 
+        public DbSet<Operador> operadores { get; set; }
+        public DbSet<Candidato> candidatos { get; set; }
+        public DbSet<Municipio> municipios { get; set; }
+        public DbSet<Estado> estados { get; set; }
+        public DbSet<ProgramaSocial> programassociales { get; set; }
+        public DbSet<Seccion> secciones { get; set; }
+        public DbSet<Incidencia> incidencias { get; set; }
+        public DbSet<TipoIncidencia> tiposincidencias { get; set; }
+        public DbSet<Rol> rols { get; set; }
+        public DbSet<Casilla> casillas { get; set; }
+        public DbSet<Usuario> usuarios { get; set; }
+        public DbSet<Visita> visitas { get; set; }
+        public DbSet<Claim> claims { get; set; }
+        public DbSet<Cargo> cargos { get; set; }
+        public DbSet<Voto> votos { get; set; }
+        public DbSet<Promotor> promotores { get; set; }
+        public DbSet<OperadorSeccion> operadoressecciones { get; set; }
+        public DbSet<PromotorOperador> promotoresoperadores { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Operador>()

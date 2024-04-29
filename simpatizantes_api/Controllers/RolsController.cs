@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<RolDTO>>> GetAll()
         {
-            var rols = await context.Rols.ToListAsync();
+            var rols = await context.rols.ToListAsync();
 
             if (!rols.Any())
             {

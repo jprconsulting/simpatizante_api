@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<ResultadoPreEliminarDTO>> GetById(int id)
         {
-            var resultadoPreEliminar = await context.ResultadosPreEliminares
+            var resultadoPreEliminar = await context.resultadospreeliminares
                 .Include(u => u.TipoEleccion)
                 .Include(u => u.Estado)
                 .Include(u => u.Distrito)
@@ -50,7 +50,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<ResultadoPreEliminarDTO>>> GetAll()
         {
-            var resultadoPreEliminar = await context.ResultadosPreEliminares
+            var resultadoPreEliminar = await context.resultadospreeliminares
                 .Include(u => u.TipoEleccion)
                 .Include(u => u.Estado)
                 .Include(u => u.Distrito)
@@ -79,9 +79,9 @@ namespace simpatizantes_api.Controllers
                 }
 
                 var resultadoPreEliminar = mapper.Map<ResultadoPreEliminar>(dto);
-                resultadoPreEliminar.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
-                resultadoPreEliminar.Seccion = await context.Secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
-                resultadoPreEliminar.Casilla = await context.Casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
+                resultadoPreEliminar.TipoEleccion = await context.tiposelecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
+                resultadoPreEliminar.Seccion = await context.secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
+                resultadoPreEliminar.Casilla = await context.casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
                 resultadoPreEliminar.DistritoId = null;
                 resultadoPreEliminar.MunicipioId = null;
                 resultadoPreEliminar.ComunidadId = null;
@@ -91,75 +91,75 @@ namespace simpatizantes_api.Controllers
                 resultadoPreEliminar.Estado = null;
                 resultadoPreEliminar.EstadoId = null;
                 // Si es  Gubernatura
-                if (dto.TipoEleccion.Id == 1)
+                if (dto.TipoEleccion.Id == 7)
                 {
-                    var existeEstado = await context.ResultadosPreEliminares
+                    var existeEstado = await context.resultadospreeliminares
                                                 .AnyAsync(c => c.TipoEleccion.Id == dto.TipoEleccion.Id);
                     if (existeEstado)
                     {
                         return Conflict();
                     }
-                    resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                    resultadoPreEliminar.Estado = await context.estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
                 }
 
                 // Si es  Diputacion Local
-                if (dto.TipoEleccion.Id == 2)
+                if (dto.TipoEleccion.Id == 8)
                 {
-                    var existeEstado = await context.ResultadosPreEliminares
+                    var existeEstado = await context.resultadospreeliminares
                                                 .AnyAsync(c => c.TipoEleccion.Id == dto.TipoEleccion.Id);
                     if (existeEstado)
                     {
                         return Conflict();
                     }
-                    resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                    resultadoPreEliminar.Estado = await context.estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
                 }
 
                 // Si es  Ayuntamientos
-                if (dto.TipoEleccion.Id == 3)
+                if (dto.TipoEleccion.Id == 9)
                 {
-                    var existeEstado = await context.ResultadosPreEliminares
+                    var existeEstado = await context.resultadospreeliminares
                                                 .AnyAsync(c => c.TipoEleccion.Id == dto.TipoEleccion.Id);
                     if (existeEstado)
                     {
                         return Conflict();
                     }
-                    resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                    resultadoPreEliminar.Estado = await context.estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
                 }
 
                 // Si es Comunidad
-                if (dto.TipoEleccion.Id == 4)
+                if (dto.TipoEleccion.Id == 10)
                 {
-                    var existe = await context.ResultadosPreEliminares
+                    var existe = await context.resultadospreeliminares
                                                 .AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
                     if (existe)
                     {
                         return Conflict();
                     }
-                    resultadoPreEliminar.Distrito = await context.Distritos.SingleOrDefaultAsync(c => c.Id == dto.Distrito.Id);
+                    resultadoPreEliminar.Distrito = await context.distritos.SingleOrDefaultAsync(c => c.Id == dto.Distrito.Id);
 
                     resultadoPreEliminar.Partidos = string.Join(",", dto.Partidos.Select(p => p.ToString()));
                 }
-                if (dto.TipoEleccion.Id == 5)
+                if (dto.TipoEleccion.Id == 11)
                 {
-                    var existe = await context.ResultadosPreEliminares
+                    var existe = await context.resultadospreeliminares
                                                 .AnyAsync(c => c.Municipio.Id == dto.Municipio.Id);
                     if (existe)
                     {
                         return Conflict();
                     }
-                    resultadoPreEliminar.Municipio = await context.Municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
+                    resultadoPreEliminar.Municipio = await context.municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
                 }
 
                 // Si es Comunidad
-                if (dto.TipoEleccion.Id == 6)
+                if (dto.TipoEleccion.Id == 12)
                 {
-                    var existe = await context.ResultadosPreEliminares
+                    var existe = await context.resultadospreeliminares
                                                 .AnyAsync(c => c.Comunidad.Id == dto.Comunidad.Id);
                     if (existe)
                     {
                         return Conflict();
                     }
-                    resultadoPreEliminar.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
+                    resultadoPreEliminar.Comunidad = await context.comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
 
                 }
 
@@ -184,14 +184,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var resultadoPreEliminar = await context.ResultadosPreEliminares.FindAsync(id);
+            var resultadoPreEliminar = await context.resultadospreeliminares.FindAsync(id);
 
             if (resultadoPreEliminar == null)
             {
                 return NotFound();
             }
 
-            context.ResultadosPreEliminares.Remove(resultadoPreEliminar);
+            context.resultadospreeliminares.Remove(resultadoPreEliminar);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -205,7 +205,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var resultadoPreEliminar = await context.ResultadosPreEliminares.FindAsync(id);
+            var resultadoPreEliminar = await context.resultadospreeliminares.FindAsync(id);
 
             var currentDistritoId = resultadoPreEliminar?.DistritoId;
             var currentMunicipioId = resultadoPreEliminar?.MunicipioId;
@@ -218,9 +218,9 @@ namespace simpatizantes_api.Controllers
 
             // Mapea los datos del DTO al usuario existente
             mapper.Map(dto, resultadoPreEliminar);
-            resultadoPreEliminar.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
-            resultadoPreEliminar.Seccion = await context.Secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
-            resultadoPreEliminar.Casilla = await context.Casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
+            resultadoPreEliminar.TipoEleccion = await context.tiposelecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
+            resultadoPreEliminar.Seccion = await context.secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
+            resultadoPreEliminar.Casilla = await context.casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
 
             resultadoPreEliminar.Estado = null;
             resultadoPreEliminar.EstadoId = null;
@@ -236,14 +236,14 @@ namespace simpatizantes_api.Controllers
             {
                 if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
 
-                resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                resultadoPreEliminar.Estado = await context.estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
                 resultadoPreEliminar.EstadoId = resultadoPreEliminar.Estado.Id;
             }
 
@@ -252,13 +252,13 @@ namespace simpatizantes_api.Controllers
             {
                 if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
-                resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                resultadoPreEliminar.Estado = await context.estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
                 resultadoPreEliminar.EstadoId = resultadoPreEliminar.Estado.Id;
             }
 
@@ -266,13 +266,13 @@ namespace simpatizantes_api.Controllers
             {
                 if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
-                resultadoPreEliminar.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                resultadoPreEliminar.Estado = await context.estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
                 resultadoPreEliminar.EstadoId = resultadoPreEliminar.Estado.Id;
             }
 
@@ -281,13 +281,13 @@ namespace simpatizantes_api.Controllers
             {
                 if (currentDistritoId != null && currentDistritoId != dto.Distrito.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
-                resultadoPreEliminar.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
+                resultadoPreEliminar.Distrito = await context.distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
                 resultadoPreEliminar.DistritoId = resultadoPreEliminar.Distrito.Id;
             }
 
@@ -295,13 +295,13 @@ namespace simpatizantes_api.Controllers
             {
                 if (currentMunicipioId != null && currentMunicipioId != dto.Municipio.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Municipio.Id == dto.Municipio.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Municipio.Id == dto.Municipio.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
-                resultadoPreEliminar.Municipio = await context.Municipios.SingleOrDefaultAsync(o => o.Id == dto.Municipio.Id);
+                resultadoPreEliminar.Municipio = await context.municipios.SingleOrDefaultAsync(o => o.Id == dto.Municipio.Id);
                 resultadoPreEliminar.MunicipioId = resultadoPreEliminar.Municipio.Id;
             }
 
@@ -311,14 +311,14 @@ namespace simpatizantes_api.Controllers
             {
                 if (currentComunidadId != null && currentComunidadId != dto.Comunidad.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Comunidad.Id == dto.Comunidad.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Comunidad.Id == dto.Comunidad.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
 
-                resultadoPreEliminar.Comunidad = await context.Comunidades.SingleOrDefaultAsync(o => o.Id == dto.Comunidad.Id);
+                resultadoPreEliminar.Comunidad = await context.comunidades.SingleOrDefaultAsync(o => o.Id == dto.Comunidad.Id);
                 resultadoPreEliminar.ComunidadId = resultadoPreEliminar.Comunidad.Id;
             }
 
@@ -357,7 +357,7 @@ namespace simpatizantes_api.Controllers
 
         private bool ResultadoPreEliminarExists(int id)
         {
-            return context.ResultadosPreEliminares.Any(e => e.Id == id);
+            return context.resultadospreeliminares.Any(e => e.Id == id);
         }
 
     }

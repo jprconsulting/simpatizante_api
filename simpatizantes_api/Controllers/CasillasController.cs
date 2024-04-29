@@ -27,7 +27,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<CasillaDTO>> GetById(int id)
         {
-            var casilla = await context.Casillas
+            var casilla = await context.casillas
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (casilla == null)
@@ -42,7 +42,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<CasillaDTO>>> GetAll()
         {
-            var casilla = await context.Casillas
+            var casilla = await context.casillas
                 .OrderBy(u => u.Id)
                 .ToListAsync();
 
@@ -64,7 +64,7 @@ namespace simpatizantes_api.Controllers
             }
 
             // Verificación de la existencia del usuario
-            var existeCasilla = await context.Casillas.AnyAsync(u => u.Nombre == dto.Nombre);
+            var existeCasilla = await context.casillas.AnyAsync(u => u.Nombre == dto.Nombre);
 
             if (existeCasilla)
             {
@@ -96,14 +96,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var casilla = await context.Casillas.FindAsync(id);
+            var casilla = await context.casillas.FindAsync(id);
 
             if (casilla == null)
             {
                 return NotFound();
             }
 
-            context.Casillas.Remove(casilla);
+            context.casillas.Remove(casilla);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -117,7 +117,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var casilla = await context.Casillas.FindAsync(id);
+            var casilla = await context.casillas.FindAsync(id);
 
             if (casilla == null)
             {
@@ -150,7 +150,7 @@ namespace simpatizantes_api.Controllers
 
         private bool CasillaExists(int id)
         {
-            return context.Casillas.Any(e => e.Id == id);
+            return context.casillas.Any(e => e.Id == id);
         }
 
     }

@@ -37,7 +37,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<IncidenciaDTO>> GetById(int id)
         {
-            var incidencia = await context.Incidencias
+            var incidencia = await context.incidencias
                 .Include(t => t.TipoIncidencia)
                 .Include(c => c.Casilla)
                 .Include(c => c.Candidato)
@@ -56,7 +56,7 @@ namespace simpatizantes_api.Controllers
         {
             try
             {
-                var incidencias = await context.Incidencias
+                var incidencias = await context.incidencias
                     .Include(t => t.TipoIncidencia)
                     .Include(c => c.Casilla)
                     .Include(c => c.Candidato)
@@ -79,7 +79,7 @@ namespace simpatizantes_api.Controllers
         public async Task<ActionResult<List<IncidenciaDTO>>> ObtenerIncidenciasPorTipoId(int tipoIncidenciaId)
 
         {
-            var incidencias = await context.Incidencias
+            var incidencias = await context.incidencias
                 .Include(t => t.TipoIncidencia)
                 .Include(c => c.Casilla)
                 .Include(c => c.Candidato)
@@ -101,18 +101,18 @@ namespace simpatizantes_api.Controllers
             {
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioIncidencias);
             }
-            var existeIncidencia = await context.Incidencias.AnyAsync(n => n.Retroalimentacion == dto.Retroalimentacion);
+            var existeIncidencia = await context.incidencias.AnyAsync(n => n.Retroalimentacion == dto.Retroalimentacion);
             if (existeIncidencia)
             {
                 return Conflict();
             }
 
             var incidencia = mapper.Map<Incidencia>(dto);
-            incidencia.TipoIncidencia = await context.TiposIncidencias.SingleOrDefaultAsync(b => b.Id == dto.TipoIncidencia.Id);
-            incidencia.Casilla = await context.Casillas.SingleOrDefaultAsync(o => o.Id == dto.Casilla.Id);
-            incidencia.Candidato = await context.Candidatos.SingleOrDefaultAsync(o => o.Id == dto.Candidato.Id);
+            incidencia.TipoIncidencia = await context.tiposincidencias.SingleOrDefaultAsync(b => b.Id == dto.TipoIncidencia.Id);
+            incidencia.Casilla = await context.casillas.SingleOrDefaultAsync(o => o.Id == dto.Casilla.Id);
+            incidencia.Candidato = await context.candidatos.SingleOrDefaultAsync(o => o.Id == dto.Candidato.Id);
 
-            context.Incidencias.Add(incidencia);
+            context.incidencias.Add(incidencia);
             await context.SaveChangesAsync();
 
             return Ok();
@@ -126,7 +126,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var incidencia = await context.Incidencias.FindAsync(id);
+            var incidencia = await context.incidencias.FindAsync(id);
 
             if (incidencia == null)
             {
@@ -143,9 +143,9 @@ namespace simpatizantes_api.Controllers
             }
 
             mapper.Map(dto, incidencia);
-            incidencia.TipoIncidencia = await context.TiposIncidencias.SingleOrDefaultAsync(b => b.Id == dto.TipoIncidencia.Id);
-            incidencia.Casilla = await context.Casillas.SingleOrDefaultAsync(o => o.Id == dto.Casilla.Id);
-            incidencia.Candidato = await context.Candidatos.SingleOrDefaultAsync(o => o.Id == dto.Candidato.Id);
+            incidencia.TipoIncidencia = await context.tiposincidencias.SingleOrDefaultAsync(b => b.Id == dto.TipoIncidencia.Id);
+            incidencia.Casilla = await context.casillas.SingleOrDefaultAsync(o => o.Id == dto.Casilla.Id);
+            incidencia.Candidato = await context.candidatos.SingleOrDefaultAsync(o => o.Id == dto.Candidato.Id);
 
             context.Update(incidencia);
 
@@ -155,7 +155,7 @@ namespace simpatizantes_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!context.Incidencias.Any(e => e.Id == id))
+                if (!context.incidencias.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }
@@ -171,14 +171,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var incidencia = await context.Incidencias.FindAsync(id);
+            var incidencia = await context.incidencias.FindAsync(id);
 
             if (incidencia == null)
             {
                 return NotFound();
             }
 
-            context.Incidencias.Remove(incidencia);
+            context.incidencias.Remove(incidencia);
             await context.SaveChangesAsync();
             return NoContent();
         }

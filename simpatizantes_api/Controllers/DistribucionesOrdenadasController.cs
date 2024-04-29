@@ -34,7 +34,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<DistribucionOrdenadaDTO>> GetById(int id)
         {
-            var distribucionOrdenada = await context.DistribucionesOrdenadas
+            var distribucionOrdenada = await context.distribucionesordenadas
                 .Include(u => u.DistribucionCandidatura)
                 .Include(u => u.TipoAgrupacionPolitica)
                 .Include(u => u.Candidatura)
@@ -54,7 +54,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<DistribucionOrdenadaDTO>>> GetAll()
         {
-            var distribucionOrdenada = await context.DistribucionesOrdenadas
+            var distribucionOrdenada = await context.distribucionesordenadas
                 .Include(u => u.DistribucionCandidatura)
                 .Include(u => u.TipoAgrupacionPolitica)
                 .Include(u => u.Candidatura)
@@ -85,10 +85,10 @@ namespace simpatizantes_api.Controllers
                 }
 
                 var distribucionOrdenada = mapper.Map<DistribucionOrdenada>(dto);
-                distribucionOrdenada.DistribucionCandidatura = await context.DistribucionesCandidaturas.SingleOrDefaultAsync(r => r.Id == dto.DistribucionCandidatura.Id);
-                distribucionOrdenada.TipoAgrupacionPolitica = await context.TiposAgrupacionesPoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
-                distribucionOrdenada.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
-                distribucionOrdenada.Combinacion = await context.Combinaciones.SingleOrDefaultAsync(r => r.Id == dto.Combinacion.Id);
+                distribucionOrdenada.DistribucionCandidatura = await context.distribucionescandidaturas.SingleOrDefaultAsync(r => r.Id == dto.DistribucionCandidatura.Id);
+                distribucionOrdenada.TipoAgrupacionPolitica = await context.tiposagrupacionespoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
+                distribucionOrdenada.Candidatura = await context.candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
+                distribucionOrdenada.Combinacion = await context.combinaciones.SingleOrDefaultAsync(r => r.Id == dto.Combinacion.Id);
 
                 context.Add(distribucionOrdenada);
                 await context.SaveChangesAsync();
@@ -103,14 +103,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var distribucionOrdenada = await context.DistribucionesOrdenadas.FindAsync(id);
+            var distribucionOrdenada = await context.distribucionesordenadas.FindAsync(id);
 
             if (distribucionOrdenada == null)
             {
                 return NotFound();
             }
 
-            context.DistribucionesOrdenadas.Remove(distribucionOrdenada);
+            context.distribucionesordenadas.Remove(distribucionOrdenada);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -124,7 +124,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var distribucionOrdenada = await context.DistribucionesOrdenadas.FindAsync(id);
+            var distribucionOrdenada = await context.distribucionesordenadas.FindAsync(id);
 
             if (distribucionOrdenada == null)
             {
@@ -137,10 +137,10 @@ namespace simpatizantes_api.Controllers
             }
 
             mapper.Map(dto, distribucionOrdenada);
-            distribucionOrdenada.DistribucionCandidatura = await context.DistribucionesCandidaturas.SingleOrDefaultAsync(r => r.Id == dto.DistribucionCandidatura.Id);
-            distribucionOrdenada.TipoAgrupacionPolitica = await context.TiposAgrupacionesPoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
-            distribucionOrdenada.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
-            distribucionOrdenada.Combinacion = await context.Combinaciones.SingleOrDefaultAsync(r => r.Id == dto.Combinacion.Id);
+            distribucionOrdenada.DistribucionCandidatura = await context.distribucionescandidaturas.SingleOrDefaultAsync(r => r.Id == dto.DistribucionCandidatura.Id);
+            distribucionOrdenada.TipoAgrupacionPolitica = await context.tiposagrupacionespoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
+            distribucionOrdenada.Candidatura = await context.candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
+            distribucionOrdenada.Combinacion = await context.combinaciones.SingleOrDefaultAsync(r => r.Id == dto.Combinacion.Id);
             context.Update(distribucionOrdenada);
 
             try
@@ -164,7 +164,7 @@ namespace simpatizantes_api.Controllers
 
         private bool CombinacionesExists(int id)
         {
-            return context.DistribucionesOrdenadas.Any(e => e.Id == id);
+            return context.distribucionesordenadas.Any(e => e.Id == id);
         }
 
     }

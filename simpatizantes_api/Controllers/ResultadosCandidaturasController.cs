@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<ResultadoCandidaturaDTO>> GetById(int id)
         {
-            var resultadoCandidatura = await context.ResultadosCandidaturas
+            var resultadoCandidatura = await context.resultadoscandidaturas
                 .Include(u => u.ActaEscrutinio)
                 .Include(u => u.DistribucionCandidatura)
                 .Include(u => u.Candidatura)
@@ -47,7 +47,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<ResultadoCandidaturaDTO>>> GetAll()
         {
-            var resultadoCandidatura = await context.ResultadosCandidaturas
+            var resultadoCandidatura = await context.resultadoscandidaturas
                 .Include(u => u.ActaEscrutinio)
                 .Include(u => u.DistribucionCandidatura)
                 .Include(u => u.Candidatura)
@@ -74,10 +74,10 @@ namespace simpatizantes_api.Controllers
                 }
 
                 var resultadoCandidatura = mapper.Map<ResultadoCandidatura>(dto);
-                resultadoCandidatura.ActaEscrutinio = await context.ActasEscrutinios.SingleOrDefaultAsync(r => r.Id == dto.ActaEscrutinio.Id);
-                resultadoCandidatura.DistribucionCandidatura = await context.DistribucionesCandidaturas.SingleOrDefaultAsync(r => r.Id == dto.DistribucionCandidatura.Id);
-                resultadoCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
-                resultadoCandidatura.Combinacion = await context.Combinaciones.SingleOrDefaultAsync(r => r.Id == dto.Combinacion.Id);
+                resultadoCandidatura.ActaEscrutinio = await context.actasescrutinios.SingleOrDefaultAsync(r => r.Id == dto.ActaEscrutinio.Id);
+                resultadoCandidatura.DistribucionCandidatura = await context.distribucionescandidaturas.SingleOrDefaultAsync(r => r.Id == dto.DistribucionCandidatura.Id);
+                resultadoCandidatura.Candidatura = await context.candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
+                resultadoCandidatura.Combinacion = await context.combinaciones.SingleOrDefaultAsync(r => r.Id == dto.Combinacion.Id);
 
                 context.Add(resultadoCandidatura);
                 await context.SaveChangesAsync();
@@ -92,14 +92,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var resultadoCandidatura = await context.ResultadosCandidaturas.FindAsync(id);
+            var resultadoCandidatura = await context.resultadoscandidaturas.FindAsync(id);
 
             if (resultadoCandidatura == null)
             {
                 return NotFound();
             }
 
-            context.ResultadosCandidaturas.Remove(resultadoCandidatura);
+            context.resultadoscandidaturas.Remove(resultadoCandidatura);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -113,7 +113,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var resultadoCandidatura = await context.ResultadosCandidaturas.FindAsync(id);
+            var resultadoCandidatura = await context.resultadoscandidaturas.FindAsync(id);
 
             if (resultadoCandidatura == null)
             {
@@ -121,10 +121,10 @@ namespace simpatizantes_api.Controllers
             }
 
             mapper.Map(dto, resultadoCandidatura);
-            resultadoCandidatura.ActaEscrutinio = await context.ActasEscrutinios.SingleOrDefaultAsync(r => r.Id == dto.ActaEscrutinio.Id);
-            resultadoCandidatura.DistribucionCandidatura = await context.DistribucionesCandidaturas.SingleOrDefaultAsync(r => r.Id == dto.DistribucionCandidatura.Id);
-            resultadoCandidatura.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
-            resultadoCandidatura.Combinacion = await context.Combinaciones.SingleOrDefaultAsync(r => r.Id == dto.Combinacion.Id);
+            resultadoCandidatura.ActaEscrutinio = await context.actasescrutinios.SingleOrDefaultAsync(r => r.Id == dto.ActaEscrutinio.Id);
+            resultadoCandidatura.DistribucionCandidatura = await context.distribucionescandidaturas.SingleOrDefaultAsync(r => r.Id == dto.DistribucionCandidatura.Id);
+            resultadoCandidatura.Candidatura = await context.candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
+            resultadoCandidatura.Combinacion = await context.combinaciones.SingleOrDefaultAsync(r => r.Id == dto.Combinacion.Id);
             context.Update(resultadoCandidatura);
 
             try
@@ -148,7 +148,7 @@ namespace simpatizantes_api.Controllers
 
         private bool ResultadosExists(int id)
         {
-            return context.ResultadosCandidaturas.Any(e => e.Id == id);
+            return context.resultadoscandidaturas.Any(e => e.Id == id);
         }
 
     }

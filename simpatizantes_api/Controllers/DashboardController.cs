@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-nube-palabras")]
         public async Task<ActionResult> WordCloud()
         {
-            var comments = await context.Visitas.Select(v => v.Servicio).ToListAsync();
+            var comments = await context.visitas.Select(v => v.Servicio).ToListAsync();
             var wordCount = CountWords(comments);
 
             var generalWordCloud = new GeneralWordCloudDTO
@@ -39,11 +39,11 @@ namespace simpatizantes_api.Controllers
                 GeneralWordCloud = CreateModel(wordCount)
             };
 
-            var secciones = await context.Candidatos.ToListAsync(); 
+            var secciones = await context.candidatos.ToListAsync(); 
 
             foreach (var seccion in secciones)
             {
-                var visitasPorseccion = await context.Visitas
+                var visitasPorseccion = await context.visitas
                     .Include(v => v.Simpatizante)
                     .ThenInclude(b => b.Operador) 
                     .Where(v => v.Simpatizante.Operador.CandidatoId == seccion.Id) 
@@ -61,11 +61,11 @@ namespace simpatizantes_api.Controllers
                 };
                 generalWordCloud.WordCloudPorCandidatos.Add(seccionWordCloud);
             }
-            var municipios = await context.Secciones.ToListAsync();
+            var municipios = await context.secciones.ToListAsync();
 
             foreach (var municipio in municipios)
             {
-                var visitasPorseccion = await context.Visitas
+                var visitasPorseccion = await context.visitas
                     .Include(v => v.Simpatizante)
                     .ThenInclude(b => b.Municipio)
                     .Where(v => v.Simpatizante.Seccion.Id == municipio.Id)
@@ -119,7 +119,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("total-Simpatizantes-por-programa-social")]
         public async Task<ActionResult<List<SimpatizantesEstadisticaDTO>>> TotalSimpatizantesPorProgramaSocial()
         {
-            var Simpatizantes = await context.Simpatizantes.ToListAsync();
+            var Simpatizantes = await context.simpatizantes.ToListAsync();
             var totalSimpatizantes = Simpatizantes.Count;
 
             if (totalSimpatizantes == 0)
@@ -127,7 +127,7 @@ namespace simpatizantes_api.Controllers
                 return Ok(new List<SimpatizantesEstadisticaDTO>());
             }
 
-            var programasSociales = await context.ProgramasSociales
+            var programasSociales = await context.programassociales
                 .Include(p => p.Simpatizantes).ToListAsync();
 
             var estadisticas = programasSociales
@@ -145,7 +145,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("total-Simpatizantes-por-edad")]
         public async Task<ActionResult<List<SimpatizanteEstatdisticasEdades>>> TotalSimpatizantesPorEdad()
         {
-            var simpatizantes = await context.Simpatizantes.ToListAsync();
+            var simpatizantes = await context.simpatizantes.ToListAsync();
             var totalSimpatizantes = simpatizantes.Count;
 
             if (totalSimpatizantes == 0)
@@ -225,7 +225,7 @@ namespace simpatizantes_api.Controllers
 [HttpGet("total-Simpatizantes-por-genero")]
 public async Task<ActionResult<List<SimpatizantesEstadisticaGeneroDTO>>> TotalSimpatizantesPorGenero()
 {
-    var simpatizantes = await context.Simpatizantes.Include(s => s.Genero).ToListAsync();
+    var simpatizantes = await context.simpatizantes.Include(s => s.Genero).ToListAsync();
     var totalSimpatizantes = simpatizantes.Count;
 
     if (totalSimpatizantes == 0)
@@ -233,7 +233,7 @@ public async Task<ActionResult<List<SimpatizantesEstadisticaGeneroDTO>>> TotalSi
         return Ok(new List<SimpatizantesEstadisticaGeneroDTO>());
     }
 
-    var generos = await context.Generos.ToListAsync();
+    var generos = await context.generos.ToListAsync();
 
     var estadisticas = generos
         .Select(genero => new SimpatizantesEstadisticaGeneroDTO
@@ -252,9 +252,9 @@ private string ObtenerNombreGenero(int idGenero)
 {
     var genderNames = new Dictionary<int, string>
     {
-        { 1, "Masculino" },
-        { 2, "Femenino" },
-        { 3, "No binario" },
+        { 4, "Masculino" },
+        { 5, "Femenino" },
+        { 6, "No binario" },
     };
 
     return genderNames.TryGetValue(idGenero, out var name) ? name : "Desconocido";
@@ -266,11 +266,11 @@ private string ObtenerNombreGenero(int idGenero)
         {
             var totales = new TotalGeneralDTO()
             {
-                TotalSimpatizantes = (await context.Simpatizantes.ToListAsync()).Count,
-                TotalOperadores = (await context.Operadores.ToListAsync()).Count,
-                TotalCandidatos = (await context.Candidatos.ToListAsync()).Count,
-                TotalUsuarios = (await context.Usuarios.ToListAsync()).Count,
-                TotalVisitas = (await context.Visitas.ToListAsync()).Count,
+                TotalSimpatizantes = (await context.simpatizantes.ToListAsync()).Count,
+                TotalOperadores = (await context.operadores.ToListAsync()).Count,
+                TotalCandidatos = (await context.candidatos.ToListAsync()).Count,
+                TotalUsuarios = (await context.usuarios.ToListAsync()).Count,
+                TotalVisitas = (await context.visitas.ToListAsync()).Count,
             };
 
             return Ok(totales);
@@ -278,7 +278,7 @@ private string ObtenerNombreGenero(int idGenero)
         [HttpGet("total-incidencias-jornada-electoral-por-Incidencia")]
         public async Task<ActionResult<List<IncidenciasJornadaEstadisticaDTO>>> TotalIncidenciasjornadaelectoralPortipoIncidencia()
         {
-            var tipoincidencias = await context.TiposIncidencias.ToListAsync();
+            var tipoincidencias = await context.tiposincidencias.ToListAsync();
             
             var totalIncidencias = tipoincidencias.Count; 
 
@@ -286,7 +286,7 @@ private string ObtenerNombreGenero(int idGenero)
             {
                 return Ok(new List<IncidenciasJornadaEstadisticaDTO>());
             }
-            var Incidencias = await context.Incidencias
+            var Incidencias = await context.incidencias
                 .Include(p => p.TipoIncidencia).ToListAsync();
 
             var estadisticas = Incidencias

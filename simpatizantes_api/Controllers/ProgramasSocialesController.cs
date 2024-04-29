@@ -32,7 +32,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<ProgramaSocialDTO>>> GetAll()
         {
-            var ProgramasSociales = await context.ProgramasSociales.ToListAsync();
+            var ProgramasSociales = await context.programassociales.ToListAsync();
 
             if (!ProgramasSociales.Any())
             {
@@ -50,7 +50,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existePrograma = await context.ProgramasSociales.AnyAsync(n => n.Nombre == dto.Nombre);
+            var existePrograma = await context.programassociales.AnyAsync(n => n.Nombre == dto.Nombre);
 
             if (existePrograma)
             {
@@ -75,21 +75,21 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var programa = await context.ProgramasSociales.FindAsync(id);
+            var programa = await context.programassociales.FindAsync(id);
 
             if (programa == null)
             {
                 return NotFound();
             }
 
-            var tieneDependencias = await context.Simpatizantes.AnyAsync(s => s.ProgramaSocial.Id == id);
+            var tieneDependencias = await context.simpatizantes.AnyAsync(s => s.ProgramaSocial.Id == id);
 
             if (tieneDependencias)
             {
                 return StatusCode(502, new { error = "No se puede eliminar el programa social debido a dependencias existentes." });
             }
 
-            context.ProgramasSociales.Remove(programa);
+            context.programassociales.Remove(programa);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -103,7 +103,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var programa = await context.ProgramasSociales.FindAsync(id);
+            var programa = await context.programassociales.FindAsync(id);
 
             if (programa == null)
             {
@@ -135,7 +135,7 @@ namespace simpatizantes_api.Controllers
 
         private bool ProgramaExists(int id)
         {
-            return context.ProgramasSociales.Any(e => e.Id == id);
+            return context.programassociales.Any(e => e.Id == id);
         }
     }
 }

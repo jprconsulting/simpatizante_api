@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         public async Task<ActionResult<List<ComunidadDTO>>> GetAll()
         {
             string userName = User.FindFirst("NombreCompleto")?.Value;
-            var estados = await context.Comunidades
+            var estados = await context.comunidades
                 .Include(u => u.Municipio)
                 .ToListAsync();
 
@@ -42,7 +42,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("por-municipio/{municipioId}")]
         public async Task<ActionResult<List<ComunidadDTO>>> GetByMunicipio(int municipioId)
         {
-            var secciones = await context.Comunidades
+            var secciones = await context.comunidades
                 .Include(u => u.Municipio)
                 .Where(s => s.Municipio.Id == municipioId)
                 .ToListAsync();

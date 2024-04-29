@@ -9,10 +9,8 @@ using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
-    [Authorize]
     [Route("api/genero")]
     [ApiController]
-    [TokenValidationFilter]
 
     public class GeneroController : ControllerBase
     {
@@ -28,7 +26,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<GeneroDTO>>> GetAll()
         {
-            var rols = await context.Generos.ToListAsync();
+            var rols = await context.generos.ToListAsync();
 
             if (!rols.Any())
             {

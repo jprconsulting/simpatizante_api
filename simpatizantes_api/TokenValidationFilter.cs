@@ -18,7 +18,7 @@ namespace simpatizantes_api.Filters
             var token = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             // Buscar el token en la base de datos y verificar si está activo
-            var activeToken = await dbContext.ActiveTokens.FirstOrDefaultAsync(t => t.TokenId == token && t.IsActive);
+            var activeToken = await dbContext.activetokens.FirstOrDefaultAsync(t => t.TokenId == token && t.IsActive);
 
             if (activeToken == null)
             {

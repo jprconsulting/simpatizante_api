@@ -32,7 +32,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<CargoDTO>>> GetAll()
         {
-            var cargos = await context.Cargos.ToListAsync();
+            var cargos = await context.cargos.ToListAsync();
 
             if (!cargos.Any())
             {

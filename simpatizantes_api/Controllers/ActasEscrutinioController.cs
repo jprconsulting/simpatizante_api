@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<ActaEscrutinioDTO>> GetById(int id)
         {
-            var actaEscrutinio = await context.ActasEscrutinios
+            var actaEscrutinio = await context.actasescrutinios
                 .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
                 .Include(u => u.Seccion)
@@ -48,7 +48,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<ActaEscrutinioDTO>>> GetAll()
         {
-            var actaEscrutinio = await context.ActasEscrutinios
+            var actaEscrutinio = await context.actasescrutinios
                 .Include(u => u.Distrito)
                 .Include(u => u.Municipio)
                 .Include(u => u.Seccion)
@@ -76,11 +76,11 @@ namespace simpatizantes_api.Controllers
                 }
 
                 var actaEscrutinio = mapper.Map<ActaEscrutinio>(dto);
-                actaEscrutinio.Distrito = await context.Distritos.SingleOrDefaultAsync(r => r.Id == dto.Distrito.Id);
-                actaEscrutinio.Municipio = await context.Municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
-                actaEscrutinio.Seccion = await context.Secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
-                actaEscrutinio.Casilla = await context.Casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
-                actaEscrutinio.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
+                actaEscrutinio.Distrito = await context.distritos.SingleOrDefaultAsync(r => r.Id == dto.Distrito.Id);
+                actaEscrutinio.Municipio = await context.municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
+                actaEscrutinio.Seccion = await context.secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
+                actaEscrutinio.Casilla = await context.casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
+                actaEscrutinio.TipoEleccion = await context.tiposelecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
 
                 context.Add(actaEscrutinio);
                 await context.SaveChangesAsync();
@@ -95,14 +95,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var actaEscrutinio = await context.ActasEscrutinios.FindAsync(id);
+            var actaEscrutinio = await context.actasescrutinios.FindAsync(id);
 
             if (actaEscrutinio == null)
             {
                 return NotFound();
             }
 
-            context.ActasEscrutinios.Remove(actaEscrutinio);
+            context.actasescrutinios.Remove(actaEscrutinio);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -116,7 +116,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var actaEscrutinio = await context.ActasEscrutinios.FindAsync(id);
+            var actaEscrutinio = await context.actasescrutinios.FindAsync(id);
             
             if (actaEscrutinio == null)
             {
@@ -125,11 +125,11 @@ namespace simpatizantes_api.Controllers
 
             // Mapea los datos del DTO al usuario existente
             mapper.Map(dto, actaEscrutinio);
-            actaEscrutinio.Distrito = await context.Distritos.SingleOrDefaultAsync(r => r.Id == dto.Distrito.Id);
-            actaEscrutinio.Municipio = await context.Municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
-            actaEscrutinio.Seccion = await context.Secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
-            actaEscrutinio.Casilla = await context.Casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
-            actaEscrutinio.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
+            actaEscrutinio.Distrito = await context.distritos.SingleOrDefaultAsync(r => r.Id == dto.Distrito.Id);
+            actaEscrutinio.Municipio = await context.municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
+            actaEscrutinio.Seccion = await context.secciones.SingleOrDefaultAsync(r => r.Id == dto.Seccion.Id);
+            actaEscrutinio.Casilla = await context.casillas.SingleOrDefaultAsync(r => r.Id == dto.Casilla.Id);
+            actaEscrutinio.TipoEleccion = await context.tiposelecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
 
             context.Update(actaEscrutinio);
 
@@ -154,7 +154,7 @@ namespace simpatizantes_api.Controllers
 
         private bool ActaExists(int id)
         {
-            return context.ActasEscrutinios.Any(e => e.Id == id);
+            return context.actasescrutinios.Any(e => e.Id == id);
         }
 
     }

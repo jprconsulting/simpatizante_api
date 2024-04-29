@@ -32,7 +32,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<SeccionDTO>>> GetAll()
         {
-            var secciones = await context.Secciones
+            var secciones = await context.secciones
             .Include(u => u.Municipio)
             .ToListAsync();
             if (!secciones.Any())
@@ -46,7 +46,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<SeccionDTO>> GetById(int id)
         {
-            var usuario = await context.Secciones
+            var usuario = await context.secciones
                 .Include(u => u.Municipio)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -61,7 +61,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("por-municipio/{municipioId}")]
         public async Task<ActionResult<List<SeccionDTO>>> GetByMunicipio(int municipioId)
         {
-            var secciones = await context.Secciones
+            var secciones = await context.secciones
                 .Include(u => u.Municipio)
                 .Where(s => s.Municipio.Id == municipioId)
                 .ToListAsync();

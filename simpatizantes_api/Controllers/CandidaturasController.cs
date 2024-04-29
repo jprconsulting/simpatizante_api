@@ -35,7 +35,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-logo-por-nombre")]
         public async Task<ActionResult<object>> GetLogoByNombre([FromQuery] string nombre)
         {
-            var candidatura = await context.Candidaturas.FirstOrDefaultAsync(c => c.Nombre == nombre);
+            var candidatura = await context.candidaturas.FirstOrDefaultAsync(c => c.Nombre == nombre);
 
             if (candidatura == null)
             {
@@ -48,7 +48,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<CandidaturaDTO>> GetById(int id)
         {
-            var candidatura = await context.Candidaturas
+            var candidatura = await context.candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)                
                 .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -63,7 +63,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-nombre/{nombre}")]
         public async Task<ActionResult<CandidaturaDTO>> GetByNombre(string nombre)
         {
-            var candidatura = await context.Candidaturas.FirstOrDefaultAsync(c => c.Nombre == nombre);
+            var candidatura = await context.candidaturas.FirstOrDefaultAsync(c => c.Nombre == nombre);
 
             if (candidatura == null)
             {
@@ -83,9 +83,9 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-tipo-agrupacion-partido")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoAgrupacion()
         {
-            var candidaturas = await context.Candidaturas
+            var candidaturas = await context.candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
-                .Where(c => c.TipoAgrupacionPolitica.Id == 1)
+                .Where(c => c.TipoAgrupacionPolitica.Id == 5)
                 .OrderBy(c => c.Orden)
                 .ToListAsync();
 
@@ -100,9 +100,9 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-tipo-comun")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoComun() 
         {
-            var candidaturas = await context.Candidaturas
+            var candidaturas = await context.candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
-                .Where(c => c.TipoAgrupacionPolitica.Id == 2)
+                .Where(c => c.TipoAgrupacionPolitica.Id == 6)
                 .OrderBy(c => c.Orden)
                 .ToListAsync();
 
@@ -117,9 +117,9 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-tipo-coalicion")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoCoalicion()
         {
-            var candidaturas = await context.Candidaturas
+            var candidaturas = await context.candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
-                .Where(c => c.TipoAgrupacionPolitica.Id == 3)
+                .Where(c => c.TipoAgrupacionPolitica.Id == 7)
                 .OrderBy(c => c.Orden)
                 .ToListAsync();
 
@@ -134,9 +134,9 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-tipo-independiente")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetByTipoIndependiente()
         {
-            var candidaturas = await context.Candidaturas
+            var candidaturas = await context.candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
-                .Where(c => c.TipoAgrupacionPolitica.Id == 4)
+                .Where(c => c.TipoAgrupacionPolitica.Id == 8)
                 .OrderBy(c => c.Orden)
                 .ToListAsync();
 
@@ -151,7 +151,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<CandidaturaDTO>>> GetAll()
         {
-            var candidatura = await context.Candidaturas
+            var candidatura = await context.candidaturas
                 .Include(u => u.TipoAgrupacionPolitica)
                 .OrderBy(u => u.Orden)
                 .ToListAsync();
@@ -167,7 +167,7 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(CandidaturaDTO dto)
         {
-            var existeCandidatura = await context.Candidaturas.AnyAsync(n => n.Nombre == dto.Nombre &&
+            var existeCandidatura = await context.candidaturas.AnyAsync(n => n.Nombre == dto.Nombre &&
                                                      n.Acronimo == dto.Acronimo &&
                                                      n.Orden == dto.Orden);
             if (existeCandidatura)
@@ -187,10 +187,10 @@ namespace simpatizantes_api.Controllers
                 }
 
                 var candidatura = mapper.Map<Candidatura>(dto);
-                candidatura.TipoAgrupacionPolitica = await context.TiposAgrupacionesPoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
+                candidatura.TipoAgrupacionPolitica = await context.tiposagrupacionespoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
 
                 // Verifica si el tipo de agrupación política es 1, 3 O 4 (Partido Político, Candidatura Común o Candidatura Independiente)
-                if (candidatura.TipoAgrupacionPolitica.Id == 1 || candidatura.TipoAgrupacionPolitica.Id == 2 || candidatura.TipoAgrupacionPolitica.Id == 4)
+                if (candidatura.TipoAgrupacionPolitica.Id == 5 || candidatura.TipoAgrupacionPolitica.Id == 6 || candidatura.TipoAgrupacionPolitica.Id == 8)
                 {
                     // No se requiere realizar ninguna acción adicional para estos tipos de agrupación
                 }
@@ -219,14 +219,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var candidatura = await context.Candidaturas.FindAsync(id);
+            var candidatura = await context.candidaturas.FindAsync(id);
 
             if (candidatura == null)
             {
                 return NotFound();
             }
 
-            context.Candidaturas.Remove(candidatura);
+            context.candidaturas.Remove(candidatura);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -240,7 +240,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var candidatura = await context.Candidaturas.FindAsync(id);
+            var candidatura = await context.candidaturas.FindAsync(id);
 
             if (candidatura == null)
             {
@@ -258,7 +258,7 @@ namespace simpatizantes_api.Controllers
             }
             // Mapea los datos del DTO al usuario existente
             mapper.Map(dto, candidatura);
-            candidatura.TipoAgrupacionPolitica = await context.TiposAgrupacionesPoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
+            candidatura.TipoAgrupacionPolitica = await context.tiposagrupacionespoliticas.SingleOrDefaultAsync(r => r.Id == dto.TipoAgrupacionPolitica.Id);
 
             context.Update(candidatura);
 
@@ -283,7 +283,7 @@ namespace simpatizantes_api.Controllers
 
         private bool ActaExists(int id)
         {
-            return context.Candidaturas.Any(e => e.Id == id);
+            return context.candidaturas.Any(e => e.Id == id);
         }
 
     }

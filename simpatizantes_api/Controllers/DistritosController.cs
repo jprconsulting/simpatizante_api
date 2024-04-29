@@ -32,7 +32,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<MunicipioDTO>>> GetAll()
         {
-            var distritos = await context.Distritos
+            var distritos = await context.distritos
             .Include(u => u.Estado)
             .ToListAsync();
             if (!distritos.Any())

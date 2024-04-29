@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("por-operador/{operadorId:int}")]
         public async Task<ActionResult<List<PromotorDTO>>> GetByOperadorId(int operadorId)
         {
-            var promotores = await context.Promotores                
+            var promotores = await context.promotores                
                 .Where(p => p.PromotorOperadores.Any(po => po.Operador.Id == operadorId))
                 .ToListAsync();
 
@@ -41,7 +41,7 @@ namespace simpatizantes_api.Controllers
 
             foreach (var promotor in promotoresDTO)
             {
-                var operadores = await context.PromotoresOperadores
+                var operadores = await context.promotoresoperadores
                     .Include(p => p.Operador)
                     .ThenInclude(s => s.Candidato)
                     .Where(po => po.Promotor.Id == promotor.Id)
@@ -57,7 +57,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("por-candidato/{candidatoId:int}")]
         public async Task<ActionResult<List<PromotorDTO>>> GetByCandidatoId(int candidatoId)
         {
-            var promotores = await context.Promotores
+            var promotores = await context.promotores
                 .Where(p => p.PromotorOperadores.Any(po => po.Operador.CandidatoId == candidatoId))
                 .ToListAsync();
 
@@ -70,7 +70,7 @@ namespace simpatizantes_api.Controllers
 
             foreach (var promotor in promotoresDTO)
             {
-                var operadores = await context.PromotoresOperadores
+                var operadores = await context.promotoresoperadores
                     .Include(p => p.Operador)
                     .Where(po => po.Promotor.Id == promotor.Id)
                     .Select(i => i.Operador)
@@ -85,7 +85,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<PromotorDTO>>> GetAll()
         {
-            var promotores = await context.Promotores.ToListAsync();
+            var promotores = await context.promotores.ToListAsync();
 
             if (!promotores.Any())
             {
@@ -96,7 +96,7 @@ namespace simpatizantes_api.Controllers
 
             foreach (var promotor in promotoresDTO)
             {
-                var operadores = await context.PromotoresOperadores
+                var operadores = await context.promotoresoperadores
                     .Include(p => p.Operador)
                     .Where(po => po.Promotor.Id == promotor.Id)
                     .Select(i => i.Operador)
@@ -116,7 +116,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existePromotor = await context.Promotores.AnyAsync(n => n.Nombres == dto.Nombres &&
+            var existePromotor = await context.promotores.AnyAsync(n => n.Nombres == dto.Nombres &&
                                                                    n.ApellidoPaterno == dto.ApellidoPaterno &&
                                                                    n.ApellidoMaterno == dto.ApellidoMaterno);
             if (existePromotor)
@@ -143,8 +143,8 @@ namespace simpatizantes_api.Controllers
                     {
                         foreach (var operadorId in dto.OperadoresIds)
                         {
-                            var existsOperador = await context.Operadores.SingleOrDefaultAsync(o => o.Id == operadorId);
-                            var existsPromotorOperador = await context.PromotoresOperadores.AnyAsync(po => po.Promotor.Id == promotor.Id && po.Operador.Id == operadorId);
+                            var existsOperador = await context.operadores.SingleOrDefaultAsync(o => o.Id == operadorId);
+                            var existsPromotorOperador = await context.promotoresoperadores.AnyAsync(po => po.Promotor.Id == promotor.Id && po.Operador.Id == operadorId);
 
                             if (existsOperador != null && !existsPromotorOperador)
                             {
@@ -178,21 +178,21 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var promotor = await context.Promotores.FindAsync(id);
+            var promotor = await context.promotores.FindAsync(id);
 
             if (promotor == null)
             {
                 return NotFound();
             }
 
-            var tieneDependencias = await context.Simpatizantes.AnyAsync(s => s.Promotor.Id == id);
+            var tieneDependencias = await context.simpatizantes.AnyAsync(s => s.Promotor.Id == id);
 
             if (tieneDependencias)
             {
                 return StatusCode(502, new { error = "No se puede eliminar el promotor debido a dependencias existentes." });
             }
 
-            context.Promotores.Remove(promotor);
+            context.promotores.Remove(promotor);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -207,7 +207,7 @@ namespace simpatizantes_api.Controllers
             }
 
 
-            var promotor = await context.Promotores
+            var promotor = await context.promotores
                .Include(p => p.PromotorOperadores)
                .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -228,7 +228,7 @@ namespace simpatizantes_api.Controllers
             // Agregar las nuevas secciones
             foreach (var operadorId in dto.OperadoresIds)
             {
-                var operador = await context.Operadores.FindAsync(operadorId);
+                var operador = await context.operadores.FindAsync(operadorId);
                 if (operador != null)
                 {
                     promotor.PromotorOperadores.Add(new PromotorOperador { PromotorId = id, OperadorId = operadorId, Promotor = promotor, Operador = operador });
@@ -256,7 +256,7 @@ namespace simpatizantes_api.Controllers
 
         private bool PromotorExists(int id)
         {
-            return context.Promotores.Any(e => e.Id == id);
+            return context.promotores.Any(e => e.Id == id);
         }
     }
 }

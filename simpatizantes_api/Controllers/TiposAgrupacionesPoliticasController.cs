@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<TipoAgrupacionPoliticaDTO>> GetById(int id)
         {
-            var tipoAgrupaciones = await context.TiposAgrupacionesPoliticas
+            var tipoAgrupaciones = await context.tiposagrupacionespoliticas
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (tipoAgrupaciones == null)
@@ -43,7 +43,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<TipoAgrupacionPoliticaDTO>>> GetAll()
         {
-            var tipoAgrupaciones = await context.TiposAgrupacionesPoliticas
+            var tipoAgrupaciones = await context.tiposagrupacionespoliticas
                 .OrderBy(u => u.Id)
                 .ToListAsync();
 
@@ -80,14 +80,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var tipoAgrupaciones = await context.TiposAgrupacionesPoliticas.FindAsync(id);
+            var tipoAgrupaciones = await context.tiposagrupacionespoliticas.FindAsync(id);
 
             if (tipoAgrupaciones == null)
             {
                 return NotFound();
             }
 
-            context.TiposAgrupacionesPoliticas.Remove(tipoAgrupaciones);
+            context.tiposagrupacionespoliticas.Remove(tipoAgrupaciones);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -101,7 +101,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var tipoAgrupaciones = await context.TiposAgrupacionesPoliticas.FindAsync(id);
+            var tipoAgrupaciones = await context.tiposagrupacionespoliticas.FindAsync(id);
 
             if (tipoAgrupaciones == null)
             {
@@ -133,7 +133,7 @@ namespace simpatizantes_api.Controllers
 
         private bool TipoExists(int id)
         {
-            return context.TiposAgrupacionesPoliticas.Any(e => e.Id == id);
+            return context.tiposagrupacionespoliticas.Any(e => e.Id == id);
         }
 
     }

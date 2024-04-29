@@ -30,7 +30,7 @@ namespace simpatizantes_api.Services
 
         private async Task InvalidatePreviousTokens(int userId)
         {
-            var previousTokens = await context.ActiveTokens
+            var previousTokens = await context.activetokens
                 .Where(t => t.UserId == userId && t.IsActive)
                 .ToListAsync();
 
@@ -45,7 +45,7 @@ namespace simpatizantes_api.Services
 
         public async Task<AppUserAuthDTO> ValidateUser(AppUserDTO dto)
         {
-            var user = await context.Usuarios
+            var user = await context.usuarios
                 .Include(u => u.Rol)
                 .FirstOrDefaultAsync(u => u.Correo == dto.Email && u.Password == dto.Password);
 
@@ -59,7 +59,7 @@ namespace simpatizantes_api.Services
 
                 // Guardar el tokenId activo en la base de datos
                 var activeToken = new ActiveToken { TokenId = token, UserId = user.Id, IsActive = true };
-                context.ActiveTokens.Add(activeToken);
+                context.activetokens.Add(activeToken);
                 await context.SaveChangesAsync();
 
                 // Resto del código para devolver la información del usuario con el nuevo token
@@ -85,7 +85,7 @@ namespace simpatizantes_api.Services
 
         private async Task<List<ClaimDTO>> GetRoleClaims(int rolId)
         {
-            var claims = await context.Claims.Where(c => c.Rol.Id == rolId).ToListAsync();
+            var claims = await context.claims.Where(c => c.Rol.Id == rolId).ToListAsync();
             return mapper.Map<List<ClaimDTO>>(claims);
         }
 

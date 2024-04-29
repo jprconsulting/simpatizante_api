@@ -11,7 +11,7 @@ using simpatizantes_api;
 namespace simpatizantesapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240415180551_Initial")]
+    [Migration("20240424170657_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -55,7 +55,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("TipoEleccionId");
 
-                    b.ToTable("ActasEscrutinios");
+                    b.ToTable("actasescrutinios");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.ActiveToken", b =>
@@ -78,7 +78,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ActiveTokens");
+                    b.ToTable("activetokens");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Candidato", b =>
@@ -155,7 +155,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("MunicipioId");
 
-                    b.ToTable("Candidatos");
+                    b.ToTable("candidatos");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Candidatura", b =>
@@ -189,7 +189,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("TipoAgrupacionPoliticaId");
 
-                    b.ToTable("Candidaturas");
+                    b.ToTable("candidaturas");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Cargo", b =>
@@ -203,7 +203,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cargos");
+                    b.ToTable("cargos");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Casilla", b =>
@@ -220,7 +220,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Casillas");
+                    b.ToTable("casillas");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Claim", b =>
@@ -242,7 +242,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("RolId");
 
-                    b.ToTable("Claims");
+                    b.ToTable("claims");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Combinacion", b =>
@@ -267,7 +267,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("CandidaturaId");
 
-                    b.ToTable("Combinaciones");
+                    b.ToTable("combinaciones");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Comunidad", b =>
@@ -286,7 +286,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("MunicipioId");
 
-                    b.ToTable("Comunidades");
+                    b.ToTable("comunidades");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.DistribucionCandidatura", b =>
@@ -334,7 +334,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("TipoEleccionId");
 
-                    b.ToTable("DistribucionesCandidaturas");
+                    b.ToTable("distribucionescandidaturas");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.DistribucionOrdenada", b =>
@@ -380,7 +380,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("TipoAgrupacionPoliticaId");
 
-                    b.ToTable("DistribucionesOrdenadas");
+                    b.ToTable("distribucionesordenadas");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Distrito", b =>
@@ -399,7 +399,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("EstadoId");
 
-                    b.ToTable("Distritos");
+                    b.ToTable("distritos");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Estado", b =>
@@ -413,7 +413,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Estados");
+                    b.ToTable("estados");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Genero", b =>
@@ -427,7 +427,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Generos");
+                    b.ToTable("generos");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Incidencia", b =>
@@ -468,7 +468,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("TipoIncidenciaId");
 
-                    b.ToTable("Incidencias");
+                    b.ToTable("incidencias");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Municipio", b =>
@@ -497,7 +497,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("MunicipioId");
 
-                    b.ToTable("Municipios");
+                    b.ToTable("municipios");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Operador", b =>
@@ -545,7 +545,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("MunicipioId");
 
-                    b.ToTable("Operadores");
+                    b.ToTable("operadores");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.OperadorSeccion", b =>
@@ -566,7 +566,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("SeccionId");
 
-                    b.ToTable("OperadoresSecciones");
+                    b.ToTable("operadoressecciones");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.ProgramaSocial", b =>
@@ -583,7 +583,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProgramasSociales");
+                    b.ToTable("programassociales");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Promotor", b =>
@@ -618,7 +618,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Promotores");
+                    b.ToTable("promotores");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.PromotorOperador", b =>
@@ -639,7 +639,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("PromotorId");
 
-                    b.ToTable("PromotoresOperadores");
+                    b.ToTable("promotoresoperadores");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.PropagandaElectoral", b =>
@@ -686,7 +686,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("SeccionId");
 
-                    b.ToTable("PropagandasElectorales");
+                    b.ToTable("propagandaselectorales");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.ResultadoCandidatura", b =>
@@ -723,7 +723,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("DistribucionCandidaturaId");
 
-                    b.ToTable("ResultadosCandidaturas");
+                    b.ToTable("resultadoscandidaturas");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.ResultadoPreEliminar", b =>
@@ -790,7 +790,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("TipoEleccionId");
 
-                    b.ToTable("ResultadosPreEliminares");
+                    b.ToTable("resultadospreeliminares");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Rol", b =>
@@ -804,7 +804,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rols");
+                    b.ToTable("rols");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Seccion", b =>
@@ -826,7 +826,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("MunicipioId");
 
-                    b.ToTable("Secciones");
+                    b.ToTable("secciones");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Simpatizante", b =>
@@ -868,10 +868,10 @@ namespace simpatizantesapi.Migrations
                     b.Property<int?>("GeneroId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Latitud")
+                    b.Property<decimal?>("Latitud")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<decimal>("Longitud")
+                    b.Property<decimal?>("Longitud")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<int?>("MunicipioId")
@@ -883,7 +883,7 @@ namespace simpatizantesapi.Migrations
                     b.Property<string>("Numerotel")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("OperadorId")
+                    b.Property<int?>("OperadorId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProgramaSocialId")
@@ -920,7 +920,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("SeccionId");
 
-                    b.ToTable("Simpatizantes");
+                    b.ToTable("simpatizantes");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.TipoAgrupacionPolitica", b =>
@@ -934,7 +934,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TiposAgrupacionesPoliticas");
+                    b.ToTable("tiposagrupacionespoliticas");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.TipoEleccion", b =>
@@ -948,7 +948,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TiposElecciones");
+                    b.ToTable("tiposelecciones");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.TipoIncidencia", b =>
@@ -965,7 +965,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TiposIncidencias");
+                    b.ToTable("tiposincidencias");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Usuario", b =>
@@ -1011,7 +1011,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("RolId");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("usuarios");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Visita", b =>
@@ -1047,7 +1047,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Visitas");
+                    b.ToTable("visitas");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.Voto", b =>
@@ -1072,7 +1072,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasIndex("SimpatizanteId");
 
-                    b.ToTable("Votos");
+                    b.ToTable("votos");
                 });
 
             modelBuilder.Entity("simpatizantes_api.Entities.ActaEscrutinio", b =>
@@ -1463,9 +1463,7 @@ namespace simpatizantesapi.Migrations
 
                     b.HasOne("simpatizantes_api.Entities.Operador", "Operador")
                         .WithMany("Simpatizantes")
-                        .HasForeignKey("OperadorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OperadorId");
 
                     b.HasOne("simpatizantes_api.Entities.ProgramaSocial", "ProgramaSocial")
                         .WithMany("Simpatizantes")

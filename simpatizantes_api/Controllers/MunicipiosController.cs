@@ -32,7 +32,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<MunicipioDTO>> GetById(int id)
         {
-            var municipios = await context.Municipios
+            var municipios = await context.municipios
                 .Include(u => u.Estado)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -47,7 +47,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<MunicipioDTO>>> GetAll()
         {
-            var municipios = await context.Municipios
+            var municipios = await context.municipios
             .Include(u => u.Estado)
             .ToListAsync();
             if (!municipios.Any())

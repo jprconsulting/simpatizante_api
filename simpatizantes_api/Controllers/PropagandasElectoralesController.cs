@@ -34,7 +34,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<PropagandaElectoralDTO>> GetById(int id)
         {
-            var propaganda = await context.PropagandasElectorales
+            var propaganda = await context.propagandaselectorales
                 .Include(b => b.Municipio)
                 .Include(s => s.Seccion)
                 .Include(c => c.Candidato)
@@ -53,7 +53,7 @@ namespace simpatizantes_api.Controllers
         {
             try
             {
-                var propaganda = await context.PropagandasElectorales
+                var propaganda = await context.propagandaselectorales
                     .Include(v => v.Municipio)
                     .Include(s => s.Seccion)
                     .Include(c => c.Candidato)
@@ -85,11 +85,11 @@ namespace simpatizantes_api.Controllers
 
 
             var propaganda = mapper.Map<PropagandaElectoral>(dto);
-            propaganda.Municipio = await context.Municipios.SingleOrDefaultAsync(s => s.Id == dto.Municipio.Id);
-            propaganda.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
-            propaganda.Candidato = await context.Candidatos.SingleOrDefaultAsync(s => s.Id == dto.Candidato.Id);
+            propaganda.Municipio = await context.municipios.SingleOrDefaultAsync(s => s.Id == dto.Municipio.Id);
+            propaganda.Seccion = await context.secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
+            propaganda.Candidato = await context.candidatos.SingleOrDefaultAsync(s => s.Id == dto.Candidato.Id);
 
-            context.PropagandasElectorales.Add(propaganda);
+            context.propagandaselectorales.Add(propaganda);
             await context.SaveChangesAsync();
 
             return Ok();
@@ -98,14 +98,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var propaganda = await context.PropagandasElectorales.FindAsync(id);
+            var propaganda = await context.propagandaselectorales.FindAsync(id);
 
             if (propaganda == null)
             {
                 return NotFound();
             }
 
-            context.PropagandasElectorales.Remove(propaganda);
+            context.propagandaselectorales.Remove(propaganda);
             await context.SaveChangesAsync();
             return NoContent();
         }
@@ -118,7 +118,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var propaganda = await context.PropagandasElectorales.FindAsync(id);
+            var propaganda = await context.propagandaselectorales.FindAsync(id);
 
             if (propaganda == null)
             {
@@ -135,9 +135,9 @@ namespace simpatizantes_api.Controllers
             }
 
             mapper.Map(dto, propaganda);
-            propaganda.Municipio = await context.Municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
-            propaganda.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
-            propaganda.Candidato = await context.Candidatos.SingleOrDefaultAsync(s => s.Id == dto.Candidato.Id);
+            propaganda.Municipio = await context.municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
+            propaganda.Seccion = await context.secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
+            propaganda.Candidato = await context.candidatos.SingleOrDefaultAsync(s => s.Id == dto.Candidato.Id);
 
             context.Update(propaganda);
 
@@ -162,7 +162,7 @@ namespace simpatizantes_api.Controllers
 
         private bool PropagandasExists(int id)
         {
-            return context.PropagandasElectorales.Any(e => e.Id == id);
+            return context.propagandaselectorales.Any(e => e.Id == id);
         }
 
     }

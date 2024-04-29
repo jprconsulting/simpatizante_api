@@ -29,7 +29,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<DistribucionCandidaturaDTO>> GetById(int id)
         {
-            var distribucionCandidatura = await context.DistribucionesCandidaturas
+            var distribucionCandidatura = await context.distribucionescandidaturas
                 .Include(u => u.TipoEleccion)
                 .Include(u => u.Estado)
                 .Include(u => u.Distrito)
@@ -47,7 +47,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-simpatizantes-por-candidato-id/{candidatoId:int}")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorCandidatoId(int candidatoId)
         {
-            var simpatizantes = await context.Simpatizantes
+            var simpatizantes = await context.simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -70,7 +70,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-Tipo/{TipoEleccionId:int}")]
         public async Task<ActionResult<List<DistribucionCandidaturaDTO>>> GetByTipoId(int TipoEleccionId)
         {
-            var distribucionCandidatura = await context.DistribucionesCandidaturas
+            var distribucionCandidatura = await context.distribucionescandidaturas
                 .Include(u => u.TipoEleccion)
                 .Include(e => e.Estado)
                 .Include(d => d.Distrito)
@@ -91,7 +91,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<DistribucionCandidaturaDTO>>> GetAll()
         {
-            var distribucionCandidatura = await context.DistribucionesCandidaturas
+            var distribucionCandidatura = await context.distribucionescandidaturas
                 .Include(u => u.TipoEleccion)
                 .Include(u => u.Estado)
                 .Include(u => u.Distrito)
@@ -118,7 +118,7 @@ namespace simpatizantes_api.Controllers
                 }
 
                 var distribucionCandidatura = mapper.Map<DistribucionCandidatura>(dto);
-                distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
+                distribucionCandidatura.TipoEleccion = await context.tiposelecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
                 distribucionCandidatura.DistritoId = null;
                 distribucionCandidatura.MunicipioId = null;
                 distribucionCandidatura.ComunidadId = null;
@@ -128,71 +128,71 @@ namespace simpatizantes_api.Controllers
                 distribucionCandidatura.Estado = null;
                 distribucionCandidatura.EstadoId = null;
 
-                if (dto.TipoEleccion.Id == 1)
+                if (dto.TipoEleccion.Id == 7)
                 {
-                    var existeEstado = await context.DistribucionesCandidaturas
+                    var existeEstado = await context.distribucionescandidaturas
                                                 .AnyAsync(c => c.TipoEleccion.Id == dto.TipoEleccion.Id);
                     if (existeEstado)
                     {
                         return Conflict();
                     }
-                    distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                    distribucionCandidatura.Estado = await context.estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
                 }
 
-                if (dto.TipoEleccion.Id == 2)
+                if (dto.TipoEleccion.Id == 8)
                 {
-                    var existeEstado = await context.DistribucionesCandidaturas
+                    var existeEstado = await context.distribucionescandidaturas
                                                 .AnyAsync(c => c.TipoEleccion.Id == dto.TipoEleccion.Id);
                     if (existeEstado)
                     {
                         return Conflict();
                     }
-                    distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                    distribucionCandidatura.Estado = await context.estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
                 }
-                if (dto.TipoEleccion.Id == 3)
+                if (dto.TipoEleccion.Id == 9)
                 {
-                    var existeEstado = await context.DistribucionesCandidaturas
+                    var existeEstado = await context.distribucionescandidaturas
                                                 .AnyAsync(c => c.TipoEleccion.Id == dto.TipoEleccion.Id);
                     if (existeEstado)
                     {
                         return Conflict();
                     }
-                    distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
+                    distribucionCandidatura.Estado = await context.estados.SingleOrDefaultAsync(c => c.Id == dto.Estado.Id);
                 }
                 // Si es  Diputacion Local
-                if (dto.TipoEleccion.Id == 4)
+                if (dto.TipoEleccion.Id == 10)
                 {
-                    var existe = await context.DistribucionesCandidaturas
+                    var existe = await context.distribucionescandidaturas
                                                 .AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
                     if (existe)
                     {
                         return Conflict();
                     }
-                    distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(c => c.Id == dto.Distrito.Id);
+                    distribucionCandidatura.Distrito = await context.distritos.SingleOrDefaultAsync(c => c.Id == dto.Distrito.Id);
                 }
 
                 // Si es  Ayuntamientos
-                if (dto.TipoEleccion.Id == 5)
+                if (dto.TipoEleccion.Id == 11)
                 {
-                    var existe = await context.DistribucionesCandidaturas
+                    var existe = await context.distribucionescandidaturas
                                                 .AnyAsync(c => c.Municipio.Id == dto.Municipio.Id);
                     if (existe)
                     {
                         return Conflict();
                     }
-                    distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
+                    distribucionCandidatura.Municipio = await context.municipios.SingleOrDefaultAsync(c => c.Id == dto.Municipio.Id);
                 }
 
                 // Si es Comunidad
-                if (dto.TipoEleccion.Id == 6)
+                if (dto.TipoEleccion.Id == 12)
                 {
-                    var existe = await context.DistribucionesCandidaturas
+                    var existe = await context.distribucionescandidaturas
                                                 .AnyAsync(c => c.Comunidad.Id == dto.Comunidad.Id);
                     if (existe)
                     {
                         return Conflict();
                     }
-                    distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
+                    distribucionCandidatura.Comunidad = await context.comunidades.SingleOrDefaultAsync(c => c.Id == dto.Comunidad.Id);
                     if (dto.Partidos != null && dto.Partidos.Count % 1 == 0)
                     {
                         distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
@@ -247,14 +247,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var distribucionCandidatura = await context.DistribucionesCandidaturas.FindAsync(id);
+            var distribucionCandidatura = await context.distribucionescandidaturas.FindAsync(id);
 
             if (distribucionCandidatura == null)
             {
                 return NotFound();
             }
 
-            context.DistribucionesCandidaturas.Remove(distribucionCandidatura);
+            context.distribucionescandidaturas.Remove(distribucionCandidatura);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -268,7 +268,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var distribucionCandidatura = await context.DistribucionesCandidaturas.FindAsync(id);
+            var distribucionCandidatura = await context.distribucionescandidaturas.FindAsync(id);
             var currentEstadoId = distribucionCandidatura?.EstadoId;
             var currentDistritoId = distribucionCandidatura?.DistritoId;
             var currentMunicipioId = distribucionCandidatura?.MunicipioId;
@@ -281,7 +281,7 @@ namespace simpatizantes_api.Controllers
 
             // Mapea los datos del DTO al usuario existente
             mapper.Map(dto, distribucionCandidatura);
-            distribucionCandidatura.TipoEleccion = await context.TiposElecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
+            distribucionCandidatura.TipoEleccion = await context.tiposelecciones.SingleOrDefaultAsync(r => r.Id == dto.TipoEleccion.Id);
 
             distribucionCandidatura.Distrito = null;
             distribucionCandidatura.DistritoId = null;
@@ -293,91 +293,91 @@ namespace simpatizantes_api.Controllers
             distribucionCandidatura.EstadoId = null;
 
             // Si es  Gubernatura
-            if (dto.TipoEleccion.Id == 1)
+            if (dto.TipoEleccion.Id == 7)
             {
                 if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
 
-                distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                distribucionCandidatura.Estado = await context.estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
                 distribucionCandidatura.EstadoId = distribucionCandidatura.Estado.Id;
             }
 
             // Si es  Diputados Locales
-            if (dto.TipoEleccion.Id == 2)
+            if (dto.TipoEleccion.Id == 8)
             {
                 if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
-                distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                distribucionCandidatura.Estado = await context.estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
                 distribucionCandidatura.EstadoId = distribucionCandidatura.Estado.Id;
             }
 
-            if (dto.TipoEleccion.Id == 3)
+            if (dto.TipoEleccion.Id == 9)
             {
                 if (currentEstadoId != null && currentEstadoId != dto.Estado.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Estado.Id == dto.Estado.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
-                distribucionCandidatura.Estado = await context.Estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
+                distribucionCandidatura.Estado = await context.estados.SingleOrDefaultAsync(o => o.Id == dto.Estado.Id);
                 distribucionCandidatura.EstadoId = distribucionCandidatura.Estado.Id;
             }
 
             // Si es  Ayuntamientos
-            if (dto.TipoEleccion.Id == 4)
+            if (dto.TipoEleccion.Id == 10)
             {
                 if (currentDistritoId != null && currentDistritoId != dto.Distrito.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Distrito.Id == dto.Distrito.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
-                distribucionCandidatura.Distrito = await context.Distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
+                distribucionCandidatura.Distrito = await context.distritos.SingleOrDefaultAsync(o => o.Id == dto.Distrito.Id);
                 distribucionCandidatura.DistritoId = distribucionCandidatura.Distrito.Id;
             }
 
-            if (dto.TipoEleccion.Id == 5)
+            if (dto.TipoEleccion.Id == 11)
             {
                 if (currentMunicipioId != null && currentMunicipioId != dto.Municipio.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Municipio.Id == dto.Municipio.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Municipio.Id == dto.Municipio.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
                 }
-                distribucionCandidatura.Municipio = await context.Municipios.SingleOrDefaultAsync(o => o.Id == dto.Municipio.Id);
+                distribucionCandidatura.Municipio = await context.municipios.SingleOrDefaultAsync(o => o.Id == dto.Municipio.Id);
                 distribucionCandidatura.MunicipioId = distribucionCandidatura.Municipio.Id;
             }
 
 
             // Si es  Comunidad
-            if (dto.TipoEleccion.Id == 6)
+            if (dto.TipoEleccion.Id == 12)
             {
                 if (currentComunidadId != null && currentComunidadId != dto.Comunidad.Id)
                 {
-                    var existsUserOperador = await context.DistribucionesCandidaturas.AnyAsync(c => c.Comunidad.Id == dto.Comunidad.Id);
+                    var existsUserOperador = await context.distribucionescandidaturas.AnyAsync(c => c.Comunidad.Id == dto.Comunidad.Id);
                     if (existsUserOperador)
                     {
                         return Conflict();
                     }
-                }distribucionCandidatura.Comunidad = await context.Comunidades.SingleOrDefaultAsync(o => o.Id == dto.Comunidad.Id);
+                }distribucionCandidatura.Comunidad = await context.comunidades.SingleOrDefaultAsync(o => o.Id == dto.Comunidad.Id);
             distribucionCandidatura.ComunidadId = distribucionCandidatura.Comunidad.Id;
                 distribucionCandidatura.Partidos = string.Join(",", dto.Partidos);
                 distribucionCandidatura.Coalicion = string.Join(",", dto.Coalicion);
@@ -431,8 +431,8 @@ namespace simpatizantes_api.Controllers
 
         private bool DistribucionCandidaturaExists(int id)
         {
-            return context.DistribucionesCandidaturas.Any(e => e.Id == id);
+            return context.distribucionescandidaturas.Any(e => e.Id == id);
         }
 
-    }
+    }     
 }

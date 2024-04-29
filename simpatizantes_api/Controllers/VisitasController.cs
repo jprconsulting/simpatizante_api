@@ -34,7 +34,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<VisitaDTO>> GetById(int id)
         {
-            var visita = await context.Visitas
+            var visita = await context.visitas
                 .Include(b => b.Simpatizante)
                 .FirstOrDefaultAsync(v => v.Id == id);
 
@@ -51,7 +51,7 @@ namespace simpatizantes_api.Controllers
         {
             try
             {
-                var visitas = await context.Visitas
+                var visitas = await context.visitas
                     .Include(v => v.Simpatizante)
                     .Include(u => u.Usuario)
                     .ThenInclude(r => r.Rol)
@@ -88,7 +88,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("validar-visita-por-simpatizante/{simpatizanteId:int}")]
         public async Task<ActionResult> GetValidarVisitaPorSimpatizante(int simpatizanteId)
         {
-            var existeVisita = await context.Visitas
+            var existeVisita = await context.visitas
                 .AnyAsync(v => v.SimpatizanteId == simpatizanteId);
 
             if (existeVisita)
@@ -104,7 +104,7 @@ namespace simpatizantes_api.Controllers
         [HttpPost("crear")]
         public async Task<ActionResult> Post(VisitaDTO dto)
         {
-            var existevicita = await context.Visitas.AnyAsync(n => n.Simpatizante.Id == dto.Simpatizante.Id);
+            var existevicita = await context.visitas.AnyAsync(n => n.Simpatizante.Id == dto.Simpatizante.Id);
             if (existevicita)
             {
                 return Conflict();
@@ -118,11 +118,11 @@ namespace simpatizantes_api.Controllers
 
             var visita = mapper.Map<Visita>(dto);
             visita.FechaHoraVisita = DateTime.Now;
-            visita.Usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuarioId);
-            visita.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
+            visita.Usuario = await context.usuarios.FirstOrDefaultAsync(u => u.Id == usuarioId);
+            visita.Simpatizante = await context.simpatizantes.SingleOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
 
 
-            context.Visitas.Add(visita);
+            context.visitas.Add(visita);
             await context.SaveChangesAsync();
 
             return Ok();
@@ -136,7 +136,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var visita = await context.Visitas.FindAsync(id);
+            var visita = await context.visitas.FindAsync(id);
 
             if (visita == null)
             {
@@ -162,7 +162,7 @@ namespace simpatizantes_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!context.Visitas.Any(e => e.Id == id))
+                if (!context.visitas.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }
@@ -178,14 +178,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var visita = await context.Visitas.FindAsync(id);
+            var visita = await context.visitas.FindAsync(id);
 
             if (visita == null)
             {
                 return NotFound();
             }
 
-            context.Visitas.Remove(visita);
+            context.visitas.Remove(visita);
             await context.SaveChangesAsync();
             return NoContent();
         }

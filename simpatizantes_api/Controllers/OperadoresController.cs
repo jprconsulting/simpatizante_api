@@ -10,10 +10,8 @@ using simpatizantes_api.Filters;
 
 namespace simpatizantes_api.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [TokenValidationFilter]
 
     public class OperadoresController : ControllerBase
     {
@@ -28,7 +26,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<OperadorDTO>> GetById(int id)
         {
-            var operador = await context.Operadores
+            var operador = await context.operadores
                 .Include(o => o.OperadorSecciones)
                     .ThenInclude(os => os.Seccion)
                         .ThenInclude(s => s.Municipio)
@@ -51,7 +49,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-operadores-por-candidato-id/{candidatoId:int}")]
         public async Task<ActionResult<List<OperadorDTO>>> GetOperadoresPorCandidatoId(int candidatoId)
         {
-            var operadores = await context.Operadores
+            var operadores = await context.operadores
                 .Include(o => o.Candidato)
                  .ThenInclude(os => os.Municipio)
                 .Include(o => o.OperadorSecciones)
@@ -70,7 +68,7 @@ namespace simpatizantes_api.Controllers
 
             foreach (var operador in operadoresDTO)
             {
-                var secciones = await context.OperadoresSecciones
+                var secciones = await context.operadoressecciones
                     .Include(s => s.Seccion)
                     .ThenInclude(s => s.Municipio)
                     .Where(os => os.Operador.Id == operador.Id)
@@ -86,7 +84,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<OperadorDTO>>> GetAll()
         {
-            var operadores = await context.Operadores
+            var operadores = await context.operadores
                 .Include(o => o.Candidato)
                 .ThenInclude(os => os.Municipio)
                 .Include(o => o.Municipio)
@@ -102,7 +100,7 @@ namespace simpatizantes_api.Controllers
 
             foreach (var operador in operadoresDTO)
             {
-                var secciones = await context.OperadoresSecciones
+                var secciones = await context.operadoressecciones
                     .Include(s => s.Seccion)
                     .ThenInclude(s => s.Municipio)
                     .Where(os => os.Operador.Id == operador.Id)
@@ -123,7 +121,7 @@ namespace simpatizantes_api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var existeOperador = await context.Operadores.AnyAsync(n => n.Nombres == dto.Nombres &&
+            var existeOperador = await context.operadores.AnyAsync(n => n.Nombres == dto.Nombres &&
                                                                   n.ApellidoPaterno == dto.ApellidoPaterno &&
                                                                   n.ApellidoMaterno == dto.ApellidoMaterno);
             if (existeOperador)
@@ -139,16 +137,16 @@ namespace simpatizantes_api.Controllers
                     var operador = mapper.Map<Operador>(dto);
                     operador.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
                     operador.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
-                    operador.Candidato = await context.Candidatos.SingleOrDefaultAsync(r => r.Id == dto.Candidato.Id);
-                    operador.Municipio = await context.Municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
+                    operador.Candidato = await context.candidatos.SingleOrDefaultAsync(r => r.Id == dto.Candidato.Id);
+                    operador.Municipio = await context.municipios.SingleOrDefaultAsync(r => r.Id == dto.Municipio.Id);
                     context.Add(operador);
 
                     if (await context.SaveChangesAsync() > 0)
                     {
                         foreach (var seccionId in dto.SeccionesIds)
                         {
-                            var existsSeccion = await context.Secciones.SingleOrDefaultAsync(i => i.Id == seccionId);
-                            var existsOperadorSeccion = await context.OperadoresSecciones.AnyAsync(os => os.Operador.Id == dto.Id && os.Seccion.Id == seccionId);
+                            var existsSeccion = await context.secciones.SingleOrDefaultAsync(i => i.Id == seccionId);
+                            var existsOperadorSeccion = await context.operadoressecciones.AnyAsync(os => os.Operador.Id == dto.Id && os.Seccion.Id == seccionId);
 
                             if (existsSeccion != null && !existsOperadorSeccion)
                             {
@@ -182,7 +180,7 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var operador = await context.Operadores.FindAsync(id);
+            var operador = await context.operadores.FindAsync(id);
 
             if (operador == null)
             {
@@ -190,14 +188,14 @@ namespace simpatizantes_api.Controllers
             }
 
             // Verificar si hay dependencias
-            var tieneDependencias = await context.Simpatizantes.AnyAsync(os => os.OperadorId == id);
+            var tieneDependencias = await context.simpatizantes.AnyAsync(os => os.OperadorId == id);
 
             if (tieneDependencias)
             {
                 return StatusCode(502, new { error = "No se puede eliminar el operador debido a dependencias existentes." });
             }
 
-            context.Operadores.Remove(operador);
+            context.operadores.Remove(operador);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -211,7 +209,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var operador = await context.Operadores
+            var operador = await context.operadores
                 .Include(o => o.OperadorSecciones)
                 .FirstOrDefaultAsync(o => o.Id == id);
 
@@ -235,7 +233,7 @@ namespace simpatizantes_api.Controllers
             // Agregar las nuevas secciones
             foreach (var seccionId in dto.SeccionesIds)
             {
-                var seccion = await context.Secciones.FindAsync(seccionId);
+                var seccion = await context.secciones.FindAsync(seccionId);
                 if (seccion != null)
                 {
                     operador.OperadorSecciones.Add(new OperadorSeccion { OperadorId = id, SeccionId = seccionId, Operador = operador, Seccion = seccion });
@@ -263,7 +261,7 @@ namespace simpatizantes_api.Controllers
 
         private bool OperadorExists(int id)
         {
-            return context.Incidencias.Any(e => e.Id == id);
+            return context.incidencias.Any(e => e.Id == id);
         }
     }
 }

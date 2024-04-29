@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         public async Task<ActionResult<List<EstadoDTO>>> GetAll()
         {
             string userName = User.FindFirst("NombreCompleto")?.Value;
-            var estados = await context.Estados
+            var estados = await context.estados
                 .ToListAsync();
 
             if (!estados.Any())

@@ -28,7 +28,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<TipoIncidenciaDTO>>> GetAll()
         {
-            var tiposIncidencias = await context.TiposIncidencias.ToListAsync();
+            var tiposIncidencias = await context.tiposincidencias.ToListAsync();
 
             if (!tiposIncidencias.Any())
             {
@@ -40,7 +40,7 @@ namespace simpatizantes_api.Controllers
             foreach (var tipoDTO in tiposIncidenciasDTO)
             {
                 // Calcula el número total de incidencias asociadas a cada tipo de incidencia
-                tipoDTO.TotalIncidencias = await context.Incidencias.CountAsync(i => i.TipoIncidencia.Id == tipoDTO.Id);
+                tipoDTO.TotalIncidencias = await context.incidencias.CountAsync(i => i.TipoIncidencia.Id == tipoDTO.Id);
             }
 
             return Ok(tiposIncidenciasDTO);
@@ -51,7 +51,7 @@ namespace simpatizantes_api.Controllers
         {
             try
             {
-                var tiposIncidencias = await context.TiposIncidencias.ToListAsync();
+                var tiposIncidencias = await context.tiposincidencias.ToListAsync();
 
                 if (!tiposIncidencias.Any())
                 {
@@ -63,7 +63,7 @@ namespace simpatizantes_api.Controllers
                 foreach (var tipoDTO in tiposIncidenciasDTO)
                 {
                     // Calcula el número total de incidencias asociadas a cada tipo de incidencia
-                    tipoDTO.TotalIncidencias = await context.Incidencias.CountAsync(i => i.TipoIncidencia.Id == tipoDTO.Id);
+                    tipoDTO.TotalIncidencias = await context.incidencias.CountAsync(i => i.TipoIncidencia.Id == tipoDTO.Id);
                 }
 
                 return Ok(tiposIncidenciasDTO);
@@ -82,7 +82,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existeTipoIncidencia = await context.TiposIncidencias.AnyAsync(n => n.Tipo == dto.Tipo);
+            var existeTipoIncidencia = await context.tiposincidencias.AnyAsync(n => n.Tipo == dto.Tipo);
 
             if (existeTipoIncidencia)
             {
@@ -107,21 +107,21 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var tipoIncidencia = await context.TiposIncidencias.FindAsync(id);
+            var tipoIncidencia = await context.tiposincidencias.FindAsync(id);
 
             if (tipoIncidencia == null)
             {
                 return NotFound();
             }
 
-            var tieneDependencias = await context.Incidencias.AnyAsync(s => s.TipoIncidencia.Id == id);
+            var tieneDependencias = await context.incidencias.AnyAsync(s => s.TipoIncidencia.Id == id);
 
             if (tieneDependencias)
             {
                 return StatusCode(502, new { error = "No se puede eliminar el tipo de incidencia debido a dependencias existentes." });
             }
 
-            context.TiposIncidencias.Remove(tipoIncidencia);
+            context.tiposincidencias.Remove(tipoIncidencia);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -135,7 +135,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var tipoIncidencia = await context.TiposIncidencias.FindAsync(id);
+            var tipoIncidencia = await context.tiposincidencias.FindAsync(id);
 
             if (tipoIncidencia == null)
             {
@@ -166,7 +166,7 @@ namespace simpatizantes_api.Controllers
 
         private bool TipoIncidenciaExists(int id)
         {
-            return context.TiposIncidencias.Any(e => e.Id == id);
+            return context.tiposincidencias.Any(e => e.Id == id);
         }
     }
 }

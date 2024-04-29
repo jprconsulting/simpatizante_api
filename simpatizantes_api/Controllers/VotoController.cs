@@ -34,7 +34,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<VotoDTO>> GetById(int id)
         {
-            var voto = await context.Votos
+            var voto = await context.votos
                  .Include(b => b.Simpatizante)
                 .ThenInclude(b => b.Operador)
                  .FirstOrDefaultAsync(v => v.Id == id);
@@ -52,7 +52,7 @@ namespace simpatizantes_api.Controllers
         {
             try
             {
-                var votos = await context.Votos
+                var votos = await context.votos
                 .Include(v => v.Simpatizante)
                     .ThenInclude(s => s.Municipio)
                 .Include(v => v.Simpatizante)
@@ -81,7 +81,7 @@ namespace simpatizantes_api.Controllers
                 dto.Foto = await almacenadorImagenes.GuardarImagen(dto.ImagenBase64, directorioVotos);
             }
 
-            var existeVoto = await context.Votos.AnyAsync(n => n.Simpatizante.Id == dto.Simpatizante.Id);
+            var existeVoto = await context.votos.AnyAsync(n => n.Simpatizante.Id == dto.Simpatizante.Id);
             if (existeVoto)
                 {
                 return Conflict();                                 
@@ -89,10 +89,10 @@ namespace simpatizantes_api.Controllers
 
             var voto = mapper.Map<Voto>(dto);
             voto.FechaHoraVot = DateTime.Now;
-            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
+            voto.Simpatizante = await context.simpatizantes.SingleOrDefaultAsync(s => s.Id == dto.Simpatizante.Id);
 
 
-            context.Votos.Add(voto);
+            context.votos.Add(voto);
             await context.SaveChangesAsync();
 
             return Ok();
@@ -106,7 +106,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var voto = await context.Votos.FindAsync(id);
+            var voto = await context.votos.FindAsync(id);
 
             if (voto == null)
             {
@@ -122,7 +122,7 @@ namespace simpatizantes_api.Controllers
                 dto.Foto = voto.Foto;
             }
             mapper.Map(dto, voto);
-            voto.Simpatizante = await context.Simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
+            voto.Simpatizante = await context.simpatizantes.SingleOrDefaultAsync(b => b.Id == dto.Simpatizante.Id);
             voto.FechaHoraVot = DateTime.Now;
 
             context.Update(voto);
@@ -133,7 +133,7 @@ namespace simpatizantes_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!context.Votos.Any(e => e.Id == id))
+                if (!context.votos.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }
@@ -149,14 +149,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var voto = await context.Votos.FindAsync(id);
+            var voto = await context.votos.FindAsync(id);
 
             if (voto == null)
             {
                 return NotFound();
             }
 
-            context.Votos.Remove(voto);
+            context.votos.Remove(voto);
             await context.SaveChangesAsync();
             return NoContent();
         }

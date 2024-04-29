@@ -32,13 +32,13 @@ namespace simpatizantes_api.Controllers
                 return false;
             }
 
-            return await context.Simpatizantes.AnyAsync(s => s.CURP.Trim().ToLower() == curp.Trim().ToLower());
+            return await context.simpatizantes.AnyAsync(s => s.CURP.Trim().ToLower() == curp.Trim().ToLower());
         }
 
 
         private async Task<bool> ValidarSimpatizantePorClaveElector(string claveElector)
         {
-            return await context.Simpatizantes.AnyAsync(s => s.ClaveElector.Trim().ToLower() == claveElector.Trim().ToLower());
+            return await context.simpatizantes.AnyAsync(s => s.ClaveElector.Trim().ToLower() == claveElector.Trim().ToLower());
         }
 
         [HttpGet("validar-simpatizante-por-clave-elector/{claveElector}")]
@@ -74,7 +74,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<SimpatizanteDTO>> GetById(int id)
         {
-            var simpatizante = await context.Simpatizantes
+            var simpatizante = await context.simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -95,7 +95,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-simpatizantes-por-operador-id/{operadorId:int}")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorOperadorId(int operadorId)
         {
-            var simpatizantes = await context.Simpatizantes
+            var simpatizantes = await context.simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -118,7 +118,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-simpatizantes-por-candidato-id/{candidatoId:int}")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorCandidatoId(int candidatoId)
         {
-            var simpatizantes = await context.Simpatizantes
+            var simpatizantes = await context.simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -141,7 +141,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetAll()
         {
-            var simpatizantes = await context.Simpatizantes
+            var simpatizantes = await context.simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -164,10 +164,10 @@ namespace simpatizantes_api.Controllers
         [HttpGet("mapa")]
         public async Task<ActionResult<List<SimpatizanteConVisitaDTO>>> GetSimpatizantesConSimpatiza()
         {
-            var visitas = await context.Visitas.
+            var visitas = await context.visitas.
                 ToListAsync(); 
 
-            var simpatizantes = await context.Simpatizantes
+            var simpatizantes = await context.simpatizantes
                .Include(s => s.Seccion)
                .Include(m => m.Municipio)
                .Include(e => e.Estado)
@@ -192,10 +192,10 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-simpatizantessimpatiza-por-candidato-id/{candidatoId:int}")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesConSimpatizaCId(int candidatoId)
         {
-            var visitas = await context.Visitas.
+            var visitas = await context.visitas.
                ToListAsync();
 
-            var simpatizantes = await context.Simpatizantes
+            var simpatizantes = await context.simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -218,9 +218,9 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-simpatizantes-por-simpatiza-operador-id/{operadorId:int}")]
         public async Task<ActionResult<List<SimpatizanteDTO>>> GetSimpatizantesPorSimpatizaOperadorId(int operadorId)
         {
-            var visitas = await context.Visitas.
+            var visitas = await context.visitas.
                ToListAsync();
-            var simpatizantes = await context.Simpatizantes
+            var simpatizantes = await context.simpatizantes
                 .Include(s => s.Seccion)
                 .Include(m => m.Municipio)
                 .Include(e => e.Estado)
@@ -257,7 +257,7 @@ namespace simpatizantes_api.Controllers
             {
                 return Conflict();
             }
-            var existeSimpatizantern = await context.Simpatizantes.AnyAsync(n => n.Nombres == dto.Nombres &&
+            var existeSimpatizantern = await context.simpatizantes.AnyAsync(n => n.Nombres == dto.Nombres &&
                                                                 n.ApellidoPaterno == dto.ApellidoPaterno &&
                                                                 n.ApellidoMaterno == dto.ApellidoMaterno);
             if (existeSimpatizantern)
@@ -272,20 +272,20 @@ namespace simpatizantes_api.Controllers
             simpatizante.UsuarioCreacionNombre = nombreCompleto; // Establecer el UsuarioCreacionId
             simpatizante.FechaHoraCreacion = DateTime.Now; // Establecer la fecha de creación
 
-            simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
-            simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
-            simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
-            simpatizante.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
-            simpatizante.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
+            simpatizante.Seccion = await context.secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
+            simpatizante.Municipio = await context.municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
+            simpatizante.Estado = await context.estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
+            simpatizante.Operador = await context.operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
+            simpatizante.Genero = await context.generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
 
             if (dto.ProgramaSocial != null)
             {
-                simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
+                simpatizante.ProgramaSocial = await context.programassociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
             }
 
             if (dto.Promotor != null)
             {
-                simpatizante.Promotor = await context.Promotores.SingleOrDefaultAsync(p => p.Id == dto.Promotor.Id);
+                simpatizante.Promotor = await context.promotores.SingleOrDefaultAsync(p => p.Id == dto.Promotor.Id);
             }
 
             context.Add(simpatizante);
@@ -304,21 +304,21 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var simpatizante = await context.Simpatizantes.FindAsync(id);
+            var simpatizante = await context.simpatizantes.FindAsync(id);
 
             if (simpatizante == null)
             {
                 return NotFound();
             }
 
-            var tieneDependencias = await context.Visitas.AnyAsync(s => s.SimpatizanteId == id);
+            var tieneDependencias = await context.visitas.AnyAsync(s => s.SimpatizanteId == id);
 
             if (tieneDependencias)
             {
                 return StatusCode(502, new { error = "No se puede eliminar el simpatizante debido a dependencias existentes." });
             }
 
-            context.Simpatizantes.Remove(simpatizante);
+            context.simpatizantes.Remove(simpatizante);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -332,7 +332,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var simpatizante = await context.Simpatizantes.FindAsync(id);
+            var simpatizante = await context.simpatizantes.FindAsync(id);
 
             if (simpatizante == null)
             {
@@ -354,20 +354,20 @@ namespace simpatizantes_api.Controllers
 
             simpatizante.UsuarioCreacionNombre = nombreCompleto; 
             simpatizante.FechaHoraCreacion = DateTime.Now; 
-            simpatizante.Seccion = await context.Secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
-            simpatizante.Municipio = await context.Municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
-            simpatizante.Estado = await context.Estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
-            simpatizante.Operador = await context.Operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
-            simpatizante.Genero = await context.Generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
+            simpatizante.Seccion = await context.secciones.SingleOrDefaultAsync(s => s.Id == dto.Seccion.Id);
+            simpatizante.Municipio = await context.municipios.SingleOrDefaultAsync(m => m.Id == dto.Municipio.Id);
+            simpatizante.Estado = await context.estados.SingleOrDefaultAsync(e => e.Id == dto.Estado.Id);
+            simpatizante.Operador = await context.operadores.SingleOrDefaultAsync(r => r.Id == dto.Operador.Id);
+            simpatizante.Genero = await context.generos.SingleOrDefaultAsync(g => g.Id == dto.Genero.Id);
 
             if (dto.ProgramaSocial != null)
             {
-                simpatizante.ProgramaSocial = await context.ProgramasSociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
+                simpatizante.ProgramaSocial = await context.programassociales.SingleOrDefaultAsync(p => p.Id == dto.ProgramaSocial.Id);
             }
-
+             
             if (dto.Promotor != null)
             {
-                simpatizante.Promotor = await context.Promotores.SingleOrDefaultAsync(p => p.Id == dto.Promotor.Id);
+                simpatizante.Promotor = await context.promotores.SingleOrDefaultAsync(p => p.Id == dto.Promotor.Id);
             }
 
             // Actualizar el simpatizante en la base de datos
@@ -398,7 +398,7 @@ namespace simpatizantes_api.Controllers
 
         private bool SimpatizanteExists(int id)
         {
-            return context.Simpatizantes.Any(s => s.Id == id);
+            return context.simpatizantes.Any(s => s.Id == id);
         }
 
     }

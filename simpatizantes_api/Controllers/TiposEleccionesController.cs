@@ -27,7 +27,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<TipoEleccionDTO>> GetById(int id)
         {
-            var TipoElecciones = await context.TiposElecciones               
+            var TipoElecciones = await context.tiposelecciones               
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (TipoElecciones == null)
@@ -42,7 +42,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<TipoEleccionDTO>>> GetAll()
         {
-            var tipoElecciones = await context.TiposElecciones
+            var tipoElecciones = await context.tiposelecciones
                 .OrderBy(u => u.Id)
                 .ToListAsync();
 
@@ -79,14 +79,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var tipoElecciones = await context.TiposElecciones.FindAsync(id);
+            var tipoElecciones = await context.tiposelecciones.FindAsync(id);
 
             if (tipoElecciones == null)
             {
                 return NotFound();
             }
 
-            context.TiposElecciones.Remove(tipoElecciones);
+            context.tiposelecciones.Remove(tipoElecciones);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -100,7 +100,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var tipoElecciones = await context.TiposElecciones.FindAsync(id);
+            var tipoElecciones = await context.tiposelecciones.FindAsync(id);
 
             if (tipoElecciones == null)
             {
@@ -132,7 +132,7 @@ namespace simpatizantes_api.Controllers
 
         private bool TipoExists(int id)
         {
-            return context.TiposElecciones.Any(e => e.Id == id);
+            return context.tiposelecciones.Any(e => e.Id == id);
         }
 
     }

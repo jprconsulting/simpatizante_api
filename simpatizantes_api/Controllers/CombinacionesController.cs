@@ -35,7 +35,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-por-id/{id:int}")]
         public async Task<ActionResult<CombinacionDTO>> GetById(int id)
         {
-            var combinacion = await context.Combinaciones
+            var combinacion = await context.combinaciones
                 .Include(u => u.Candidatura)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -51,7 +51,7 @@ namespace simpatizantes_api.Controllers
         [HttpGet("obtener-todos")]
         public async Task<ActionResult<List<CombinacionDTO>>> GetAll()
         {
-            var combinacion = await context.Combinaciones
+            var combinacion = await context.combinaciones
                 .Include(u => u.Candidatura)
                 .OrderBy(u => u.Id)
                 .ToListAsync();
@@ -79,7 +79,7 @@ namespace simpatizantes_api.Controllers
                 }
 
                 var combinacion = mapper.Map<Combinacion>(dto);
-                combinacion.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
+                combinacion.Candidatura = await context.candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
                 if (dto.Partidos == null || dto.Partidos.Count == 0)
                 {
                     return BadRequest("Debe proporcionar al menos un partido para el tipo de agrupación política seleccionado.");
@@ -101,14 +101,14 @@ namespace simpatizantes_api.Controllers
         [HttpDelete("eliminar/{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var combinacion = await context.Combinaciones.FindAsync(id);
+            var combinacion = await context.combinaciones.FindAsync(id);
 
             if (combinacion == null)
             {
                 return NotFound();
             }
 
-            context.Combinaciones.Remove(combinacion);
+            context.combinaciones.Remove(combinacion);
             await context.SaveChangesAsync();
 
             return NoContent();
@@ -122,7 +122,7 @@ namespace simpatizantes_api.Controllers
                 return BadRequest("El ID de la ruta y el ID del objeto no coinciden");
             }
 
-            var combinacion = await context.Combinaciones.FindAsync(id);
+            var combinacion = await context.combinaciones.FindAsync(id);
 
             if (combinacion == null)
             {
@@ -142,7 +142,7 @@ namespace simpatizantes_api.Controllers
 
             
             mapper.Map(dto, combinacion);
-            combinacion.Candidatura = await context.Candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
+            combinacion.Candidatura = await context.candidaturas.SingleOrDefaultAsync(r => r.Id == dto.Candidatura.Id);
 
             context.Update(combinacion);
 
@@ -167,7 +167,7 @@ namespace simpatizantes_api.Controllers
 
         private bool CombinacionesExists(int id)
         {
-            return context.Combinaciones.Any(e => e.Id == id);
+            return context.combinaciones.Any(e => e.Id == id);
         }
 
     }

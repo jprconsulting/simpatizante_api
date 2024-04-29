@@ -16,7 +16,7 @@ namespace simpatizantesapi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ActiveTokens",
+                name: "activetokens",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -29,12 +29,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActiveTokens", x => x.Id);
+                    table.PrimaryKey("PK_activetokens", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Cargos",
+                name: "cargos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -44,12 +44,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cargos", x => x.Id);
+                    table.PrimaryKey("PK_cargos", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Casillas",
+                name: "casillas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -61,12 +61,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Casillas", x => x.Id);
+                    table.PrimaryKey("PK_casillas", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Estados",
+                name: "estados",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -76,12 +76,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Estados", x => x.Id);
+                    table.PrimaryKey("PK_estados", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Generos",
+                name: "generos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -91,12 +91,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Generos", x => x.Id);
+                    table.PrimaryKey("PK_generos", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ProgramasSociales",
+                name: "programassociales",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -107,12 +107,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProgramasSociales", x => x.Id);
+                    table.PrimaryKey("PK_programassociales", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Promotores",
+                name: "promotores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -134,12 +134,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Promotores", x => x.Id);
+                    table.PrimaryKey("PK_promotores", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Rols",
+                name: "rols",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -149,12 +149,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rols", x => x.Id);
+                    table.PrimaryKey("PK_rols", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "TiposAgrupacionesPoliticas",
+                name: "tiposagrupacionespoliticas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -164,12 +164,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TiposAgrupacionesPoliticas", x => x.Id);
+                    table.PrimaryKey("PK_tiposagrupacionespoliticas", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "TiposElecciones",
+                name: "tiposelecciones",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -179,12 +179,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TiposElecciones", x => x.Id);
+                    table.PrimaryKey("PK_tiposelecciones", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "TiposIncidencias",
+                name: "tiposincidencias",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -196,12 +196,12 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TiposIncidencias", x => x.Id);
+                    table.PrimaryKey("PK_tiposincidencias", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Distritos",
+                name: "distritos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -212,17 +212,17 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Distritos", x => x.Id);
+                    table.PrimaryKey("PK_distritos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Distritos_Estados_EstadoId",
+                        name: "FK_distritos_estados_EstadoId",
                         column: x => x.EstadoId,
-                        principalTable: "Estados",
+                        principalTable: "estados",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Claims",
+                name: "claims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -234,18 +234,18 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Claims", x => x.Id);
+                    table.PrimaryKey("PK_claims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Claims_Rols_RolId",
+                        name: "FK_claims_rols_RolId",
                         column: x => x.RolId,
-                        principalTable: "Rols",
+                        principalTable: "rols",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Candidaturas",
+                name: "candidaturas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -264,17 +264,17 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Candidaturas", x => x.Id);
+                    table.PrimaryKey("PK_candidaturas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Candidaturas_TiposAgrupacionesPoliticas_TipoAgrupacionPoliti~",
+                        name: "FK_candidaturas_tiposagrupacionespoliticas_TipoAgrupacionPoliti~",
                         column: x => x.TipoAgrupacionPoliticaId,
-                        principalTable: "TiposAgrupacionesPoliticas",
+                        principalTable: "tiposagrupacionespoliticas",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Municipios",
+                name: "municipios",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -287,27 +287,27 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Municipios", x => x.Id);
+                    table.PrimaryKey("PK_municipios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Municipios_Distritos_DistritoId",
+                        name: "FK_municipios_distritos_DistritoId",
                         column: x => x.DistritoId,
-                        principalTable: "Distritos",
+                        principalTable: "distritos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Municipios_Estados_EstadoId",
+                        name: "FK_municipios_estados_EstadoId",
                         column: x => x.EstadoId,
-                        principalTable: "Estados",
+                        principalTable: "estados",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Municipios_Municipios_MunicipioId",
+                        name: "FK_municipios_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Combinaciones",
+                name: "combinaciones",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -322,17 +322,17 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Combinaciones", x => x.Id);
+                    table.PrimaryKey("PK_combinaciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Combinaciones_Candidaturas_CandidaturaId",
+                        name: "FK_combinaciones_candidaturas_CandidaturaId",
                         column: x => x.CandidaturaId,
-                        principalTable: "Candidaturas",
+                        principalTable: "candidaturas",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Comunidades",
+                name: "comunidades",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -343,17 +343,17 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comunidades", x => x.Id);
+                    table.PrimaryKey("PK_comunidades", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comunidades_Municipios_MunicipioId",
+                        name: "FK_comunidades_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Secciones",
+                name: "secciones",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -366,17 +366,17 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Secciones", x => x.Id);
+                    table.PrimaryKey("PK_secciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Secciones_Municipios_MunicipioId",
+                        name: "FK_secciones_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Candidatos",
+                name: "candidatos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -410,42 +410,42 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Candidatos", x => x.Id);
+                    table.PrimaryKey("PK_candidatos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Candidatos_Cargos_CargoId",
+                        name: "FK_candidatos_cargos_CargoId",
                         column: x => x.CargoId,
-                        principalTable: "Cargos",
+                        principalTable: "cargos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Candidatos_Comunidades_ComunidadId",
+                        name: "FK_candidatos_comunidades_ComunidadId",
                         column: x => x.ComunidadId,
-                        principalTable: "Comunidades",
+                        principalTable: "comunidades",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Candidatos_Distritos_DistritoId",
+                        name: "FK_candidatos_distritos_DistritoId",
                         column: x => x.DistritoId,
-                        principalTable: "Distritos",
+                        principalTable: "distritos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Candidatos_Estados_EstadoId",
+                        name: "FK_candidatos_estados_EstadoId",
                         column: x => x.EstadoId,
-                        principalTable: "Estados",
+                        principalTable: "estados",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Candidatos_Generos_GeneroId",
+                        name: "FK_candidatos_generos_GeneroId",
                         column: x => x.GeneroId,
-                        principalTable: "Generos",
+                        principalTable: "generos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Candidatos_Municipios_MunicipioId",
+                        name: "FK_candidatos_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DistribucionesCandidaturas",
+                name: "distribucionescandidaturas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -466,37 +466,37 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DistribucionesCandidaturas", x => x.Id);
+                    table.PrimaryKey("PK_distribucionescandidaturas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DistribucionesCandidaturas_Comunidades_ComunidadId",
+                        name: "FK_distribucionescandidaturas_comunidades_ComunidadId",
                         column: x => x.ComunidadId,
-                        principalTable: "Comunidades",
+                        principalTable: "comunidades",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DistribucionesCandidaturas_Distritos_DistritoId",
+                        name: "FK_distribucionescandidaturas_distritos_DistritoId",
                         column: x => x.DistritoId,
-                        principalTable: "Distritos",
+                        principalTable: "distritos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DistribucionesCandidaturas_Estados_EstadoId",
+                        name: "FK_distribucionescandidaturas_estados_EstadoId",
                         column: x => x.EstadoId,
-                        principalTable: "Estados",
+                        principalTable: "estados",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DistribucionesCandidaturas_Municipios_MunicipioId",
+                        name: "FK_distribucionescandidaturas_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DistribucionesCandidaturas_TiposElecciones_TipoEleccionId",
+                        name: "FK_distribucionescandidaturas_tiposelecciones_TipoEleccionId",
                         column: x => x.TipoEleccionId,
-                        principalTable: "TiposElecciones",
+                        principalTable: "tiposelecciones",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ActasEscrutinios",
+                name: "actasescrutinios",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -509,37 +509,37 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActasEscrutinios", x => x.Id);
+                    table.PrimaryKey("PK_actasescrutinios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ActasEscrutinios_Casillas_CasillaId",
+                        name: "FK_actasescrutinios_casillas_CasillaId",
                         column: x => x.CasillaId,
-                        principalTable: "Casillas",
+                        principalTable: "casillas",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ActasEscrutinios_Distritos_DistritoId",
+                        name: "FK_actasescrutinios_distritos_DistritoId",
                         column: x => x.DistritoId,
-                        principalTable: "Distritos",
+                        principalTable: "distritos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ActasEscrutinios_Municipios_MunicipioId",
+                        name: "FK_actasescrutinios_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ActasEscrutinios_Secciones_SeccionId",
+                        name: "FK_actasescrutinios_secciones_SeccionId",
                         column: x => x.SeccionId,
-                        principalTable: "Secciones",
+                        principalTable: "secciones",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ActasEscrutinios_TiposElecciones_TipoEleccionId",
+                        name: "FK_actasescrutinios_tiposelecciones_TipoEleccionId",
                         column: x => x.TipoEleccionId,
-                        principalTable: "TiposElecciones",
+                        principalTable: "tiposelecciones",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ResultadosPreEliminares",
+                name: "resultadospreeliminares",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -568,47 +568,47 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResultadosPreEliminares", x => x.Id);
+                    table.PrimaryKey("PK_resultadospreeliminares", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ResultadosPreEliminares_Casillas_CasillaId",
+                        name: "FK_resultadospreeliminares_casillas_CasillaId",
                         column: x => x.CasillaId,
-                        principalTable: "Casillas",
+                        principalTable: "casillas",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosPreEliminares_Comunidades_ComunidadId",
+                        name: "FK_resultadospreeliminares_comunidades_ComunidadId",
                         column: x => x.ComunidadId,
-                        principalTable: "Comunidades",
+                        principalTable: "comunidades",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosPreEliminares_Distritos_DistritoId",
+                        name: "FK_resultadospreeliminares_distritos_DistritoId",
                         column: x => x.DistritoId,
-                        principalTable: "Distritos",
+                        principalTable: "distritos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosPreEliminares_Estados_EstadoId",
+                        name: "FK_resultadospreeliminares_estados_EstadoId",
                         column: x => x.EstadoId,
-                        principalTable: "Estados",
+                        principalTable: "estados",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosPreEliminares_Municipios_MunicipioId",
+                        name: "FK_resultadospreeliminares_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosPreEliminares_Secciones_SeccionId",
+                        name: "FK_resultadospreeliminares_secciones_SeccionId",
                         column: x => x.SeccionId,
-                        principalTable: "Secciones",
+                        principalTable: "secciones",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosPreEliminares_TiposElecciones_TipoEleccionId",
+                        name: "FK_resultadospreeliminares_tiposelecciones_TipoEleccionId",
                         column: x => x.TipoEleccionId,
-                        principalTable: "TiposElecciones",
+                        principalTable: "tiposelecciones",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Incidencias",
+                name: "incidencias",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -627,27 +627,27 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Incidencias", x => x.Id);
+                    table.PrimaryKey("PK_incidencias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Incidencias_Candidatos_CandidatoId",
+                        name: "FK_incidencias_candidatos_CandidatoId",
                         column: x => x.CandidatoId,
-                        principalTable: "Candidatos",
+                        principalTable: "candidatos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Incidencias_Casillas_CasillaId",
+                        name: "FK_incidencias_casillas_CasillaId",
                         column: x => x.CasillaId,
-                        principalTable: "Casillas",
+                        principalTable: "casillas",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Incidencias_TiposIncidencias_TipoIncidenciaId",
+                        name: "FK_incidencias_tiposincidencias_TipoIncidenciaId",
                         column: x => x.TipoIncidenciaId,
-                        principalTable: "TiposIncidencias",
+                        principalTable: "tiposincidencias",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Operadores",
+                name: "operadores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -671,22 +671,22 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Operadores", x => x.Id);
+                    table.PrimaryKey("PK_operadores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Operadores_Candidatos_CandidatoId",
+                        name: "FK_operadores_candidatos_CandidatoId",
                         column: x => x.CandidatoId,
-                        principalTable: "Candidatos",
+                        principalTable: "candidatos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Operadores_Municipios_MunicipioId",
+                        name: "FK_operadores_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "PropagandasElectorales",
+                name: "propagandaselectorales",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -709,27 +709,27 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PropagandasElectorales", x => x.Id);
+                    table.PrimaryKey("PK_propagandaselectorales", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PropagandasElectorales_Candidatos_CandidatoId",
+                        name: "FK_propagandaselectorales_candidatos_CandidatoId",
                         column: x => x.CandidatoId,
-                        principalTable: "Candidatos",
+                        principalTable: "candidatos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PropagandasElectorales_Municipios_MunicipioId",
+                        name: "FK_propagandaselectorales_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PropagandasElectorales_Secciones_SeccionId",
+                        name: "FK_propagandaselectorales_secciones_SeccionId",
                         column: x => x.SeccionId,
-                        principalTable: "Secciones",
+                        principalTable: "secciones",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DistribucionesOrdenadas",
+                name: "distribucionesordenadas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -749,32 +749,32 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DistribucionesOrdenadas", x => x.Id);
+                    table.PrimaryKey("PK_distribucionesordenadas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DistribucionesOrdenadas_Candidaturas_CandidaturaId",
+                        name: "FK_distribucionesordenadas_candidaturas_CandidaturaId",
                         column: x => x.CandidaturaId,
-                        principalTable: "Candidaturas",
+                        principalTable: "candidaturas",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DistribucionesOrdenadas_Combinaciones_CombinacionId",
+                        name: "FK_distribucionesordenadas_combinaciones_CombinacionId",
                         column: x => x.CombinacionId,
-                        principalTable: "Combinaciones",
+                        principalTable: "combinaciones",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DistribucionesOrdenadas_DistribucionesCandidaturas_Distribuc~",
+                        name: "FK_distribucionesordenadas_distribucionescandidaturas_Distribuc~",
                         column: x => x.DistribucionCandidaturaId,
-                        principalTable: "DistribucionesCandidaturas",
+                        principalTable: "distribucionescandidaturas",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DistribucionesOrdenadas_TiposAgrupacionesPoliticas_TipoAgrup~",
+                        name: "FK_distribucionesordenadas_tiposagrupacionespoliticas_TipoAgrup~",
                         column: x => x.TipoAgrupacionPoliticaId,
-                        principalTable: "TiposAgrupacionesPoliticas",
+                        principalTable: "tiposagrupacionespoliticas",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ResultadosCandidaturas",
+                name: "resultadoscandidaturas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -788,32 +788,32 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResultadosCandidaturas", x => x.Id);
+                    table.PrimaryKey("PK_resultadoscandidaturas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ResultadosCandidaturas_ActasEscrutinios_ActaEscrutinioId",
+                        name: "FK_resultadoscandidaturas_actasescrutinios_ActaEscrutinioId",
                         column: x => x.ActaEscrutinioId,
-                        principalTable: "ActasEscrutinios",
+                        principalTable: "actasescrutinios",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosCandidaturas_Candidaturas_CandidaturaId",
+                        name: "FK_resultadoscandidaturas_candidaturas_CandidaturaId",
                         column: x => x.CandidaturaId,
-                        principalTable: "Candidaturas",
+                        principalTable: "candidaturas",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosCandidaturas_Combinaciones_CombinacionId",
+                        name: "FK_resultadoscandidaturas_combinaciones_CombinacionId",
                         column: x => x.CombinacionId,
-                        principalTable: "Combinaciones",
+                        principalTable: "combinaciones",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ResultadosCandidaturas_DistribucionesCandidaturas_Distribuci~",
+                        name: "FK_resultadoscandidaturas_distribucionescandidaturas_Distribuci~",
                         column: x => x.DistribucionCandidaturaId,
-                        principalTable: "DistribucionesCandidaturas",
+                        principalTable: "distribucionescandidaturas",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "OperadoresSecciones",
+                name: "operadoressecciones",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -823,24 +823,24 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OperadoresSecciones", x => x.Id);
+                    table.PrimaryKey("PK_operadoressecciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OperadoresSecciones_Operadores_OperadorId",
+                        name: "FK_operadoressecciones_operadores_OperadorId",
                         column: x => x.OperadorId,
-                        principalTable: "Operadores",
+                        principalTable: "operadores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OperadoresSecciones_Secciones_SeccionId",
+                        name: "FK_operadoressecciones_secciones_SeccionId",
                         column: x => x.SeccionId,
-                        principalTable: "Secciones",
+                        principalTable: "secciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "PromotoresOperadores",
+                name: "promotoresoperadores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -850,24 +850,24 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PromotoresOperadores", x => x.Id);
+                    table.PrimaryKey("PK_promotoresoperadores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PromotoresOperadores_Operadores_OperadorId",
+                        name: "FK_promotoresoperadores_operadores_OperadorId",
                         column: x => x.OperadorId,
-                        principalTable: "Operadores",
+                        principalTable: "operadores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PromotoresOperadores_Promotores_PromotorId",
+                        name: "FK_promotoresoperadores_promotores_PromotorId",
                         column: x => x.PromotorId,
-                        principalTable: "Promotores",
+                        principalTable: "promotores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Simpatizantes",
+                name: "simpatizantes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -885,71 +885,70 @@ namespace simpatizantesapi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Numerotel = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Latitud = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
+                    Longitud = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
                     Estatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ClaveElector = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TercerNivelContacto = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    GeneroId = table.Column<int>(type: "int", nullable: true),
                     UsuarioCreacionNombre = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaHoraCreacion = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UsuarioEdicionNombre = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaHoraEdicion = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    GeneroId = table.Column<int>(type: "int", nullable: true),
                     ProgramaSocialId = table.Column<int>(type: "int", nullable: true),
                     PromotorId = table.Column<int>(type: "int", nullable: true),
                     SeccionId = table.Column<int>(type: "int", nullable: true),
                     MunicipioId = table.Column<int>(type: "int", nullable: true),
                     EstadoId = table.Column<int>(type: "int", nullable: true),
-                    OperadorId = table.Column<int>(type: "int", nullable: false)
+                    OperadorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Simpatizantes", x => x.Id);
+                    table.PrimaryKey("PK_simpatizantes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Simpatizantes_Estados_EstadoId",
+                        name: "FK_simpatizantes_estados_EstadoId",
                         column: x => x.EstadoId,
-                        principalTable: "Estados",
+                        principalTable: "estados",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Simpatizantes_Generos_GeneroId",
+                        name: "FK_simpatizantes_generos_GeneroId",
                         column: x => x.GeneroId,
-                        principalTable: "Generos",
+                        principalTable: "generos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Simpatizantes_Municipios_MunicipioId",
+                        name: "FK_simpatizantes_municipios_MunicipioId",
                         column: x => x.MunicipioId,
-                        principalTable: "Municipios",
+                        principalTable: "municipios",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Simpatizantes_Operadores_OperadorId",
+                        name: "FK_simpatizantes_operadores_OperadorId",
                         column: x => x.OperadorId,
-                        principalTable: "Operadores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "operadores",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Simpatizantes_ProgramasSociales_ProgramaSocialId",
+                        name: "FK_simpatizantes_programassociales_ProgramaSocialId",
                         column: x => x.ProgramaSocialId,
-                        principalTable: "ProgramasSociales",
+                        principalTable: "programassociales",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Simpatizantes_Promotores_PromotorId",
+                        name: "FK_simpatizantes_promotores_PromotorId",
                         column: x => x.PromotorId,
-                        principalTable: "Promotores",
+                        principalTable: "promotores",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Simpatizantes_Secciones_SeccionId",
+                        name: "FK_simpatizantes_secciones_SeccionId",
                         column: x => x.SeccionId,
-                        principalTable: "Secciones",
+                        principalTable: "secciones",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Usuarios",
+                name: "usuarios",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -971,27 +970,27 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Usuarios", x => x.Id);
+                    table.PrimaryKey("PK_usuarios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Usuarios_Candidatos_CandidatoId",
+                        name: "FK_usuarios_candidatos_CandidatoId",
                         column: x => x.CandidatoId,
-                        principalTable: "Candidatos",
+                        principalTable: "candidatos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Usuarios_Operadores_OperadorId",
+                        name: "FK_usuarios_operadores_OperadorId",
                         column: x => x.OperadorId,
-                        principalTable: "Operadores",
+                        principalTable: "operadores",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Usuarios_Rols_RolId",
+                        name: "FK_usuarios_rols_RolId",
                         column: x => x.RolId,
-                        principalTable: "Rols",
+                        principalTable: "rols",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Votos",
+                name: "votos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -1004,17 +1003,17 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Votos", x => x.Id);
+                    table.PrimaryKey("PK_votos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Votos_Simpatizantes_SimpatizanteId",
+                        name: "FK_votos_simpatizantes_SimpatizanteId",
                         column: x => x.SimpatizanteId,
-                        principalTable: "Simpatizantes",
+                        principalTable: "simpatizantes",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Visitas",
+                name: "visitas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -1032,345 +1031,345 @@ namespace simpatizantesapi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Visitas", x => x.Id);
+                    table.PrimaryKey("PK_visitas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Visitas_Simpatizantes_SimpatizanteId",
+                        name: "FK_visitas_simpatizantes_SimpatizanteId",
                         column: x => x.SimpatizanteId,
-                        principalTable: "Simpatizantes",
+                        principalTable: "simpatizantes",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Visitas_Usuarios_UsuarioId",
+                        name: "FK_visitas_usuarios_UsuarioId",
                         column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
+                        principalTable: "usuarios",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActasEscrutinios_CasillaId",
-                table: "ActasEscrutinios",
+                name: "IX_actasescrutinios_CasillaId",
+                table: "actasescrutinios",
                 column: "CasillaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActasEscrutinios_DistritoId",
-                table: "ActasEscrutinios",
+                name: "IX_actasescrutinios_DistritoId",
+                table: "actasescrutinios",
                 column: "DistritoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActasEscrutinios_MunicipioId",
-                table: "ActasEscrutinios",
+                name: "IX_actasescrutinios_MunicipioId",
+                table: "actasescrutinios",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActasEscrutinios_SeccionId",
-                table: "ActasEscrutinios",
+                name: "IX_actasescrutinios_SeccionId",
+                table: "actasescrutinios",
                 column: "SeccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActasEscrutinios_TipoEleccionId",
-                table: "ActasEscrutinios",
+                name: "IX_actasescrutinios_TipoEleccionId",
+                table: "actasescrutinios",
                 column: "TipoEleccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidatos_CargoId",
-                table: "Candidatos",
+                name: "IX_candidatos_CargoId",
+                table: "candidatos",
                 column: "CargoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidatos_ComunidadId",
-                table: "Candidatos",
+                name: "IX_candidatos_ComunidadId",
+                table: "candidatos",
                 column: "ComunidadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidatos_DistritoId",
-                table: "Candidatos",
+                name: "IX_candidatos_DistritoId",
+                table: "candidatos",
                 column: "DistritoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidatos_EstadoId",
-                table: "Candidatos",
+                name: "IX_candidatos_EstadoId",
+                table: "candidatos",
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidatos_GeneroId",
-                table: "Candidatos",
+                name: "IX_candidatos_GeneroId",
+                table: "candidatos",
                 column: "GeneroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidatos_MunicipioId",
-                table: "Candidatos",
+                name: "IX_candidatos_MunicipioId",
+                table: "candidatos",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidaturas_TipoAgrupacionPoliticaId",
-                table: "Candidaturas",
+                name: "IX_candidaturas_TipoAgrupacionPoliticaId",
+                table: "candidaturas",
                 column: "TipoAgrupacionPoliticaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Claims_RolId",
-                table: "Claims",
+                name: "IX_claims_RolId",
+                table: "claims",
                 column: "RolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Combinaciones_CandidaturaId",
-                table: "Combinaciones",
+                name: "IX_combinaciones_CandidaturaId",
+                table: "combinaciones",
                 column: "CandidaturaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comunidades_MunicipioId",
-                table: "Comunidades",
+                name: "IX_comunidades_MunicipioId",
+                table: "comunidades",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesCandidaturas_ComunidadId",
-                table: "DistribucionesCandidaturas",
+                name: "IX_distribucionescandidaturas_ComunidadId",
+                table: "distribucionescandidaturas",
                 column: "ComunidadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesCandidaturas_DistritoId",
-                table: "DistribucionesCandidaturas",
+                name: "IX_distribucionescandidaturas_DistritoId",
+                table: "distribucionescandidaturas",
                 column: "DistritoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesCandidaturas_EstadoId",
-                table: "DistribucionesCandidaturas",
+                name: "IX_distribucionescandidaturas_EstadoId",
+                table: "distribucionescandidaturas",
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesCandidaturas_MunicipioId",
-                table: "DistribucionesCandidaturas",
+                name: "IX_distribucionescandidaturas_MunicipioId",
+                table: "distribucionescandidaturas",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesCandidaturas_TipoEleccionId",
-                table: "DistribucionesCandidaturas",
+                name: "IX_distribucionescandidaturas_TipoEleccionId",
+                table: "distribucionescandidaturas",
                 column: "TipoEleccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesOrdenadas_CandidaturaId",
-                table: "DistribucionesOrdenadas",
+                name: "IX_distribucionesordenadas_CandidaturaId",
+                table: "distribucionesordenadas",
                 column: "CandidaturaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesOrdenadas_CombinacionId",
-                table: "DistribucionesOrdenadas",
+                name: "IX_distribucionesordenadas_CombinacionId",
+                table: "distribucionesordenadas",
                 column: "CombinacionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesOrdenadas_DistribucionCandidaturaId",
-                table: "DistribucionesOrdenadas",
+                name: "IX_distribucionesordenadas_DistribucionCandidaturaId",
+                table: "distribucionesordenadas",
                 column: "DistribucionCandidaturaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistribucionesOrdenadas_TipoAgrupacionPoliticaId",
-                table: "DistribucionesOrdenadas",
+                name: "IX_distribucionesordenadas_TipoAgrupacionPoliticaId",
+                table: "distribucionesordenadas",
                 column: "TipoAgrupacionPoliticaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Distritos_EstadoId",
-                table: "Distritos",
+                name: "IX_distritos_EstadoId",
+                table: "distritos",
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Incidencias_CandidatoId",
-                table: "Incidencias",
+                name: "IX_incidencias_CandidatoId",
+                table: "incidencias",
                 column: "CandidatoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Incidencias_CasillaId",
-                table: "Incidencias",
+                name: "IX_incidencias_CasillaId",
+                table: "incidencias",
                 column: "CasillaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Incidencias_TipoIncidenciaId",
-                table: "Incidencias",
+                name: "IX_incidencias_TipoIncidenciaId",
+                table: "incidencias",
                 column: "TipoIncidenciaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Municipios_DistritoId",
-                table: "Municipios",
+                name: "IX_municipios_DistritoId",
+                table: "municipios",
                 column: "DistritoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Municipios_EstadoId",
-                table: "Municipios",
+                name: "IX_municipios_EstadoId",
+                table: "municipios",
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Municipios_MunicipioId",
-                table: "Municipios",
+                name: "IX_municipios_MunicipioId",
+                table: "municipios",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Operadores_CandidatoId",
-                table: "Operadores",
+                name: "IX_operadores_CandidatoId",
+                table: "operadores",
                 column: "CandidatoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Operadores_MunicipioId",
-                table: "Operadores",
+                name: "IX_operadores_MunicipioId",
+                table: "operadores",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OperadoresSecciones_OperadorId",
-                table: "OperadoresSecciones",
+                name: "IX_operadoressecciones_OperadorId",
+                table: "operadoressecciones",
                 column: "OperadorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OperadoresSecciones_SeccionId",
-                table: "OperadoresSecciones",
+                name: "IX_operadoressecciones_SeccionId",
+                table: "operadoressecciones",
                 column: "SeccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PromotoresOperadores_OperadorId",
-                table: "PromotoresOperadores",
+                name: "IX_promotoresoperadores_OperadorId",
+                table: "promotoresoperadores",
                 column: "OperadorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PromotoresOperadores_PromotorId",
-                table: "PromotoresOperadores",
+                name: "IX_promotoresoperadores_PromotorId",
+                table: "promotoresoperadores",
                 column: "PromotorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PropagandasElectorales_CandidatoId",
-                table: "PropagandasElectorales",
+                name: "IX_propagandaselectorales_CandidatoId",
+                table: "propagandaselectorales",
                 column: "CandidatoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PropagandasElectorales_MunicipioId",
-                table: "PropagandasElectorales",
+                name: "IX_propagandaselectorales_MunicipioId",
+                table: "propagandaselectorales",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PropagandasElectorales_SeccionId",
-                table: "PropagandasElectorales",
+                name: "IX_propagandaselectorales_SeccionId",
+                table: "propagandaselectorales",
                 column: "SeccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosCandidaturas_ActaEscrutinioId",
-                table: "ResultadosCandidaturas",
+                name: "IX_resultadoscandidaturas_ActaEscrutinioId",
+                table: "resultadoscandidaturas",
                 column: "ActaEscrutinioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosCandidaturas_CandidaturaId",
-                table: "ResultadosCandidaturas",
+                name: "IX_resultadoscandidaturas_CandidaturaId",
+                table: "resultadoscandidaturas",
                 column: "CandidaturaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosCandidaturas_CombinacionId",
-                table: "ResultadosCandidaturas",
+                name: "IX_resultadoscandidaturas_CombinacionId",
+                table: "resultadoscandidaturas",
                 column: "CombinacionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosCandidaturas_DistribucionCandidaturaId",
-                table: "ResultadosCandidaturas",
+                name: "IX_resultadoscandidaturas_DistribucionCandidaturaId",
+                table: "resultadoscandidaturas",
                 column: "DistribucionCandidaturaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosPreEliminares_CasillaId",
-                table: "ResultadosPreEliminares",
+                name: "IX_resultadospreeliminares_CasillaId",
+                table: "resultadospreeliminares",
                 column: "CasillaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosPreEliminares_ComunidadId",
-                table: "ResultadosPreEliminares",
+                name: "IX_resultadospreeliminares_ComunidadId",
+                table: "resultadospreeliminares",
                 column: "ComunidadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosPreEliminares_DistritoId",
-                table: "ResultadosPreEliminares",
+                name: "IX_resultadospreeliminares_DistritoId",
+                table: "resultadospreeliminares",
                 column: "DistritoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosPreEliminares_EstadoId",
-                table: "ResultadosPreEliminares",
+                name: "IX_resultadospreeliminares_EstadoId",
+                table: "resultadospreeliminares",
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosPreEliminares_MunicipioId",
-                table: "ResultadosPreEliminares",
+                name: "IX_resultadospreeliminares_MunicipioId",
+                table: "resultadospreeliminares",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosPreEliminares_SeccionId",
-                table: "ResultadosPreEliminares",
+                name: "IX_resultadospreeliminares_SeccionId",
+                table: "resultadospreeliminares",
                 column: "SeccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResultadosPreEliminares_TipoEleccionId",
-                table: "ResultadosPreEliminares",
+                name: "IX_resultadospreeliminares_TipoEleccionId",
+                table: "resultadospreeliminares",
                 column: "TipoEleccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Secciones_MunicipioId",
-                table: "Secciones",
+                name: "IX_secciones_MunicipioId",
+                table: "secciones",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_EstadoId",
-                table: "Simpatizantes",
+                name: "IX_simpatizantes_EstadoId",
+                table: "simpatizantes",
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_GeneroId",
-                table: "Simpatizantes",
+                name: "IX_simpatizantes_GeneroId",
+                table: "simpatizantes",
                 column: "GeneroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_MunicipioId",
-                table: "Simpatizantes",
+                name: "IX_simpatizantes_MunicipioId",
+                table: "simpatizantes",
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_OperadorId",
-                table: "Simpatizantes",
+                name: "IX_simpatizantes_OperadorId",
+                table: "simpatizantes",
                 column: "OperadorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_ProgramaSocialId",
-                table: "Simpatizantes",
+                name: "IX_simpatizantes_ProgramaSocialId",
+                table: "simpatizantes",
                 column: "ProgramaSocialId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_PromotorId",
-                table: "Simpatizantes",
+                name: "IX_simpatizantes_PromotorId",
+                table: "simpatizantes",
                 column: "PromotorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Simpatizantes_SeccionId",
-                table: "Simpatizantes",
+                name: "IX_simpatizantes_SeccionId",
+                table: "simpatizantes",
                 column: "SeccionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_CandidatoId",
-                table: "Usuarios",
+                name: "IX_usuarios_CandidatoId",
+                table: "usuarios",
                 column: "CandidatoId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_OperadorId",
-                table: "Usuarios",
+                name: "IX_usuarios_OperadorId",
+                table: "usuarios",
                 column: "OperadorId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_RolId",
-                table: "Usuarios",
+                name: "IX_usuarios_RolId",
+                table: "usuarios",
                 column: "RolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visitas_SimpatizanteId",
-                table: "Visitas",
+                name: "IX_visitas_SimpatizanteId",
+                table: "visitas",
                 column: "SimpatizanteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visitas_UsuarioId",
-                table: "Visitas",
+                name: "IX_visitas_UsuarioId",
+                table: "visitas",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Votos_SimpatizanteId",
-                table: "Votos",
+                name: "IX_votos_SimpatizanteId",
+                table: "votos",
                 column: "SimpatizanteId");
         }
 
@@ -1378,103 +1377,103 @@ namespace simpatizantesapi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ActiveTokens");
+                name: "activetokens");
 
             migrationBuilder.DropTable(
-                name: "Claims");
+                name: "claims");
 
             migrationBuilder.DropTable(
-                name: "DistribucionesOrdenadas");
+                name: "distribucionesordenadas");
 
             migrationBuilder.DropTable(
-                name: "Incidencias");
+                name: "incidencias");
 
             migrationBuilder.DropTable(
-                name: "OperadoresSecciones");
+                name: "operadoressecciones");
 
             migrationBuilder.DropTable(
-                name: "PromotoresOperadores");
+                name: "promotoresoperadores");
 
             migrationBuilder.DropTable(
-                name: "PropagandasElectorales");
+                name: "propagandaselectorales");
 
             migrationBuilder.DropTable(
-                name: "ResultadosCandidaturas");
+                name: "resultadoscandidaturas");
 
             migrationBuilder.DropTable(
-                name: "ResultadosPreEliminares");
+                name: "resultadospreeliminares");
 
             migrationBuilder.DropTable(
-                name: "Visitas");
+                name: "visitas");
 
             migrationBuilder.DropTable(
-                name: "Votos");
+                name: "votos");
 
             migrationBuilder.DropTable(
-                name: "TiposIncidencias");
+                name: "tiposincidencias");
 
             migrationBuilder.DropTable(
-                name: "ActasEscrutinios");
+                name: "actasescrutinios");
 
             migrationBuilder.DropTable(
-                name: "Combinaciones");
+                name: "combinaciones");
 
             migrationBuilder.DropTable(
-                name: "DistribucionesCandidaturas");
+                name: "distribucionescandidaturas");
 
             migrationBuilder.DropTable(
-                name: "Usuarios");
+                name: "usuarios");
 
             migrationBuilder.DropTable(
-                name: "Simpatizantes");
+                name: "simpatizantes");
 
             migrationBuilder.DropTable(
-                name: "Casillas");
+                name: "casillas");
 
             migrationBuilder.DropTable(
-                name: "Candidaturas");
+                name: "candidaturas");
 
             migrationBuilder.DropTable(
-                name: "TiposElecciones");
+                name: "tiposelecciones");
 
             migrationBuilder.DropTable(
-                name: "Rols");
+                name: "rols");
 
             migrationBuilder.DropTable(
-                name: "Operadores");
+                name: "operadores");
 
             migrationBuilder.DropTable(
-                name: "ProgramasSociales");
+                name: "programassociales");
 
             migrationBuilder.DropTable(
-                name: "Promotores");
+                name: "promotores");
 
             migrationBuilder.DropTable(
-                name: "Secciones");
+                name: "secciones");
 
             migrationBuilder.DropTable(
-                name: "TiposAgrupacionesPoliticas");
+                name: "tiposagrupacionespoliticas");
 
             migrationBuilder.DropTable(
-                name: "Candidatos");
+                name: "candidatos");
 
             migrationBuilder.DropTable(
-                name: "Cargos");
+                name: "cargos");
 
             migrationBuilder.DropTable(
-                name: "Comunidades");
+                name: "comunidades");
 
             migrationBuilder.DropTable(
-                name: "Generos");
+                name: "generos");
 
             migrationBuilder.DropTable(
-                name: "Municipios");
+                name: "municipios");
 
             migrationBuilder.DropTable(
-                name: "Distritos");
+                name: "distritos");
 
             migrationBuilder.DropTable(
-                name: "Estados");
+                name: "estados");
         }
     }
 }
